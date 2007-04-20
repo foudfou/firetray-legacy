@@ -1,0 +1,5 @@
+Import('env')
+
+objects = env.SharedObject('np_entry.cpp npn_gate.cpp npp_gate.cpp'.split(' '))
+
+Return('objects')
