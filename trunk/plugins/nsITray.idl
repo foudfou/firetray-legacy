@@ -1,5 +1,0 @@
-#include "nsISupports.idl"
-
-[scriptable, uuid(a045387b-50e8-418a-aa2c-ea476c90594f)]
-interface nsITray : nsISupports {         
-};

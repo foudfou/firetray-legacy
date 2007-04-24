@@ -1,0 +1,8 @@
+#include "nsISupports.idl"
+ 
+[scriptable, uuid(bf249f85-20f2-49be-96f3-9681f3bb0334)]
+interface nsITray : nsISupports
+{
+    void showTray();
+    void hideTray();
+};
