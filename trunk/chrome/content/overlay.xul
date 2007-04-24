@@ -5,8 +5,8 @@
 
     <script type="application/x-javascript" src="overlay.js"/>
 
-    <menupopup id="menu_FilePopup">
-        <menuitem insertbefore="menu_closeWindow" label="Test" id="test" accesskey="t" oncommand="test()"/>
+    <menupopup id="menu_viewPopup">
+        <menuitem insertbefore="viewSidebarMenuMenu" label="Status Icon" id="menu_statusIcon" accesskey="i" oncommand="status_icon(this)" type="checkbox" />
     </menupopup>
 
 </overlay>
