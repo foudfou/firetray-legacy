@@ -17,7 +17,7 @@ bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + geckosdk + 'idl -
 env = Environment(
     CPPPATH = [geckosdk + 'include'],
     LIBPATH = [geckosdk + 'lib'],
-    LIBS = ['xpcom', 'xpcomglue_s', 'nspr4', 'plds4', 'plc4'],
+    LIBS = ['xpcomglue', 'nspr4', 'plds4'],
     ENV = os.environ)
 env.AppendENVPath('PATH', geckosdk + 'bin')
 env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
@@ -33,23 +33,25 @@ if platform == 'linux2':
                     '-Wpointer-arith',
                     '-Wcast-align',
                     '-Woverloaded-virtual',
-                    '-Wsynth',
+                    '-Wsynth', '-fshort-wchar',
                     '-Wno-ctor-dtor-privacy',
                     '-Wno-non-virtual-dtor',
                     '-Wno-long-long',
                     '-pedantic',
                     '-fshort-wchar',
-                    '-pthread', '-pipe', '-DATLINUX'],
-        CPPPATH = ['#plugins/include'])
+                    '-pthread', '-pipe'])
 
 # Create headers and xpt files from idl
 xpts = [env.MozXPT('nsITray')]
 headers = [env.MozHeader('nsITray')]
 
 parts = []
-parts.extend(SConscript('common/SConscript', 'env'))
 if platform == 'linux2':
-    parts.extend(['nsScriptablePeer.cpp', 'plugin.cpp'])
+    parts.extend(['nsTray.cpp', 'nsTrayModue.cpp'])
+
 nptray = env.SharedLibrary('nptray', parts)
 
+r = env.Install('#dist/components', [nptray, xpts]) 
+
 Default([xpts, headers, nptray])
+Return('r')

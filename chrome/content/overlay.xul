@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<overlay id="antlerOverlay" 
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript" src="overlay.js"/>
+
+    <menupopup id="menu_FilePopup">
+        <menuitem insertbefore="menu_closeWindow" label="Test" id="test" accesskey="t" oncommand="test()"/>
+    </menupopup>
+
+</overlay>
