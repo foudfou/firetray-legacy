@@ -8,7 +8,6 @@ static GtkStatusIcon *systray_icon = NULL;
 static GdkPixbuf *icon = NULL;
 
 static void activate(GtkStatusIcon* status_icon, gpointer user_data) {
-    printf("Restore\n");
     ((nsTray*)user_data)->Restore();
 }
 
@@ -23,6 +22,10 @@ nsTray::nsTray() {
 
 nsTray::~nsTray() {
     /* destructor code */
+    if (this->windowList) {
+        delete [] this->windowList;
+        this->windowList = NULL;
+    }
 }
 
 /* void showTray (); */
@@ -87,7 +90,7 @@ NS_IMETHODIMP nsTray::Restore() {
         gdk_window_show(gdk_window_get_toplevel(this->windowList[i]));
     }
 
-    delete[] this->windowList;
+    delete [] this->windowList;
     this->windowList = NULL;
     this->windowListCount = 0;
 
