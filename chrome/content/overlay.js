@@ -22,8 +22,7 @@ function getBaseWindow(win) {
 
 function status_icon(check_box) {
     try {
-        var obj = Components.classes["@mozilla.org/FireTray;1"].createInstance();
-        obj = obj.QueryInterface(Components.interfaces.nsITray);
+        var obj = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
     } catch (err) {
         alert(err);
         return;
@@ -38,8 +37,7 @@ function status_icon(check_box) {
 
 function hide_to_tray() {
     try {
-        var obj = Components.classes["@mozilla.org/FireTray;1"].createInstance();
-        obj = obj.QueryInterface(Components.interfaces.nsITray);
+        var obj = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
     } catch (err) {
         alert(err);
         return;
