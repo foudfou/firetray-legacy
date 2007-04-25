@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
-
-<overlay id="antlerOverlay" 
-  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
+<overlay id="antlerOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script type="application/x-javascript" src="overlay.js"/>
-
+    <menupopup id="menu_FilePopup">
+        <menuitem insertbefore="menu_closeWindow" label="Close to System Tray" id="menu_hideTray" oncommand="hide_to_tray()" />
+    </menupopup>
     <menupopup id="menu_viewPopup">
         <menuitem insertbefore="viewSidebarMenuMenu" label="Status Icon" id="menu_statusIcon" accesskey="i" oncommand="status_icon(this)" type="checkbox" />
     </menupopup>
-
 </overlay>
