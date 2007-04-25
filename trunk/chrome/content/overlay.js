@@ -38,6 +38,7 @@ function status_icon(check_box) {
 function hide_to_tray() {
     try {
         var obj = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
+        var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
     } catch (err) {
         alert(err);
         return;
@@ -49,6 +50,13 @@ function hide_to_tray() {
         obj.showTray();
     }
 
-    var baseWindows = [getBaseWindow(window)];
+    var baseWindows = new Array();
+    var e = wm.getEnumerator(null);
+    var windows = [];
+    while (e.hasMoreElements()) {
+        var w = e.getNext();
+        baseWindows[baseWindows.length] = getBaseWindow(w);
+    } 
+//    var baseWindows = [getBaseWindow(window)];
     obj.minimize(baseWindows.length, baseWindows);
 }
