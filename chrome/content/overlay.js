@@ -1,4 +1,28 @@
-function getBaseWindow(win) {
+var FireTray = new Object();
+
+FireTray.interface = null;
+FireTray.is_hidden = false;
+
+FireTray.trayCallback = function() {
+    if (FireTray.is_hidden) {
+        FireTray.interface.restore();
+        FireTray.is_hidden = false;
+    } else {
+        FireTray.hide_to_tray();
+    }
+}
+
+FireTray.init = function() {
+    try {
+        FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
+    } catch (err) {
+        alert(err);
+        return;
+    }
+    FireTray.interface.trayActivateEvent(FireTray.trayCallback);
+};
+
+FireTray.getBaseWindow = function(win) {
     var rv;
     try {
         var requestor = win.QueryInterface(Components.interfaces.nsIInterfaceRequestor);
@@ -10,34 +34,34 @@ function getBaseWindow(win) {
         rv = rv.docShell;
         rv = rv.QueryInterface(Components.interfaces.nsIDocShell);
         rv = rv.QueryInterface(Components.interfaces.nsIBaseWindow);
-    }
-    catch (ex)
-    {
+    } catch (ex) {
         rv = null;
         setTimeout(function() {throw ex; }, 0);
         /* ignore no-interface exception */
     }
     return rv;    
-}
+};
 
-function status_icon(check_box) {
-    try {
-        var obj = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
-    } catch (err) {
-        alert(err);
-        return;
+FireTray.status_icon = function(check_box) {
+    if (!FireTray.interface) {
+        FireTray.init();
     }
 
     if (check_box.getAttribute("checked")) {
-        obj.showTray();
+        FireTray.interface.showTray();
     } else {
-        obj.hideTray();
+        FireTray.interface.hideTray();
     }
-}
+};
 
-function hide_to_tray() {
+FireTray.hide_to_tray = function() {
+    FireTray.is_hidden = true;
+
+    if (!FireTray.interface) {
+        FireTray.init();
+    }
+
     try {
-        var obj = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
         var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
     } catch (err) {
         alert(err);
@@ -47,7 +71,7 @@ function hide_to_tray() {
     var _status_icon = document.getElementById("menu_statusIcon");
     if (_status_icon && !_status_icon.getAttribute("checked")) {
         _status_icon.setAttribute("checked", true);
-        obj.showTray();
+        FireTray.interface.showTray();
     }
 
     var baseWindows = new Array();
@@ -55,8 +79,7 @@ function hide_to_tray() {
     var windows = [];
     while (e.hasMoreElements()) {
         var w = e.getNext();
-        baseWindows[baseWindows.length] = getBaseWindow(w);
+        baseWindows[baseWindows.length] = FireTray.getBaseWindow(w);
     } 
-//    var baseWindows = [getBaseWindow(window)];
-    obj.minimize(baseWindows.length, baseWindows);
-}
+    FireTray.interface.minimize(baseWindows.length, baseWindows);
+};

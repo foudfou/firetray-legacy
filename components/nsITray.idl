@@ -2,11 +2,19 @@
 
 interface nsIBaseWindow;
  
+[scriptable, function, uuid(71ae41e0-517b-40d0-b05c-626d236fe52b)]
+interface nsITrayCallback : nsISupports
+{
+    // Javascript function call
+    boolean call();
+};
+
 [scriptable, uuid(bf249f85-20f2-49be-96f3-9681f3bb0334)]
 interface nsITray : nsISupports
 {
     void showTray();
     void hideTray();
+    void trayActivateEvent(in nsITrayCallback aCallback);
 	void minimize(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
 	void restore(); 
 };
