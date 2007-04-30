@@ -8,7 +8,8 @@ static GtkStatusIcon *systray_icon = NULL;
 static GdkPixbuf *icon = NULL;
 
 static void activate(GtkStatusIcon* status_icon, gpointer user_data) {
-    ((nsTray*)user_data)->Restore();
+    PRBool ret = TRUE;
+    ((nsTray*)user_data)->tray_callback->Call(&ret);
 }
 
 /* Implementation file */
@@ -18,6 +19,7 @@ nsTray::nsTray() {
     /* member initializers and constructor code */
     this->windowList = NULL;
     this->windowListCount = 0;
+    this->tray_callback = NULL;
 }
 
 nsTray::~nsTray() {
@@ -50,6 +52,12 @@ NS_IMETHODIMP nsTray::HideTray() {
     gtk_status_icon_set_visible(systray_icon, FALSE);
 
 	return NS_OK;
+}
+
+/* void trayActivateEvent (in nsITrayCallback aCallback); */
+NS_IMETHODIMP nsTray::TrayActivateEvent(nsITrayCallback *aCallback) {
+    this->tray_callback = aCallback;
+    return NS_OK;
 }
 
 /* void minimize (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
