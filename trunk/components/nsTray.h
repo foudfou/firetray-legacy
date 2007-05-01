@@ -1,6 +1,8 @@
 #ifndef _TRAY_H_
 #define _TRAY_H_
 
+#include <map>
+
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -20,6 +22,7 @@ public:
     nsTray();
 
     nsCOMPtr<nsITrayCallback> tray_callback;
+    std::map <PRUint32, nsCOMPtr<nsITrayCallback> > item_callback_list;
 
 private:
     ~nsTray();

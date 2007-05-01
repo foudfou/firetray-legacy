@@ -10,7 +10,11 @@ FireTray.trayCallback = function() {
     } else {
         FireTray.hide_to_tray();
     }
-}
+};
+
+FireTray.testCallback = function() {
+    alert("Test");
+};
 
 FireTray.init = function() {
     try {
@@ -49,6 +53,8 @@ FireTray.status_icon = function(check_box) {
 
     if (check_box.getAttribute("checked")) {
         FireTray.interface.showTray();
+        var item = FireTray.interface.menu_item_new("Test");
+        FireTray.interface.menu_append(item, FireTray.testCallback);
     } else {
         FireTray.interface.hideTray();
     }

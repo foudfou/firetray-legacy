@@ -17,4 +17,8 @@ interface nsITray : nsISupports
     void trayActivateEvent(in nsITrayCallback aCallback);
 	void minimize(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
 	void restore(); 
+
+    PRUint32 menu_item_new(in string label);
+
+    void menu_append(in PRUint32 item, in nsITrayCallback aCallback);
 };
