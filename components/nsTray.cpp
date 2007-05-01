@@ -6,10 +6,23 @@
 
 static GtkStatusIcon *systray_icon = NULL;
 static GdkPixbuf *icon = NULL;
+static GtkWidget *pop_menu = NULL;
 
 static void activate(GtkStatusIcon* status_icon, gpointer user_data) {
     PRBool ret = TRUE;
     ((nsTray*)user_data)->tray_callback->Call(&ret);
+}
+
+static void popup(GtkStatusIcon *status_icon, guint button, guint activate_time, gpointer user_data) {
+    if (pop_menu) {
+        gtk_widget_show_all(pop_menu);
+        gtk_menu_popup(GTK_MENU(pop_menu), NULL, NULL, gtk_status_icon_position_menu, systray_icon, button, activate_time);
+    }
+}
+
+static void item_event(GtkWidget *widget, gpointer user_data) {
+    PRBool ret = TRUE;
+    ((nsTray*)user_data)->item_callback_list[(PRUint32)widget]->Call(&ret);
 }
 
 /* Implementation file */
@@ -20,6 +33,8 @@ nsTray::nsTray() {
     this->windowList = NULL;
     this->windowListCount = 0;
     this->tray_callback = NULL;
+
+    pop_menu = gtk_menu_new();
 }
 
 nsTray::~nsTray() {
@@ -28,6 +43,7 @@ nsTray::~nsTray() {
         delete [] this->windowList;
         this->windowList = NULL;
     }
+    this->tray_callback = NULL;
 }
 
 /* void showTray (); */
@@ -40,6 +56,7 @@ NS_IMETHODIMP nsTray::ShowTray() {
 
         /* Connect signals */
         g_signal_connect(G_OBJECT(systray_icon), "activate", G_CALLBACK(activate), this);
+        g_signal_connect(G_OBJECT(systray_icon), "popup-menu", G_CALLBACK(popup), NULL);
     } else {
         gtk_status_icon_set_visible(systray_icon, TRUE);
     }
@@ -102,5 +119,21 @@ NS_IMETHODIMP nsTray::Restore() {
     this->windowList = NULL;
     this->windowListCount = 0;
 
+    return NS_OK;
+}
+
+/* PRUint32 menu_item_new (in string label); */
+NS_IMETHODIMP nsTray::Menu_item_new(const char *label, PRUint32 *_retval) {
+    GtkWidget *item = gtk_menu_item_new_with_label(label);
+    *_retval = (PRUint32)item;
+    return NS_OK;
+}
+
+/* void menu_append (in PRUint32 menu_item); */
+NS_IMETHODIMP nsTray::Menu_append(PRUint32 item, nsITrayCallback *aCallback) {
+    gtk_menu_append(pop_menu, (GtkWidget*)item);
+    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
+    this->item_callback_list[item] = item_callback;
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(item_event), this);
     return NS_OK;
 }
