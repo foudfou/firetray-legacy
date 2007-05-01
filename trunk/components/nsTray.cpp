@@ -34,6 +34,15 @@ nsTray::nsTray() {
     this->windowListCount = 0;
     this->tray_callback = NULL;
 
+    systray_icon = gtk_status_icon_new();
+    icon = gdk_pixbuf_new_from_xpm_data((const char**)tray_icon);
+    gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(systray_icon), GDK_PIXBUF(icon));
+    gtk_status_icon_set_tooltip(systray_icon, "Firetray");
+
+    /* Connect signals */
+    g_signal_connect(G_OBJECT(systray_icon), "activate", G_CALLBACK(activate), this);
+    g_signal_connect(G_OBJECT(systray_icon), "popup-menu", G_CALLBACK(popup), NULL);
+
     pop_menu = gtk_menu_new();
 }
 
@@ -48,16 +57,7 @@ nsTray::~nsTray() {
 
 /* void showTray (); */
 NS_IMETHODIMP nsTray::ShowTray() {
-    if (!systray_icon) {
-        systray_icon = gtk_status_icon_new();
-        icon = gdk_pixbuf_new_from_xpm_data((const char**)tray_icon);
-        gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(systray_icon), GDK_PIXBUF(icon));
-        gtk_status_icon_set_tooltip(systray_icon, "Firetray");
-
-        /* Connect signals */
-        g_signal_connect(G_OBJECT(systray_icon), "activate", G_CALLBACK(activate), this);
-        g_signal_connect(G_OBJECT(systray_icon), "popup-menu", G_CALLBACK(popup), NULL);
-    } else {
+    if (systray_icon) {
         gtk_status_icon_set_visible(systray_icon, TRUE);
     }
 
@@ -126,8 +126,18 @@ NS_IMETHODIMP nsTray::Restore() {
 NS_IMETHODIMP nsTray::Menu_item_new(const char *label, PRUint32 *_retval) {
     GtkWidget *item = gtk_menu_item_new_with_label(label);
     *_retval = (PRUint32)item;
+
     return NS_OK;
 }
+
+/* PRUint32 separator_menu_item_new (); */
+NS_IMETHODIMP nsTray::Separator_menu_item_new(PRUint32 *_retval) {
+    GtkWidget *item = gtk_separator_menu_item_new();
+    *_retval = (PRUint32)item;
+
+    return NS_OK;
+}
+
 
 /* void menu_append (in PRUint32 menu_item); */
 NS_IMETHODIMP nsTray::Menu_append(PRUint32 item, nsITrayCallback *aCallback) {
@@ -135,5 +145,17 @@ NS_IMETHODIMP nsTray::Menu_append(PRUint32 item, nsITrayCallback *aCallback) {
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(item_event), this);
+
     return NS_OK;
 }
+
+/* void menu_prepend (in PRUint32 item, in nsITrayCallback aCallback); */
+NS_IMETHODIMP nsTray::Menu_prepend(PRUint32 item, nsITrayCallback *aCallback) {
+    gtk_menu_prepend(pop_menu, (GtkWidget*)item);
+    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
+    this->item_callback_list[item] = item_callback;
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(item_event), this);
+
+    return NS_OK;
+}
+
