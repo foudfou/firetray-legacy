@@ -12,8 +12,24 @@ FireTray.trayCallback = function() {
     }
 };
 
-FireTray.testCallback = function() {
-    alert("Test");
+FireTray.exitCallback = function() {
+    try {
+        var wm = Components.classes["@mozilla.org/appshell/closeallwindows;1"].getService(Components.interfaces.nsICloseAllWindows);
+    } catch (err) {
+        alert(err);
+        return;
+    }
+
+    if (confirm("Do you want close all windows?")) {
+        wm.closeAll(true);
+    }
+};
+
+FireTray.restoreCallback = function() {
+    if (FireTray.is_hidden) {
+        FireTray.interface.restore();
+        FireTray.is_hidden = false;
+    }
 };
 
 FireTray.init = function() {
@@ -23,7 +39,18 @@ FireTray.init = function() {
         alert(err);
         return;
     }
+
     FireTray.interface.trayActivateEvent(FireTray.trayCallback);
+
+    // Init basic pop-up menu items.
+    var item_s_one = FireTray.interface.separator_menu_item_new();
+    FireTray.interface.menu_append(item_s_one, null);
+    var item_restore = FireTray.interface.menu_item_new("Restore");
+    FireTray.interface.menu_append(item_restore, FireTray.restoreCallback);
+    var item_s_two = FireTray.interface.separator_menu_item_new();
+    FireTray.interface.menu_append(item_s_two, null);
+    var item_exit = FireTray.interface.menu_item_new("Exit");
+    FireTray.interface.menu_append(item_exit, FireTray.exitCallback);
 };
 
 FireTray.getBaseWindow = function(win) {
@@ -53,8 +80,6 @@ FireTray.status_icon = function(check_box) {
 
     if (check_box.getAttribute("checked")) {
         FireTray.interface.showTray();
-        var item = FireTray.interface.menu_item_new("Test");
-        FireTray.interface.menu_append(item, FireTray.testCallback);
     } else {
         FireTray.interface.hideTray();
     }

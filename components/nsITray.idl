@@ -19,6 +19,8 @@ interface nsITray : nsISupports
 	void restore(); 
 
     PRUint32 menu_item_new(in string label);
+    PRUint32 separator_menu_item_new();
 
     void menu_append(in PRUint32 item, in nsITrayCallback aCallback);
+    void menu_prepend(in PRUint32 item, in nsITrayCallback aCallback);
 };
