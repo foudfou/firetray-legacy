@@ -7,6 +7,11 @@ FireTray.trayCallback = function() {
     if (FireTray.is_hidden) {
         FireTray.interface.restore();
         FireTray.is_hidden = false;
+
+        var _status_icon = document.getElementById("menu_statusIcon");
+        if (_status_icon && !_status_icon.getAttribute("checked")) {
+            FireTray.interface.hideTray();
+        }
     } else {
         FireTray.hide_to_tray();
     }
@@ -101,7 +106,6 @@ FireTray.hide_to_tray = function() {
 
     var _status_icon = document.getElementById("menu_statusIcon");
     if (_status_icon && !_status_icon.getAttribute("checked")) {
-        _status_icon.setAttribute("checked", true);
         FireTray.interface.showTray();
     }
 
