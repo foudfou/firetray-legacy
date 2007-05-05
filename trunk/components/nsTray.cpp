@@ -22,7 +22,9 @@ static void popup(GtkStatusIcon *status_icon, guint button, guint activate_time,
 
 static void item_event(GtkWidget *widget, gpointer user_data) {
     PRBool ret = TRUE;
-    ((nsTray*)user_data)->item_callback_list[(PRUint32)widget]->Call(&ret);
+    if(((nsTray*)user_data)->item_callback_list[(PRUint32)widget]) {
+        ((nsTray*)user_data)->item_callback_list[(PRUint32)widget]->Call(&ret);
+    }
 }
 
 /* Implementation file */
@@ -77,6 +79,25 @@ NS_IMETHODIMP nsTray::TrayActivateEvent(nsITrayCallback *aCallback) {
     return NS_OK;
 }
 
+/* void hideWindow (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
+NS_IMETHODIMP nsTray::HideWindow(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
+    nsresult rv;
+    PRUint32 i;
+
+    NS_ENSURE_ARG(aCount);
+    NS_ENSURE_ARG_POINTER(aBaseWindows);
+
+    for (i = 0; i < aCount; ++i) {
+        nativeWindow aNativeWindow;
+        rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
+        NS_ENSURE_SUCCESS(rv, rv);
+
+        gdk_window_hide(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
+    }
+
+    return NS_OK;
+}
+
 /* void minimize (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
 NS_IMETHODIMP nsTray::Minimize(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
     nsresult rv;
@@ -122,6 +143,40 @@ NS_IMETHODIMP nsTray::Restore() {
     return NS_OK;
 }
 
+/* void restoreWindow (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
+NS_IMETHODIMP nsTray::RestoreWindow(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
+    nsresult rv;
+    PRUint32 i;
+
+    NS_ENSURE_ARG(aCount);
+    NS_ENSURE_ARG_POINTER(aBaseWindows);
+
+    for (i = 0; i < aCount; ++i) {
+        nativeWindow aNativeWindow;
+        rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
+        NS_ENSURE_SUCCESS(rv, rv);
+
+        gdk_window_show(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
+    }
+
+    return NS_OK;
+}
+
+/* PRUint32 get_tray_menu (); */
+NS_IMETHODIMP nsTray::Get_tray_menu(PRUint32 *_retval) {
+    *_retval = (PRUint32)pop_menu;
+
+    return NS_OK;
+}
+
+/* PRUint32 menu_new (in string label); */
+NS_IMETHODIMP nsTray::Menu_new(PRUint32 *_retval) {
+    GtkWidget *menu = gtk_menu_new();
+    *_retval = (PRUint32)menu;
+
+    return NS_OK;
+}
+
 /* PRUint32 menu_item_new (in string label); */
 NS_IMETHODIMP nsTray::Menu_item_new(const char *label, PRUint32 *_retval) {
     GtkWidget *item = gtk_menu_item_new_with_label(label);
@@ -138,10 +193,9 @@ NS_IMETHODIMP nsTray::Separator_menu_item_new(PRUint32 *_retval) {
     return NS_OK;
 }
 
-
 /* void menu_append (in PRUint32 menu_item); */
-NS_IMETHODIMP nsTray::Menu_append(PRUint32 item, nsITrayCallback *aCallback) {
-    gtk_menu_append(pop_menu, (GtkWidget*)item);
+NS_IMETHODIMP nsTray::Menu_append(PRUint32 menu, PRUint32 item, nsITrayCallback *aCallback) {
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(item_event), this);
@@ -150,8 +204,17 @@ NS_IMETHODIMP nsTray::Menu_append(PRUint32 item, nsITrayCallback *aCallback) {
 }
 
 /* void menu_prepend (in PRUint32 item, in nsITrayCallback aCallback); */
-NS_IMETHODIMP nsTray::Menu_prepend(PRUint32 item, nsITrayCallback *aCallback) {
-    gtk_menu_prepend(pop_menu, (GtkWidget*)item);
+NS_IMETHODIMP nsTray::Menu_prepend(PRUint32 menu, PRUint32 item, nsITrayCallback *aCallback) {
+    gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
+    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
+    this->item_callback_list[item] = item_callback;
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(item_event), this);
+
+    return NS_OK;
+}
+/* void menu_insert (in PRUint32 menu, in PRUint32 item, in PRUint32 pos, in nsITrayCallback aCallback); */
+NS_IMETHODIMP nsTray::Menu_insert(PRUint32 menu, PRUint32 item, PRUint32 pos, nsITrayCallback *aCallback) {
+    gtk_menu_shell_insert(GTK_MENU_SHELL(menu), GTK_WIDGET(item), pos);
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(item_event), this);
@@ -159,3 +222,24 @@ NS_IMETHODIMP nsTray::Menu_prepend(PRUint32 item, nsITrayCallback *aCallback) {
     return NS_OK;
 }
 
+/* void menu_sub (in PRUint32 item, in PRUint32 sub_menu); */
+NS_IMETHODIMP nsTray::Menu_sub(PRUint32 item, PRUint32 sub_menu) {
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), GTK_WIDGET(sub_menu));
+
+    return NS_OK;
+}
+
+/* void menu_remove (in PRUint32 menu, in PRUint32 item); */
+NS_IMETHODIMP nsTray::Menu_remove(PRUint32 menu, PRUint32 item) {
+    gtk_container_remove(GTK_CONTAINER(menu), GTK_WIDGET(item));
+    this->item_callback_list.erase(item);
+
+    return NS_OK;
+}
+
+/* void menu_remove_all (in PRUint32 menu); */
+NS_IMETHODIMP nsTray::Menu_remove_all(PRUint32 menu) {
+    gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
+
+    return NS_OK;
+}

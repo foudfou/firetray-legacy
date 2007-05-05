@@ -15,12 +15,21 @@ interface nsITray : nsISupports
     void showTray();
     void hideTray();
     void trayActivateEvent(in nsITrayCallback aCallback);
+    void hideWindow(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
 	void minimize(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
 	void restore(); 
+    void restoreWindow(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
 
+    PRUint32 get_tray_menu();
+
+    PRUint32 menu_new();
     PRUint32 menu_item_new(in string label);
     PRUint32 separator_menu_item_new();
 
-    void menu_append(in PRUint32 item, in nsITrayCallback aCallback);
-    void menu_prepend(in PRUint32 item, in nsITrayCallback aCallback);
+    void menu_append(in PRUint32 menu, in PRUint32 item, in nsITrayCallback aCallback);
+    void menu_prepend(in PRUint32 menu, in PRUint32 item, in nsITrayCallback aCallback);
+    void menu_insert(in PRUint32 menu, in PRUint32 item, in PRUint32 pos, in nsITrayCallback aCallback);
+    void menu_sub(in PRUint32 item, in PRUint32 sub_menu);
+    void menu_remove(in PRUint32 menu, in PRUint32 item);
+    void menu_remove_all(in PRUint32 menu);
 };

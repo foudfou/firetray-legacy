@@ -2,10 +2,14 @@ var FireTray = new Object();
 
 FireTray.interface = null;
 FireTray.is_hidden = false;
+FireTray.window_list = null;
 
 FireTray.trayCallback = function() {
     if (FireTray.is_hidden) {
         FireTray.interface.restore();
+        if (FireTray.window_list) {
+            FireTray.interface.menu_remove_all(FireTray.window_list);
+        }
         FireTray.is_hidden = false;
 
         var _status_icon = document.getElementById("menu_statusIcon");
@@ -33,6 +37,9 @@ FireTray.exitCallback = function() {
 FireTray.restoreCallback = function() {
     if (FireTray.is_hidden) {
         FireTray.interface.restore();
+        if (FireTray.window_list) {
+            FireTray.interface.menu_remove_all(FireTray.window_list);
+        }
         FireTray.is_hidden = false;
     }
 };
@@ -48,14 +55,23 @@ FireTray.init = function() {
     FireTray.interface.trayActivateEvent(FireTray.trayCallback);
 
     // Init basic pop-up menu items.
-    var item_s_one = FireTray.interface.separator_menu_item_new();
-    FireTray.interface.menu_append(item_s_one, null);
-    var item_restore = FireTray.interface.menu_item_new("Restore");
-    FireTray.interface.menu_append(item_restore, FireTray.restoreCallback);
-    var item_s_two = FireTray.interface.separator_menu_item_new();
-    FireTray.interface.menu_append(item_s_two, null);
-    var item_exit = FireTray.interface.menu_item_new("Exit");
-    FireTray.interface.menu_append(item_exit, FireTray.exitCallback);
+    var tray_menu = FireTray.interface.get_tray_menu();
+    if (tray_menu) {
+        var item_s_one = FireTray.interface.separator_menu_item_new();
+        FireTray.interface.menu_append(tray_menu, item_s_one, null);
+        var item_restore = FireTray.interface.menu_item_new("Restore");
+        FireTray.interface.menu_append(tray_menu, item_restore, FireTray.restoreCallback);
+        var item_s_two = FireTray.interface.separator_menu_item_new();
+        FireTray.interface.menu_append(tray_menu, item_s_two, null);
+        var item_exit = FireTray.interface.menu_item_new("Exit");
+        FireTray.interface.menu_append(tray_menu, item_exit, FireTray.exitCallback);
+        var item_s_three = FireTray.interface.separator_menu_item_new();
+        FireTray.interface.menu_insert(tray_menu, item_s_three, 0, null);
+        var item_windows_list = FireTray.interface.menu_item_new("Windows List");
+        FireTray.interface.menu_insert(tray_menu, item_windows_list, 1, null);
+        FireTray.window_list = FireTray.interface.menu_new();
+        FireTray.interface.menu_sub(item_windows_list, FireTray.window_list);
+    }
 };
 
 FireTray.getBaseWindow = function(win) {
@@ -76,6 +92,31 @@ FireTray.getBaseWindow = function(win) {
         /* ignore no-interface exception */
     }
     return rv;    
+};
+
+FireTray.hide_window = function() {
+    if (!FireTray.interface) {
+        FireTray.init();
+    }
+
+    var basewindows = [FireTray.getBaseWindow(window)];
+    FireTray.interface.hideWindow(basewindows.length, basewindows);
+
+    var _status_icon = document.getElementById("menu_statusIcon");
+    if (_status_icon && !_status_icon.getAttribute("checked")) {
+        FireTray.interface.showTray();
+    }
+
+    var aWindow = FireTray.interface.menu_item_new("Test");
+    FireTray.interface.menu_append(FireTray.window_list, aWindow, function() {
+                FireTray.interface.restoreWindow(basewindows.length, basewindows);
+                FireTray.interface.menu_remove(FireTray.window_list, aWindow);
+
+                var _status_icon = document.getElementById("menu_statusIcon");
+                if (_status_icon && !_status_icon.getAttribute("checked")) {
+                    FireTray.interface.hideTray();
+                }
+            });
 };
 
 FireTray.status_icon = function(check_box) {
