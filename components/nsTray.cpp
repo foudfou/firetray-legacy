@@ -46,6 +46,8 @@ nsTray::nsTray() {
     g_signal_connect(G_OBJECT(systray_icon), "popup-menu", G_CALLBACK(popup), NULL);
 
     pop_menu = gtk_menu_new();
+
+    gtk_status_icon_set_visible(systray_icon, FALSE);
 }
 
 nsTray::~nsTray() {
