@@ -42,7 +42,7 @@ if platform == 'linux2':
                     '-pthread', '-pipe'])
 
 # Create headers and xpt files from idl
-xpts = [env.MozXPT('nsITray')]
+xpts = [env.MozXPT('nsITray'), env.MozXPT('nsIMinimize')]
 headers = [env.MozHeader('nsITray')]
 
 parts = []
@@ -51,7 +51,7 @@ if platform == 'linux2':
 
 nptray = env.SharedLibrary('nptray', parts)
 
-r = env.Install('#dist/components', [nptray, xpts]) 
+r = env.Install('#dist/components', [nptray, xpts, 'nsMinimize.js']) 
 
 Default([xpts, headers, nptray])
 Return('r')
