@@ -100,7 +100,7 @@ FireTray.hide_window = function() {
         FireTray.interface.showTray();
     }
 
-    var aWindow = FireTray.interface.menu_item_new("Test");
+    var aWindow = FireTray.interface.menu_item_new(FireTray.getBaseWindow(window).title);
     FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
                 FireTray.interface.restoreWindow(basewindows.length, basewindows);
                 FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
