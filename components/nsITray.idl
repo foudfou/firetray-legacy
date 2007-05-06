@@ -32,4 +32,5 @@ interface nsITray : nsISupports
     void menu_sub(in PRUint32 item, in PRUint32 sub_menu);
     void menu_remove(in PRUint32 menu, in PRUint32 item);
     void menu_remove_all(in PRUint32 menu);
+    PRUint32 menu_length(in PRUint32 menu);
 };

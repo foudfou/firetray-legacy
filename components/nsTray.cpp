@@ -237,3 +237,12 @@ NS_IMETHODIMP nsTray::Menu_remove_all(PRUint32 menu) {
 
     return NS_OK;
 }
+
+/* void menu_length (in PRUint32 menu); */
+NS_IMETHODIMP nsTray::Menu_length(PRUint32 menu, PRUint32 *_retval) {
+    GList *list = gtk_container_get_children(GTK_CONTAINER(menu));
+    *_retval = g_list_length(list);
+
+    return NS_OK;
+}
+
