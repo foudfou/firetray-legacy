@@ -6,10 +6,11 @@ FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Co
 
 FireTray.trayCallback = function() {
     var baseWindows = FireTray.getAllWindows();
-    if (baseWindows.length <= FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
+    if (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
         FireTray.interface.restore(baseWindows.length, baseWindows);
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
     } else {
+        FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
         FireTray.hide_to_tray();
     }
 };
@@ -103,15 +104,20 @@ FireTray.getAllWindows = function() {
     return baseWindows;
 };
 
+FireTray.windows_list_add = function(basewindow) {
+    var aWindow = FireTray.interface.menu_item_new(basewindow.title);
+    FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
+                alert(basewindow.title);
+                FireTray.interface.restoreWindow(basewindow);
+                FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
+            });
+};
+
 FireTray.hide_window = function() {
     var basewindow = FireTray.getBaseWindow(window);
     FireTray.interface.hideWindow(basewindow);
 
-    var aWindow = FireTray.interface.menu_item_new(FireTray.getBaseWindow(window).title);
-    FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
-                FireTray.interface.restoreWindow(basewindow);
-                FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
-            });
+    FireTray.windows_list_add(basewindow);
 };
 
 FireTray.hide_to_tray = function() {
@@ -120,11 +126,7 @@ FireTray.hide_to_tray = function() {
     for(var i=0; i<baseWindows.length; i++) {
         var basewindow = baseWindows[i];
         FireTray.interface.hideWindow(basewindow);
-        var aWindow = FireTray.interface.menu_item_new(basewindow.title);
-        FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
-                    FireTray.interface.restoreWindow(basewindow);
-                    FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
-                });
+        FireTray.windows_list_add(basewindow);
     }
 };
 
