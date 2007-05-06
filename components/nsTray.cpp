@@ -81,21 +81,17 @@ NS_IMETHODIMP nsTray::TrayActivateEvent(nsITrayCallback *aCallback) {
     return NS_OK;
 }
 
-/* void hideWindow (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
-NS_IMETHODIMP nsTray::HideWindow(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
+/* void hideWindow (in nsIBaseWindow aBaseWindow); */
+NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
     nsresult rv;
-    PRUint32 i;
 
-    NS_ENSURE_ARG(aCount);
-    NS_ENSURE_ARG_POINTER(aBaseWindows);
+    NS_ENSURE_ARG_POINTER(aBaseWindow);
 
-    for (i = 0; i < aCount; ++i) {
-        nativeWindow aNativeWindow;
-        rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
-        NS_ENSURE_SUCCESS(rv, rv);
+    nativeWindow aNativeWindow;
+    rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
+    NS_ENSURE_SUCCESS(rv, rv);
 
-        gdk_window_hide(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
-    }
+    gdk_window_hide(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
 
     return NS_OK;
 }
@@ -145,21 +141,17 @@ NS_IMETHODIMP nsTray::Restore() {
     return NS_OK;
 }
 
-/* void restoreWindow (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
-NS_IMETHODIMP nsTray::RestoreWindow(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
+/* void restoreWindow (in nsIBaseWindow aBaseWindow); */
+NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
     nsresult rv;
-    PRUint32 i;
 
-    NS_ENSURE_ARG(aCount);
-    NS_ENSURE_ARG_POINTER(aBaseWindows);
+    NS_ENSURE_ARG_POINTER(aBaseWindow);
 
-    for (i = 0; i < aCount; ++i) {
-        nativeWindow aNativeWindow;
-        rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
-        NS_ENSURE_SUCCESS(rv, rv);
+    nativeWindow aNativeWindow;
+    rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
+    NS_ENSURE_SUCCESS(rv, rv);
 
-        gdk_window_show(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
-    }
+    gdk_window_show(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
 
     return NS_OK;
 }

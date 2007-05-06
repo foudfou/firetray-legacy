@@ -92,8 +92,8 @@ FireTray.hide_window = function() {
         FireTray.init();
     }
 
-    var basewindows = [FireTray.getBaseWindow(window)];
-    FireTray.interface.hideWindow(basewindows.length, basewindows);
+    var basewindow = FireTray.getBaseWindow(window);
+    FireTray.interface.hideWindow(basewindow);
 
     var _status_icon = document.getElementById("menu_statusIcon");
     if (_status_icon && !_status_icon.getAttribute("checked")) {
@@ -102,7 +102,7 @@ FireTray.hide_window = function() {
 
     var aWindow = FireTray.interface.menu_item_new(FireTray.getBaseWindow(window).title);
     FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
-                FireTray.interface.restoreWindow(basewindows.length, basewindows);
+                FireTray.interface.restoreWindow(basewindow);
                 FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
 
                 var _status_icon = document.getElementById("menu_statusIcon");
