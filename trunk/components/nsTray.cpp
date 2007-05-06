@@ -32,8 +32,6 @@ NS_IMPL_ISUPPORTS1(nsTray, nsITray)
 
 nsTray::nsTray() {
     /* member initializers and constructor code */
-    this->windowList = NULL;
-    this->windowListCount = 0;
     this->tray_callback = NULL;
 
     systray_icon = gtk_status_icon_new();
@@ -52,10 +50,6 @@ nsTray::nsTray() {
 
 nsTray::~nsTray() {
     /* destructor code */
-    if (this->windowList) {
-        delete [] this->windowList;
-        this->windowList = NULL;
-    }
     this->tray_callback = NULL;
 }
 
@@ -96,47 +90,21 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
     return NS_OK;
 }
 
-/* void minimize (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
-NS_IMETHODIMP nsTray::Minimize(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
+/* void restore (in PRUint32 aCount, [array, size_is (aCount)] in nsIBaseWindow aBaseWindows); */
+NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
     nsresult rv;
     PRUint32 i;
 
     NS_ENSURE_ARG(aCount);
     NS_ENSURE_ARG_POINTER(aBaseWindows);
-    NS_ENSURE_TRUE(0 == this->windowListCount, NS_ERROR_ALREADY_INITIALIZED);
-
-    this->windowList = new GdkWindow*[aCount];
-    if (!this->windowList) {
-        return NS_ERROR_OUT_OF_MEMORY;
-    }
-    this->windowListCount = aCount;
 
     for (i = 0; i < aCount; ++i) {
         nativeWindow aNativeWindow;
         rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
         NS_ENSURE_SUCCESS(rv, rv);
 
-        this->windowList[i] = NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow);
-        NS_ENSURE_ARG_POINTER(this->windowList[i]);
+        gdk_window_show(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
     }
-
-    // everything worked, now hide the window
-    for (i = 0; i < aCount; ++i) {
-        gdk_window_hide(gdk_window_get_toplevel(this->windowList[i]));
-    }
-
-    return NS_OK;
-}
-
-/* void restore (); */
-NS_IMETHODIMP nsTray::Restore() {
-    for (PRInt32 i = 0; i < this->windowListCount; ++i) {
-        gdk_window_show(gdk_window_get_toplevel(this->windowList[i]));
-    }
-
-    delete [] this->windowList;
-    this->windowList = NULL;
-    this->windowListCount = 0;
 
     return NS_OK;
 }

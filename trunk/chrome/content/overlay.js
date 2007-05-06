@@ -5,12 +5,10 @@ var FireTray = new Object();
 FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
 
 FireTray.trayCallback = function() {
-    if (minimizeComponent.all_hidden) {
-        FireTray.interface.restore();
-        if (minimizeComponent.menu_window_list) {
-            FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
-        }
-        minimizeComponent.all_hidden = false;
+    var baseWindows = FireTray.getAllWindows();
+    if (baseWindows.length <= FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
+        FireTray.interface.restore(baseWindows.length, baseWindows);
+        FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
     } else {
         FireTray.hide_to_tray();
     }
@@ -30,13 +28,9 @@ FireTray.exitCallback = function() {
 };
 
 FireTray.restoreCallback = function() {
-    if (minimizeComponent.all_hidden) {
-        FireTray.interface.restore();
-        if (minimizeComponent.menu_window_list) {
-            FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
-        }
-        minimizeComponent.all_hidden = false;
-    }
+    var baseWindows = FireTray.getAllWindows();
+    FireTray.interface.restore(baseWindows.length, baseWindows);
+    FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
 };
 
 FireTray.init = function() {
@@ -90,35 +84,12 @@ FireTray.getBaseWindow = function(win) {
     return rv;    
 };
 
-FireTray.hide_window = function() {
-    var basewindow = FireTray.getBaseWindow(window);
-    FireTray.interface.hideWindow(basewindow);
-
-    var _status_icon = document.getElementById("menu_statusIcon");
-    if (_status_icon && !_status_icon.getAttribute("checked")) {
-        FireTray.interface.showTray();
-    }
-
-    var aWindow = FireTray.interface.menu_item_new(FireTray.getBaseWindow(window).title);
-    FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
-                FireTray.interface.restoreWindow(basewindow);
-                FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
-            });
-};
-
-FireTray.hide_to_tray = function() {
-    minimizeComponent.all_hidden = true;
-
+FireTray.getAllWindows = function() {
     try {
         var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
     } catch (err) {
         alert(err);
         return;
-    }
-
-    var _status_icon = document.getElementById("menu_statusIcon");
-    if (_status_icon && !_status_icon.getAttribute("checked")) {
-        FireTray.interface.showTray();
     }
 
     var baseWindows = new Array();
@@ -128,7 +99,33 @@ FireTray.hide_to_tray = function() {
         var w = e.getNext();
         baseWindows[baseWindows.length] = FireTray.getBaseWindow(w);
     } 
-    FireTray.interface.minimize(baseWindows.length, baseWindows);
+
+    return baseWindows;
+};
+
+FireTray.hide_window = function() {
+    var basewindow = FireTray.getBaseWindow(window);
+    FireTray.interface.hideWindow(basewindow);
+
+    var aWindow = FireTray.interface.menu_item_new(FireTray.getBaseWindow(window).title);
+    FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
+                FireTray.interface.restoreWindow(basewindow);
+                FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
+            });
+};
+
+FireTray.hide_to_tray = function() {
+    var baseWindows = FireTray.getAllWindows();
+
+    for(var i=0; i<baseWindows.length; i++) {
+        var basewindow = baseWindows[i];
+        FireTray.interface.hideWindow(basewindow);
+        var aWindow = FireTray.interface.menu_item_new(basewindow.title);
+        FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
+                    FireTray.interface.restoreWindow(basewindow);
+                    FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
+                });
+    }
 };
 
 window.addEventListener("load", FireTray.init, true);

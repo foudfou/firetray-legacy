@@ -30,8 +30,6 @@ private:
 
 protected:
     /* additional members */
-    GdkWindow **windowList;
-    int windowListCount; 
 };
 
 #endif //_TRAY_H_
