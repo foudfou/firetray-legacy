@@ -106,7 +106,8 @@ FireTray.hide_window = function() {
                 FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
 
                 var _status_icon = document.getElementById("menu_statusIcon");
-                if (_status_icon && !_status_icon.getAttribute("checked")) {
+                if (_status_icon && !_status_icon.getAttribute("checked")
+                                && !FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
                     FireTray.interface.hideTray();
                 }
             });
