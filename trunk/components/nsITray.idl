@@ -15,10 +15,10 @@ interface nsITray : nsISupports
     void showTray();
     void hideTray();
     void trayActivateEvent(in nsITrayCallback aCallback);
-    void hideWindow(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
+    void hideWindow(in nsIBaseWindow aBaseWindow);
 	void minimize(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
 	void restore(); 
-    void restoreWindow(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows);
+    void restoreWindow(in nsIBaseWindow aBaseWindow);
 
     PRUint32 get_tray_menu();
 
