@@ -7,6 +7,5 @@
     <menupopup id="menu_viewPopup">
         <menuitem insertbefore="viewToolbarsMenu" label="Hide" id="menu_hide" accesskey="h" oncommand="FireTray.hide_window()" />
         <menuseparator insertbefore="viewToolbarsMenu" />
-        <menuitem insertbefore="viewSidebarMenuMenu" label="Status Icon" id="menu_statusIcon" accesskey="i" oncommand="FireTray.status_icon(this)" type="checkbox" />
     </menupopup>
 </overlay>
