@@ -6,11 +6,14 @@
 
 void nsTray::activate(GtkStatusIcon* status_icon, gpointer user_data) {
     PRBool ret = TRUE;
-    ((nsTray*)user_data)->tray_callback->Call(&ret);
+    nsTray *data = static_cast<nsTray*>(user_data);
+
+    data->tray_callback->Call(&ret);
 }
 
 void nsTray::popup(GtkStatusIcon *status_icon, guint button, guint activate_time, gpointer user_data) {
     nsTray *data = static_cast<nsTray*>(user_data);
+
     if (data->pop_menu) {
         gtk_widget_show_all(data->pop_menu);
         gtk_menu_popup(GTK_MENU(data->pop_menu), NULL, NULL,
@@ -20,8 +23,21 @@ void nsTray::popup(GtkStatusIcon *status_icon, guint button, guint activate_time
 
 void nsTray::item_event(GtkWidget *widget, gpointer user_data) {
     PRBool ret = TRUE;
-    if(((nsTray*)user_data)->item_callback_list[(PRUint32)widget]) {
-        ((nsTray*)user_data)->item_callback_list[(PRUint32)widget]->Call(&ret);
+    nsTray *data = static_cast<nsTray*>(user_data);
+
+    if(data->item_callback_list[(PRUint32)widget]) {
+        data->item_callback_list[(PRUint32)widget]->Call(&ret);
+    }
+}
+
+void nsTray::menu_remove_all_callback(GtkWidget *widget, gpointer user_data) {
+    nsTray *data = static_cast<nsTray*>(user_data);
+
+    gtk_widget_destroy(widget);
+    data->item_callback_list.erase((PRUint32)widget);
+
+    if (GTK_IS_CONTAINER(widget)) {
+        gtk_container_foreach(GTK_CONTAINER(widget), (GtkCallback)(nsTray::menu_remove_all_callback), user_data);
     }
 }
 
@@ -205,7 +221,7 @@ NS_IMETHODIMP nsTray::Menu_remove(PRUint32 menu, PRUint32 item) {
 
 /* void menu_remove_all (in PRUint32 menu); */
 NS_IMETHODIMP nsTray::Menu_remove_all(PRUint32 menu) {
-    gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)gtk_widget_destroy, NULL);
+    gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)(nsTray::menu_remove_all_callback), this);
 
     return NS_OK;
 }
@@ -217,4 +233,3 @@ NS_IMETHODIMP nsTray::Menu_length(PRUint32 menu, PRUint32 *_retval) {
 
     return NS_OK;
 }
-
