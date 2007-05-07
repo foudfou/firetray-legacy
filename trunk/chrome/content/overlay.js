@@ -107,7 +107,6 @@ FireTray.getAllWindows = function() {
 FireTray.windows_list_add = function(basewindow) {
     var aWindow = FireTray.interface.menu_item_new(basewindow.title);
     FireTray.interface.menu_append(minimizeComponent.menu_window_list, aWindow, function() {
-                alert(basewindow.title);
                 FireTray.interface.restoreWindow(basewindow);
                 FireTray.interface.menu_remove(minimizeComponent.menu_window_list, aWindow);
             });
@@ -121,6 +120,8 @@ FireTray.hide_window = function() {
 };
 
 FireTray.hide_to_tray = function() {
+    FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
+
     var baseWindows = FireTray.getAllWindows();
 
     for(var i=0; i<baseWindows.length; i++) {
