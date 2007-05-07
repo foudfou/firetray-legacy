@@ -43,7 +43,7 @@ FireTray.init = function() {
         if (tray_menu) {
             var item_s_one = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_append(tray_menu, item_s_one, null);
-            var item_restore = FireTray.interface.menu_item_new("Restore");
+            var item_restore = FireTray.interface.menu_item_new("Restore All");
             FireTray.interface.menu_append(tray_menu, item_restore, FireTray.restoreCallback);
             var item_s_two = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_append(tray_menu, item_s_two, null);

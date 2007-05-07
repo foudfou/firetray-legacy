@@ -32,6 +32,7 @@ public:
     static void activate(GtkStatusIcon*, gpointer);
     static void popup(GtkStatusIcon*, guint, guint, gpointer);
     static void item_event(GtkWidget *, gpointer);
+    static void menu_remove_all_callback(GtkWidget *, gpointer);
 
 private:
     ~nsTray();
