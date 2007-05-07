@@ -25,6 +25,14 @@ public:
     nsCOMPtr<nsITrayCallback> tray_callback;
     std::map <PRUint32, nsCOMPtr<nsITrayCallback> > item_callback_list;
 
+    GtkStatusIcon *systray_icon;
+    GdkPixbuf *icon;
+    GtkWidget *pop_menu;
+
+    static void activate(GtkStatusIcon*, gpointer);
+    static void popup(GtkStatusIcon*, guint, guint, gpointer);
+    static void item_event(GtkWidget *, gpointer);
+
 private:
     ~nsTray();
 
