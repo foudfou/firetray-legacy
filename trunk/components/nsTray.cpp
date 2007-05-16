@@ -62,7 +62,7 @@ nsTray::nsTray() {
 
     this->pop_menu = gtk_menu_new();
 
-    gtk_status_icon_set_visible(this->systray_icon, FALSE);
+    gtk_status_icon_set_visible(this->systray_icon, TRUE);
 }
 
 nsTray::~nsTray() {
