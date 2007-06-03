@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<overlay id="firetrayMailOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="application/x-javascript" src="core.js"/>
+    <menupopup id="menu_FilePopup">
+        <menuitem insertbefore="menu_close" label="Close to System Tray" id="menu_hideTray" oncommand="FireTray.hide_to_tray()" />
+    </menupopup>
+</overlay>
