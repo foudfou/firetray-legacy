@@ -33,5 +33,6 @@
     <em:description>An system tray extension for firefox.</em:description>
     <em:creator>Hua Luo</em:creator>
     <em:homepageURL>http://firetray.xiaoduo.info</em:homepageURL>
+    <em:optionsURL>chrome://firetray/content/options.xul</em:optionsURL>
   </Description>
 </RDF>
