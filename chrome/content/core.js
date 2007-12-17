@@ -38,6 +38,9 @@ FireTray.init = function() {
     if (!minimizeComponent.menu_window_list) {
         FireTray.interface.trayActivateEvent(FireTray.trayCallback);
 
+	
+	    FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
+                                .getService(Components.interfaces.nsIPrefBranch);
         // Init basic pop-up menu items.
         var tray_menu = FireTray.interface.get_tray_menu();
         if (tray_menu) {
@@ -59,9 +62,13 @@ FireTray.init = function() {
     }
 
     FireTray.interface.showTray();
+    window.onclose = FireTray.on_close
+    window.onresize = FireTray.on_resize
 
     window.setTimeout(function() {
                 window.removeEventListener("load", FireTray.init, true);
+// 		if(FireTray.prefManager.getBoolPref("firetray.start_minimized"))
+//			FireTray.hide_to_tray();		
             }, 0);
 };
 
@@ -131,4 +138,20 @@ FireTray.hide_to_tray = function() {
     }
 };
 
+FireTray.on_close = function() {
+   if(FireTray.prefManager.getBoolPref("firetray.close_to_tray")) {
+      FireTray.hide_to_tray();
+      return false;	
+   }
+   
+}
+
+FireTray.on_resize = function() {
+//alert('resize!');
+   if(!FireTray.started)
+	if(FireTray.prefManager.getBoolPref("firetray.start_minimized")){	
+		FireTray.started=true;	
+		FireTray.hide_to_tray();
+	}
+}
 window.addEventListener("load", FireTray.init, true);
