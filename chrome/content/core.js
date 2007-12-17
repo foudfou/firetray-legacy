@@ -67,8 +67,6 @@ FireTray.init = function() {
 
     window.setTimeout(function() {
                 window.removeEventListener("load", FireTray.init, true);
-// 		if(FireTray.prefManager.getBoolPref("firetray.start_minimized"))
-//			FireTray.hide_to_tray();		
             }, 0);
 };
 
@@ -147,7 +145,6 @@ FireTray.on_close = function() {
 }
 
 FireTray.on_resize = function() {
-//alert('resize!');
    if(!FireTray.started)
 	if(FireTray.prefManager.getBoolPref("firetray.start_minimized")){	
 		FireTray.started=true;	
