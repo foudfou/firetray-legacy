@@ -1,8 +1,0 @@
-#include "nsISupports.idl"
-
-[scriptable, uuid(77284574-9091-4b63-a5cf-533edb2897a1)]
-interface nsIMinimize : nsISupports
-{
-    attribute PRBool all_hidden;
-    attribute PRUint32 menu_window_list;
-};  
