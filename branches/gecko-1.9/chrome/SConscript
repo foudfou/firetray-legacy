@@ -1,0 +1,13 @@
+import os
+
+Import('zipbld')
+
+contents = []
+content = 'core.js browserOverlay.xul mailOverlay.xul options.xul'
+for c in content.split(' '):
+    contents.append('content' + os.sep + c)
+
+env = Environment(ZIPCHDIR= 'chrome', BUILDERS = {'Zip' : zipbld})
+r = env.Zip('#dist/chrome/firetray.jar', contents)
+
+Return('r')
