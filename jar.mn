@@ -1,0 +1,8 @@
+firetray.jar:
+% content firetray %content/firetray/
+% overlay chrome://browser/content/browser.xul chrome://firetray/content/browserOverlay.xul application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+* content/firetray/browserOverlay.xul           (resources/content/browserOverlay.xul)
+  content/firetray/core.js                      (resources/content/core.js)
+  content/firetray/mailOverlay.xul              (resources/content/mailOverlay.xul)
+  content/firetray/options.xul                  (resources/content/options.xul)
+

@@ -8,6 +8,7 @@
 
 #include "nsITray.h"
 #include "nsCOMPtr.h"
+#include "nsIBaseWindow.h"
 #include "nsStringAPI.h"
 
 #define NS_ITRAY_CONTRACTID "@mozilla.org/FireTray;1"
