@@ -17,7 +17,7 @@ bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + geckosdk + 'idl -
 env = Environment(
     CPPPATH = [geckosdk + 'include'],
     LIBPATH = [geckosdk + 'lib'],
-    LIBS = ['xpcomglue', 'nspr4', 'plds4'],
+    LIBS = ['xpcomglue', 'nspr4', 'plds4', 'xpcomglue_s.a' ],
     ENV = os.environ)
 env.AppendENVPath('PATH', geckosdk + 'bin')
 env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
