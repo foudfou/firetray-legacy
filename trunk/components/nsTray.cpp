@@ -105,7 +105,9 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
     rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
     NS_ENSURE_SUCCESS(rv, rv);
 
-    gdk_window_hide(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
+     //#gdk_window_hide(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
+
+    gdk_window_hide(gdk_window_get_toplevel((GdkWindow*) aNativeWindow));
 
     return NS_OK;
 }
@@ -123,7 +125,7 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
         rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
         NS_ENSURE_SUCCESS(rv, rv);
 
-        gdk_window_show(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
+        gdk_window_show(gdk_window_get_toplevel((GdkWindow*) aNativeWindow));
     }
 
     return NS_OK;
@@ -139,7 +141,7 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
     rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
     NS_ENSURE_SUCCESS(rv, rv);
 
-    gdk_window_show(gdk_window_get_toplevel(NS_REINTERPRET_CAST(GdkWindow*, aNativeWindow)));
+    gdk_window_show(gdk_window_get_toplevel((GdkWindow*)aNativeWindow));
 
     return NS_OK;
 }

@@ -1,5 +1,5 @@
 /*
- * DO NOT EDIT.  THIS FILE IS GENERATED FROM /home/duo/mozilla/widget/public/nsIBaseWindow.idl
+ * DO NOT EDIT.  THIS FILE IS GENERATED FROM /builds/tinderbox/XR-Trunk/Linux_2.6.18-8.el5_Depend/mozilla/widget/public/nsIBaseWindow.idl
  */
 
 #ifndef __gen_nsIBaseWindow_h__
@@ -37,7 +37,7 @@ typedef void * nativeWindow;
 class NS_NO_VTABLE nsIBaseWindow : public nsISupports {
  public: 
 
-  NS_DEFINE_STATIC_IID_ACCESSOR(NS_IBASEWINDOW_IID)
+  NS_DECLARE_STATIC_IID_ACCESSOR(NS_IBASEWINDOW_IID)
 
   /* [noscript] void initWindow (in nativeWindow parentNativeWindow, in nsIWidget parentWidget, in long x, in long y, in long cx, in long cy); */
   NS_IMETHOD InitWindow(nativeWindow parentNativeWindow, nsIWidget * parentWidget, PRInt32 x, PRInt32 y, PRInt32 cx, PRInt32 cy) = 0;
@@ -113,6 +113,8 @@ class NS_NO_VTABLE nsIBaseWindow : public nsISupports {
   NS_IMETHOD SetTitle(const PRUnichar * aTitle) = 0;
 
 };
+
+  NS_DEFINE_STATIC_IID_ACCESSOR(nsIBaseWindow, NS_IBASEWINDOW_IID)
 
 /* Use this macro when declaring classes that implement this interface. */
 #define NS_DECL_NSIBASEWINDOW \

@@ -17,15 +17,17 @@ FireTray.trayCallback = function() {
 
 FireTray.exitCallback = function() {
     try {
-        var wm = Components.classes["@mozilla.org/appshell/closeallwindows;1"].getService(Components.interfaces.nsICloseAllWindows);
+	var appStartup = Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup);
+
+        if (confirm("Do you really want to exit?")) {
+          appStartup.quit(Components.interfaces.nsIAppStartup.eAttemptQuit);
+        }
+
     } catch (err) {
         alert(err);
         return;
     }
-
-    if (confirm("Do you want close all windows?")) {
-        wm.closeAll(true);
-    }
+   
 };
 
 FireTray.restoreCallback = function() {
