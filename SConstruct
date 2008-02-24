@@ -29,6 +29,9 @@ objs.append(r)
 r = env.Install('dist', 'install.rdf')
 objs.append(r)
 
+r = env.Install('dist/defaults/preferences', 'defaults/preferences/prefs.js')
+objs.append(r)
+
 zipenv = Environment(BUILDERS = {'Zip' : zipbld}, ZIPCHDIR = 'dist')
 zipenv.Zip('firetray.xpi', objs)
 
