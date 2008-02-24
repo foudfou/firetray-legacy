@@ -1,3 +1,11 @@
+var gfiretrayBundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
+
+var mystrings = gfiretrayBundle.createBundle("chrome://firetray/locale/core.properties");
+var firetray_closerequest = mystrings.GetStringFromName("firetray_closerequest");
+var firetray_restoreall = mystrings.GetStringFromName("firetray_restoreall");
+var firetray_exit = mystrings.GetStringFromName("firetray_exit");
+var firetray_windowslist = mystrings.GetStringFromName("firetray_windowslist");
+
 var minimizeComponent = Components.classes['@mozilla.org/Minimize;1'].getService(Components.interfaces.nsIMinimize);
 
 var FireTray = new Object();
@@ -19,7 +27,7 @@ FireTray.exitCallback = function() {
     try {
 	var appStartup = Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup);
 
-        if (confirm("Do you really want to exit?")) {
+        if (confirm(firetray_closerequest)) {
           appStartup.quit(Components.interfaces.nsIAppStartup.eAttemptQuit);
         }
 
@@ -48,15 +56,15 @@ FireTray.init = function() {
         if (tray_menu) {
             var item_s_one = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_append(tray_menu, item_s_one, null);
-            var item_restore = FireTray.interface.menu_item_new("Restore All");
+            var item_restore = FireTray.interface.menu_item_new(firetray_restoreall);
             FireTray.interface.menu_append(tray_menu, item_restore, FireTray.restoreCallback);
             var item_s_two = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_append(tray_menu, item_s_two, null);
-            var item_exit = FireTray.interface.menu_item_new("Exit");
+            var item_exit = FireTray.interface.menu_item_new(firetray_exit);
             FireTray.interface.menu_append(tray_menu, item_exit, FireTray.exitCallback);
             var item_s_three = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_insert(tray_menu, item_s_three, 0, null);
-            var item_windows_list = FireTray.interface.menu_item_new("Windows List");
+            var item_windows_list = FireTray.interface.menu_item_new(firetray_windowslist);
             FireTray.interface.menu_insert(tray_menu, item_windows_list, 1, null);
             minimizeComponent.menu_window_list = FireTray.interface.menu_new();
             FireTray.interface.menu_sub(item_windows_list, minimizeComponent.menu_window_list);
