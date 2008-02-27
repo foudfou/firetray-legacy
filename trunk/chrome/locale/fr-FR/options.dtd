@@ -1,0 +1,4 @@
+<!ENTITY firetray.prefwindow "Options de FireTray">
+<!ENTITY firetray.prefpane_options "Options">
+<!ENTITY firetray.close_to_tray "Le bouton &quot;Fermer&quot; réduit Firefox dans la barre des tâches">
+<!ENTITY firetray.start_min "Démarrer Firefox dans la barre des tâches">

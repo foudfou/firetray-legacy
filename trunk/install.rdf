@@ -30,7 +30,7 @@
    
     <!-- Front End MetaData -->
     <em:name>FireTray</em:name>
-    <em:description>A system tray extension for firefox running on linux</em:description>
+    <em:description>A system tray extension for linux</em:description>
     <em:creator>Hua Luo</em:creator>
     <em:contributor>Francesco S.</em:contributor>
     <em:contributor>Simone "Underpass"</em:contributor>
@@ -40,6 +40,7 @@
     <em:translator>Wacław Jacek [pl-PL]</em:translator>
     <em:translator>Alberto Eidh [pt-BR]</em:translator>
     <em:translator>drry [ja-JP]</em:translator>
+    <em:translator>BatBat [fr-FR]</em:translator>
     
     <em:homepageURL>http://firetray.xiaoduo.info</em:homepageURL>
     <em:optionsURL>chrome://firetray/content/options.xul</em:optionsURL>    

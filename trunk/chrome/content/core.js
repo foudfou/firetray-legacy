@@ -34,7 +34,7 @@ FireTray.exitCallback = function() {
     try {
 	var appStartup = Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup);
         var do_confirm=true;
-        do_confirm=FireTray.prefManager.getBoolPref("firetray.confirm_exit");
+        do_confirm=FireTray.prefManager.getBoolPref("extensions.firetray.confirm_exit");
         if (!do_confirm || confirm(firetray_exitrequest)) {
           appStartup.quit(Components.interfaces.nsIAppStartup.eAttemptQuit);
         }
@@ -170,7 +170,7 @@ FireTray.hide_to_tray = function() {
 };
 
 FireTray.on_close = function() {
-   if(FireTray.prefManager.getBoolPref("firetray.close_to_tray")) {
+   if(FireTray.prefManager.getBoolPref("extensions.firetray.close_to_tray")) {
       FireTray.hide_to_tray();
       return false;	
    }
@@ -179,7 +179,7 @@ FireTray.on_close = function() {
 
 FireTray.on_resize = function() {
    if(!FireTray.started)
-	if(FireTray.prefManager.getBoolPref("firetray.start_minimized")){	
+	if(FireTray.prefManager.getBoolPref("extensions.firetray.start_minimized")){	
 		FireTray.started=true;	
 		FireTray.hide_to_tray();
 	}
