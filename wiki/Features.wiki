@@ -1,0 +1,14 @@
+*Already supported features
+
+- adds tray icon for both firefox and thunderbird
+- Show number of unread mails in the tray icon (Thunderbird)
+- close button hides to tray
+- ability to start minimized to tray
+
+
+*Wishes / planned features
+
+- If windows is minimized restore it instead of hiding
+- Hotkey for Hide/Unhide
+- testing on 64 bit systems
+- Custom tray icon
