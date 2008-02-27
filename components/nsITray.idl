@@ -32,4 +32,13 @@ interface nsITray : nsISupports
     void menu_remove(in PRUint32 menu, in PRUint32 item);
     void menu_remove_all(in PRUint32 menu);
     PRUint32 menu_length(in PRUint32 menu);
+
+    void set_default_xpm_icon(in PRUint32 app); //selects default (embedded) icons for the specified application
+    
+    void set_default_icon(in string filename); //icon for normal usage
+    void set_special_icon(in string filename); //icon when text is displayed
+    
+    void set_icon_text(in string text); //sets the icon text (used for mail count)
+
+    void set_tray_tooltip(in string text); //sets the tray tooltip message
 };

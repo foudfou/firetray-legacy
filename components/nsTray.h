@@ -5,6 +5,7 @@
 
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <pango/pango.h>
 
 #include "nsITray.h"
 #include "nsCOMPtr.h"
@@ -26,8 +27,14 @@ public:
     std::map <PRUint32, nsCOMPtr<nsITrayCallback> > item_callback_list;
 
     GtkStatusIcon *systray_icon;
+    
+    GdkPixbuf *default_icon;
+    GdkPixbuf *special_icon;
+
     GdkPixbuf *icon;
+
     GtkWidget *pop_menu;
+    PangoLayout *layout;
 
     static void activate(GtkStatusIcon*, gpointer);
     static void popup(GtkStatusIcon*, guint, guint, gpointer);

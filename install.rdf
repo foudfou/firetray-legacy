@@ -23,14 +23,14 @@
       <!-- Mozilla Thunderbird -->
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>1.0+</em:minVersion>
+        <em:minVersion>1.5+</em:minVersion>
         <em:maxVersion>2.0.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
    
     <!-- Front End MetaData -->
     <em:name>FireTray</em:name>
-    <em:description>A system tray extension for firefox.</em:description>
+    <em:description>A system tray extension for firefox running on linux</em:description>
     <em:creator>Hua Luo</em:creator>
     <em:contributor>Francesco S.</em:contributor>
     <em:contributor>Simone "Underpass"</em:contributor>
@@ -39,6 +39,7 @@
     <em:translator>Quicksilver tears [ru-RU]</em:translator>
     <em:translator>Wacław Jacek [pl-PL]</em:translator>
     <em:translator>Alberto Eidh [pt-BR]</em:translator>
+    <em:translator>drry [ja-JP]</em:translator>
     
     <em:homepageURL>http://firetray.xiaoduo.info</em:homepageURL>
     <em:optionsURL>chrome://firetray/content/options.xul</em:optionsURL>    

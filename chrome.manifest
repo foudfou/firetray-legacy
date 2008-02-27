@@ -5,3 +5,7 @@ overlay chrome://messenger/content/messenger.xul chrome://firetray/content/mailO
 
 locale	firetray	en-US	jar:chrome/firetray.jar!/locale/en-US/
 locale	firetray	it-IT	jar:chrome/firetray.jar!/locale/it-IT/
+locale	firetray	ru-RU	jar:chrome/firetray.jar!/locale/ru-RU/
+locale	firetray	pl-PL	jar:chrome/firetray.jar!/locale/pl-PL/
+locale	firetray	pt-BR	jar:chrome/firetray.jar!/locale/pt-BR/
+locale	firetray	ja-JP	jar:chrome/firetray.jar!/locale/ja-JP/
