@@ -59,19 +59,13 @@ nsTray::nsTray() {
 
     this->systray_icon = gtk_status_icon_new();
 
-    //Set_default_xpm_icon(PRUint32 app);
-
     this->icon = gdk_pixbuf_new_from_xpm_data((const char**)tray_icon);
-  //  gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->icon));
-   // gtk_status_icon_set_tooltip(this->systray_icon, "Firetray");
 
     /* Connect signals */
     g_signal_connect(G_OBJECT(this->systray_icon), "activate", G_CALLBACK(nsTray::activate), this);
     g_signal_connect(G_OBJECT(this->systray_icon), "popup-menu", G_CALLBACK(nsTray::popup), this);
 
     this->pop_menu = gtk_menu_new();
-
-   // gtk_status_icon_set_visible(this->systray_icon, FALSE);
 }
 
 nsTray::~nsTray() {
@@ -336,7 +330,7 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
   GdkGC *gc = gdk_gc_new (pm);
   
   GdkColor fore = { 100, 255, 255, 0x00 };
-GdkColor back = { 100, 105, 105, 0x00 };
+  GdkColor back = { 100, 105, 105, 0x00 };
 
   /*GdkColor color;
   color.red=0;

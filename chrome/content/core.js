@@ -21,7 +21,7 @@ FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Co
 FireTray.trayCallback = function() {
     var baseWindows = FireTray.getAllWindows();
     if (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
-        if(FireTray.isMail){} //nextUnreadMessage
+        //if(FireTray.isMail){} //nextUnreadMessage
         FireTray.interface.restore(baseWindows.length, baseWindows);
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
     } else {
@@ -46,7 +46,6 @@ FireTray.exitCallback = function() {
 };
 
 FireTray.restoreCallback = function() {
-    alert("restore_callback");
     var baseWindows = FireTray.getAllWindows();
     FireTray.interface.restore(baseWindows.length, baseWindows);
     FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
@@ -56,14 +55,13 @@ FireTray.init = function() {
     FireTray.isMail=false;
     FireTray.lastnum=-1;
 
+
     window.onclose = FireTray.on_close
     window.onresize = FireTray.on_resize
  
     FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
                                 .getService(Components.interfaces.nsIPrefBranch);
-
-    var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
-    FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
+    var accountManager;
 
     if (!minimizeComponent.menu_window_list) {
         FireTray.interface.trayActivateEvent(FireTray.trayCallback);
@@ -94,6 +92,8 @@ FireTray.init = function() {
     FireTray.interface.showTray();
 
     if(FireTray.isMail) {
+      accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+      FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
       FireTray.subscribe_to_mail_events();
       FireTray.UpdateMailTray();
     }
@@ -186,6 +186,7 @@ FireTray.on_resize = function() {
 }
 
 FireTray.getMozillaAppCode = function() {
+ try {
   var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);
 
   const FIREFOX_ID = "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
@@ -200,6 +201,11 @@ FireTray.getMozillaAppCode = function() {
     //Unknown application... defaults to firefox
     return 0;
   }
+ }
+ catch (err) {
+        alert(err);
+        return -1;
+    }
 }
 
 
@@ -225,14 +231,14 @@ FireTray.subscribe_to_mail_events = function()
   getService(Components.interfaces.nsIMsgMailSession);
  
   var folderListener = {
-  OnItemAdded: function(parent, item) {},//alert("OnItemAdded");},
-  OnItemBoolPropertyChanged: function(item, property, oldValue, newValue) {},//alert("OnItemBoolPropertyChanged");},  
-  OnItemEvent: function(item, event)  {},//alert("OnItemEvent");},
-  OnItemIntPropertyChanged: function(item, property, oldValue, newValue) { FireTray.UpdateMailTray(); },//alert("OnItemIntPropertyChanged");},
-  OnItemPropertyChanged: function(parent, item, viewString) {},//alert("OnItemPropertyChanged");},
-  OnItemPropertyFlagChanged: function(item, property, oldFlag, newFlag) {},//alert("OnItemPropertyFlagChanged");},
-  OnItemRemoved: function(parent, item) {},//alert("OnItemRemoved");},
-  OnItemUnicharPropertyChanged: function(item, property, oldValue, newValue) {},//alert("OnItemUnicharPropertyChanged");},
+  OnItemAdded: function(parent, item) {},
+  OnItemBoolPropertyChanged: function(item, property, oldValue, newValue) {},
+  OnItemEvent: function(item, event)  {},
+  OnItemIntPropertyChanged: function(item, property, oldValue, newValue) { FireTray.UpdateMailTray(); },
+  OnItemPropertyChanged: function(parent, item, viewString) {},
+  OnItemPropertyFlagChanged: function(item, property, oldFlag, newFlag) {},
+  OnItemRemoved: function(parent, item) {},
+  OnItemUnicharPropertyChanged: function(item, property, oldValue, newValue) {},
 }
  
   var nFlags = Components.interfaces.nsIFolderListener.added | Components.interfaces.nsIFolderListener.intPropertyChanged; mailSession.AddFolderListener(folderListener,nFlags);
