@@ -1,0 +1,1 @@
+If you want contribute by translating the extension to your language, you can find FireTray in the babelzilla web translation system: http://www.babelzilla.org
