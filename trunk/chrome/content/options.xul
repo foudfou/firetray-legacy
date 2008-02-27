@@ -8,10 +8,12 @@
     <preferences>
       <preference id="pref1" name="firetray.close_to_tray" type="bool" />
       <preference id="pref2" name="firetray.start_minimized" type="bool" />
+      <preference id="pref3" name="firetray.confirm_exit" type="bool" />
     </preferences>
      
     <checkbox id="check1" preference="pref1" label="&firetray.close_to_tray;" accesskey="C" />
     <checkbox id="check2" preference="pref2" label="&firetray.start_min;" accesskey="S" />
+    <checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="O" />
   </prefpane>
 
 </prefwindow>

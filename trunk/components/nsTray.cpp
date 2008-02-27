@@ -1,8 +1,12 @@
 #include "nsTray.h"
 #include "pixmaps/tray.xpm"
+#include "pixmaps/thundertray.xpm"
+#include "pixmaps/newmail.xpm"
 
 #include "nsMemory.h"
 #include "nsIBaseWindow.h"
+#include <pango/pangoft2.h>
+#include <pango/pango-layout.h>
 
 void nsTray::activate(GtkStatusIcon* status_icon, gpointer user_data) {
     PRBool ret = TRUE;
@@ -48,13 +52,18 @@ nsTray::nsTray() {
     /* member initializers and constructor code */
     this->systray_icon = NULL;
     this->icon = NULL;
+    this->default_icon = NULL;
+    this->special_icon = NULL;
     this->pop_menu = NULL;
     this->tray_callback = NULL;
 
     this->systray_icon = gtk_status_icon_new();
+
+    //Set_default_xpm_icon(PRUint32 app);
+
     this->icon = gdk_pixbuf_new_from_xpm_data((const char**)tray_icon);
-    gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->icon));
-    gtk_status_icon_set_tooltip(this->systray_icon, "Firetray");
+  //  gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->icon));
+   // gtk_status_icon_set_tooltip(this->systray_icon, "Firetray");
 
     /* Connect signals */
     g_signal_connect(G_OBJECT(this->systray_icon), "activate", G_CALLBACK(nsTray::activate), this);
@@ -62,11 +71,11 @@ nsTray::nsTray() {
 
     this->pop_menu = gtk_menu_new();
 
-    gtk_status_icon_set_visible(this->systray_icon, TRUE);
+   // gtk_status_icon_set_visible(this->systray_icon, FALSE);
 }
 
 nsTray::~nsTray() {
-    /* destructor code */
+    /* destructor code */ //TO_DO CHECK FOR MEMORY LEAKS...
     this->systray_icon = NULL;
     this->icon = NULL;
     this->pop_menu = NULL;
@@ -79,14 +88,14 @@ NS_IMETHODIMP nsTray::ShowTray() {
         gtk_status_icon_set_visible(this->systray_icon, TRUE);
     }
 
-	return NS_OK;
+    return NS_OK;
 }
 
 /* void hideTray (); */
 NS_IMETHODIMP nsTray::HideTray() {
     gtk_status_icon_set_visible(this->systray_icon, FALSE);
 
-	return NS_OK;
+    return NS_OK;
 }
 
 /* void trayActivateEvent (in nsITrayCallback aCallback); */
@@ -234,4 +243,192 @@ NS_IMETHODIMP nsTray::Menu_length(PRUint32 menu, PRUint32 *_retval) {
     *_retval = g_list_length(list);
 
     return NS_OK;
+}
+
+/* void set_default_xpm_icon (in PRUint32 app); */
+NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app) 
+{
+ if(this->icon) { g_object_unref(this->icon); this->icon=NULL;}
+ if(this->default_icon) { g_object_unref(this->default_icon); this->default_icon=NULL;}
+ if(this->special_icon) { g_object_unref(this->special_icon); this->special_icon=NULL;}
+
+ 
+ char * text;
+ char **df_icon;
+ char **sp_icon;
+
+ switch(app)
+ {
+   case 2: //thunderbird
+           df_icon=(char**)thundertray_xpm;
+           sp_icon=(char**)newmail_xpm;
+	   text="Firetray (Thunderbird)";
+           break;
+   case 1: //firefox
+   default:
+           df_icon=(char**)tray_icon;
+           sp_icon=(char**)tray_icon;
+	   text="Firetray (Firefox)";
+           break;
+ }
+  
+ this->default_icon = gdk_pixbuf_new_from_xpm_data((const char**)df_icon);
+ this->special_icon = gdk_pixbuf_new_from_xpm_data((const char**)sp_icon);
+
+ gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->default_icon));
+
+ gtk_status_icon_set_tooltip(this->systray_icon, text);
+ gtk_status_icon_set_visible(this->systray_icon, TRUE);
+
+ return NS_OK;   
+}
+
+/* void set_default_icon (in string filename); */
+NS_IMETHODIMP nsTray::Set_default_icon(const char *filename) 
+{
+    GError * error = NULL;
+    GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
+    if(new_icon) 
+     {
+       if(this->default_icon) 
+        { 
+           g_object_unref(this->default_icon); 
+           this->default_icon=NULL;
+        }
+
+       this->default_icon=new_icon;
+      }
+    
+    return NS_OK;   
+}
+
+/* void set_special_icon (in string filename); */
+NS_IMETHODIMP nsTray::Set_special_icon(const char *filename)
+{
+    GError * error = NULL;
+    GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
+    if(new_icon) 
+     {
+       if(this->special_icon) 
+        { 
+           g_object_unref(this->special_icon); 
+           this->special_icon=NULL;
+        }
+
+       this->special_icon=new_icon;
+      }
+    
+    return NS_OK;   
+}
+
+
+#define MIN_FONT_SIZE 4
+
+GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
+{ 
+  if(!base || !text) return NULL;
+ 
+  int w=gdk_pixbuf_get_width(base);  
+  int h=gdk_pixbuf_get_height(base);
+  
+  GdkPixmap *pm = gdk_pixmap_new (NULL, w, h, 24);
+    
+  GdkGC *gc = gdk_gc_new (pm);
+  
+  GdkColor fore = { 100, 255, 255, 0x00 };
+GdkColor back = { 100, 105, 105, 0x00 };
+
+  /*GdkColor color;
+  color.red=0;
+  color.green=100;
+  color.blue=200;*/
+  //gdk_gc_set_rgb_fg_color (gc,&color);
+
+  gdk_draw_pixbuf (pm, gc, base, 0, 0, 0, 0, w, h, GDK_RGB_DITHER_NONE, 0, 0);
+
+  GtkWidget *scratch = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_widget_realize (scratch);
+
+  PangoLayout *layout = gtk_widget_create_pango_layout (scratch, NULL);
+  gtk_widget_destroy (scratch);
+
+  PangoFontDescription *fnt = pango_font_description_from_string("Sans 18");
+
+  pango_font_description_set_weight (fnt,PANGO_WEIGHT_SEMIBOLD);
+  pango_layout_set_spacing            (layout,0);
+
+  pango_layout_set_font_description   (layout, fnt);
+
+  pango_layout_set_text (layout, text,-1);
+  
+  int tw=0;
+  int th=0;
+  int sz;
+  int border=4;
+  
+  pango_layout_get_pixel_size(layout, &tw, &th);
+
+  while( (tw>w - border || th > h - border)) //fit text to the icon by decreasing font size
+  {
+    sz=pango_font_description_get_size (fnt);
+
+    if(sz<MIN_FONT_SIZE) {  
+        sz=MIN_FONT_SIZE;
+        break; 
+    }
+    sz-=PANGO_SCALE; //to do: check if is absolute...
+   
+    pango_font_description_set_size (fnt,sz);
+    pango_layout_set_font_description   (layout, fnt);
+    pango_layout_get_pixel_size(layout, &tw, &th);
+  }
+
+  //centers the text
+  int px, py;
+  px=(w-tw)/2;
+  py=(h-th)/2;
+
+
+  //paints the text
+  gdk_draw_layout_with_colors (pm, gc, px, py, layout, &fore,NULL);
+  g_object_unref (layout);   
+  
+  GdkPixbuf *ret = gdk_pixbuf_get_from_drawable (NULL, pm, NULL, 0, 0, 0, 0, w, h);
+   
+  pango_font_description_free (fnt);
+  return ret;
+}
+
+/* void set_icon_text (in string text); */
+NS_IMETHODIMP nsTray::Set_icon_text(const char *text) {
+   //return NS_OK;
+    GError * error = NULL;
+    if(strlen(text)>0 && special_icon) 
+     {
+       GdkPixbuf *edit=DrawText (special_icon, (gchar *)text);       
+
+       gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(edit));
+       gtk_status_icon_set_visible(this->systray_icon, TRUE);
+       //if(old) delete old;
+     }
+    else {
+      if(default_icon)
+      {
+       gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
+       gtk_status_icon_set_visible(this->systray_icon, TRUE);
+      }
+    }
+
+    return NS_OK;   
+}
+
+
+/* void set_tray_tooltip (in string text); */
+NS_IMETHODIMP nsTray::Set_tray_tooltip(const char *text) {
+  if(!text) return NS_OK;
+  
+  gtk_status_icon_set_tooltip(this->systray_icon, text);
+//  gtk_status_icon_set_visible(this->systray_icon, TRUE);
+ 
+  return NS_OK;
 }

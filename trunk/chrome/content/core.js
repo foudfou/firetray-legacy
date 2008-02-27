@@ -1,12 +1,18 @@
+
 var gfiretrayBundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
 
 var mystrings = gfiretrayBundle.createBundle("chrome://firetray/locale/core.properties");
 var firetray_closerequest = mystrings.GetStringFromName("firetray_closerequest");
+var firetray_exitrequest = mystrings.GetStringFromName("firetray_exitrequest");
 var firetray_restoreall = mystrings.GetStringFromName("firetray_restoreall");
 var firetray_exit = mystrings.GetStringFromName("firetray_exit");
 var firetray_windowslist = mystrings.GetStringFromName("firetray_windowslist");
+var firetray_no_unread_messages = mystrings.GetStringFromName("firetray_no_unread_messages");
+var firetray_unread_message = mystrings.GetStringFromName("firetray_unread_message");
+var firetray_unread_messages = mystrings.GetStringFromName("firetray_unread_messages");
 
 var minimizeComponent = Components.classes['@mozilla.org/Minimize;1'].getService(Components.interfaces.nsIMinimize);
+ 
 
 var FireTray = new Object();
 
@@ -15,6 +21,7 @@ FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Co
 FireTray.trayCallback = function() {
     var baseWindows = FireTray.getAllWindows();
     if (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
+        if(FireTray.isMail){} //nextUnreadMessage
         FireTray.interface.restore(baseWindows.length, baseWindows);
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
     } else {
@@ -26,11 +33,11 @@ FireTray.trayCallback = function() {
 FireTray.exitCallback = function() {
     try {
 	var appStartup = Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup);
-
-        if (confirm(firetray_closerequest)) {
+        var do_confirm=true;
+        do_confirm=FireTray.prefManager.getBoolPref("firetray.confirm_exit");
+        if (!do_confirm || confirm(firetray_exitrequest)) {
           appStartup.quit(Components.interfaces.nsIAppStartup.eAttemptQuit);
         }
-
     } catch (err) {
         alert(err);
         return;
@@ -39,18 +46,28 @@ FireTray.exitCallback = function() {
 };
 
 FireTray.restoreCallback = function() {
+    alert("restore_callback");
     var baseWindows = FireTray.getAllWindows();
     FireTray.interface.restore(baseWindows.length, baseWindows);
     FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
 };
 
 FireTray.init = function() {
+    FireTray.isMail=false;
+    FireTray.lastnum=-1;
+
+    window.onclose = FireTray.on_close
+    window.onresize = FireTray.on_resize
+ 
+    FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
+                                .getService(Components.interfaces.nsIPrefBranch);
+
+    var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+    FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
+
     if (!minimizeComponent.menu_window_list) {
         FireTray.interface.trayActivateEvent(FireTray.trayCallback);
-
 	
-	    FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
-                                .getService(Components.interfaces.nsIPrefBranch);
         // Init basic pop-up menu items.
         var tray_menu = FireTray.interface.get_tray_menu();
         if (tray_menu) {
@@ -71,9 +88,15 @@ FireTray.init = function() {
         }
     }
 
+    var app=FireTray.getMozillaAppCode();
+
+    FireTray.interface.set_default_xpm_icon(app);
     FireTray.interface.showTray();
-    window.onclose = FireTray.on_close
-    window.onresize = FireTray.on_resize
+
+    if(FireTray.isMail) {
+      FireTray.subscribe_to_mail_events();
+      FireTray.UpdateMailTray();
+    }
 
     window.setTimeout(function() {
                 window.removeEventListener("load", FireTray.init, true);
@@ -161,4 +184,63 @@ FireTray.on_resize = function() {
 		FireTray.hide_to_tray();
 	}
 }
+
+FireTray.getMozillaAppCode = function() {
+  var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);
+
+  const FIREFOX_ID = "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
+  const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
+
+  if(appInfo.ID == FIREFOX_ID) {
+     return 1;  //Firefox
+  } else if(appInfo.ID == THUNDERBIRD_ID) {
+     FireTray.isMail=true; 
+     return 2;  //Thunderbird
+  } else {
+    //Unknown application... defaults to firefox
+    return 0;
+  }
+}
+
+
+FireTray.UpdateMailTray = function () {
+  var res=FireTray.localfolders.getNumUnread(true); //gets the number of all unread mails
+  if(FireTray.lastnum==res) return; //update the icon only if something has changed
+  FireTray.lastnum=res;
+  var tooltip="";
+  var num=""+res;
+  if(res==0) { num=""; tooltip=firetray_no_unread_messages; }
+  else if(res==1)  tooltip=res + " " + firetray_unread_message; 
+       else tooltip = res + " " + firetray_unread_messages;
+
+  FireTray.interface.set_icon_text(num);
+  FireTray.interface.set_tray_tooltip(tooltip);
+}
+
+
+FireTray.subscribe_to_mail_events = function()
+{
+
+  var mailSession = Components.classes["@mozilla.org/messenger/services/session;1"].
+  getService(Components.interfaces.nsIMsgMailSession);
+ 
+  var folderListener = {
+  OnItemAdded: function(parent, item) {},//alert("OnItemAdded");},
+  OnItemBoolPropertyChanged: function(item, property, oldValue, newValue) {},//alert("OnItemBoolPropertyChanged");},  
+  OnItemEvent: function(item, event)  {},//alert("OnItemEvent");},
+  OnItemIntPropertyChanged: function(item, property, oldValue, newValue) { FireTray.UpdateMailTray(); },//alert("OnItemIntPropertyChanged");},
+  OnItemPropertyChanged: function(parent, item, viewString) {},//alert("OnItemPropertyChanged");},
+  OnItemPropertyFlagChanged: function(item, property, oldFlag, newFlag) {},//alert("OnItemPropertyFlagChanged");},
+  OnItemRemoved: function(parent, item) {},//alert("OnItemRemoved");},
+  OnItemUnicharPropertyChanged: function(item, property, oldValue, newValue) {},//alert("OnItemUnicharPropertyChanged");},
+}
+ 
+  var nFlags = Components.interfaces.nsIFolderListener.added | Components.interfaces.nsIFolderListener.intPropertyChanged; mailSession.AddFolderListener(folderListener,nFlags);
+}
+
+
 window.addEventListener("load", FireTray.init, true);
+
+
+
+
