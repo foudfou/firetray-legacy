@@ -9,3 +9,5 @@ locale	firetray	ru-RU	jar:chrome/firetray.jar!/locale/ru-RU/
 locale	firetray	pl-PL	jar:chrome/firetray.jar!/locale/pl-PL/
 locale	firetray	pt-BR	jar:chrome/firetray.jar!/locale/pt-BR/
 locale	firetray	ja-JP	jar:chrome/firetray.jar!/locale/ja-JP/
+locale	firetray	fr-FR	jar:chrome/firetray.jar!/locale/fr-FR/
+

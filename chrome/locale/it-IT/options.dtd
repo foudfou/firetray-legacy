@@ -1,5 +1,5 @@
 <!ENTITY firetray.prefwindow "Opzioni di FireTray">
 <!ENTITY firetray.prefpane_options "Opzioni">
 <!ENTITY firetray.close_to_tray "Riduci a icona nella tray alla chiusura">
-<!ENTITY firetray.start_min "Avvia Firefox ridotto a icona">
-<!ENTITY firetray.confirm_exit "Conferma l'uscita dall'applicazione">
+<!ENTITY firetray.start_min "Avvia il programma ridotto a icona">
+<!ENTITY firetray.confirm_exit "Conferma l&apos;uscita dall&apos;applicazione">
