@@ -1,5 +1,5 @@
 <!ENTITY firetray.prefwindow "FireTray Options">
 <!ENTITY firetray.prefpane_options "Options">
 <!ENTITY firetray.close_to_tray "Close button minimizes to tray">
-<!ENTITY firetray.start_min "Start firefox minimized">
+<!ENTITY firetray.start_min "Start the program minimized">
 <!ENTITY firetray.confirm_exit "Confirm application exit">
