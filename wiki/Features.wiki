@@ -8,11 +8,9 @@
 
 - ability to start minimized to tray
 
-
+- when restoring if the window is iconified, deiconify it
 
 *Wishes / planned features
-
-- If windows is minimized restore it instead of hiding
 
 - Hotkey for Hide/Unhide
 
