@@ -53,6 +53,7 @@ FireTray.restoreCallback = function() {
 
 FireTray.init = function() {
     FireTray.isMail=false;
+    FireTray.isPlayer=false;
     FireTray.lastnum=-1;
 
 
@@ -62,6 +63,7 @@ FireTray.init = function() {
     FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
                                 .getService(Components.interfaces.nsIPrefBranch);
     var accountManager;
+    var app=FireTray.getMozillaAppCode();
 
     if (!minimizeComponent.menu_window_list) {
         FireTray.interface.trayActivateEvent(FireTray.trayCallback);
@@ -75,6 +77,37 @@ FireTray.init = function() {
             FireTray.interface.menu_append(tray_menu, item_restore, FireTray.restoreCallback);
             var item_s_two = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_append(tray_menu, item_s_two, null);
+ 
+            if(FireTray.isMail) { //TODO 
+		//thunderbird special menu entries
+                var mail_check = FireTray.interface.menu_item_new("Check mail");
+                FireTray.interface.menu_append(tray_menu, mail_check, null);
+
+                var mail_end_separator = FireTray.interface.separator_menu_item_new();
+                FireTray.interface.menu_append(tray_menu, mail_end_separator, null);
+	    }
+
+            if(FireTray.isPlayer) { //TODO 
+		//songbird special menu entries
+
+                var player_previous = FireTray.interface.menu_item_new("Previous track");
+                FireTray.interface.menu_append(tray_menu, player_previous, null);
+
+                var player_playpause = FireTray.interface.menu_item_new("Play/Pause");
+                FireTray.interface.menu_append(tray_menu, player_playpause, null);
+
+                var player_stop = FireTray.interface.menu_item_new("Stop");
+                FireTray.interface.menu_append(tray_menu, player_stop, null);
+
+                var player_next = FireTray.interface.menu_item_new("Next track");
+                FireTray.interface.menu_append(tray_menu, player_next, null);
+
+                var player_end_separator = FireTray.interface.separator_menu_item_new();
+                FireTray.interface.menu_append(tray_menu, player_end_separator, null);
+
+	    }
+
+
             var item_exit = FireTray.interface.menu_item_new(firetray_exit);
             FireTray.interface.menu_append(tray_menu, item_exit, FireTray.exitCallback);
             var item_s_three = FireTray.interface.separator_menu_item_new();
@@ -86,7 +119,6 @@ FireTray.init = function() {
         }
     }
 
-    var app=FireTray.getMozillaAppCode();
 
     FireTray.interface.set_default_xpm_icon(app);
     FireTray.interface.showTray();
@@ -96,6 +128,11 @@ FireTray.init = function() {
       FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
       FireTray.subscribe_to_mail_events();
       FireTray.UpdateMailTray();
+    }
+
+    if(FireTray.isPlayer) {
+     //initialization code for songbird control
+
     }
 
     window.setTimeout(function() {
@@ -223,6 +260,7 @@ FireTray.getMozillaAppCode = function() {
      if(appname=="icedove") return 5; 
      return 2;  //Thunderbird
   }else if(appInfo.ID == SONGBIRD_ID) {
+    FireTray.isPlayer=true;
     return 8; //songbird
   } else {
    //Unknown application... defaults to firefox
