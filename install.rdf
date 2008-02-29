@@ -27,7 +27,16 @@
         <em:maxVersion>2.0.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
-   
+    
+    <em:targetApplication>
+	    <!-- Songbird -->
+	    <Description>
+		    <em:id>songbird@songbirdnest.com</em:id>
+		    <em:minVersion>0.3</em:minVersion>
+		    <em:maxVersion>0.5pre</em:maxVersion>
+	    </Description>
+    </em:targetApplication>   
+    
     <em:targetApplication>
       <!-- Sunbird -->
       <Description>

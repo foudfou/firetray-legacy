@@ -5,6 +5,7 @@
 #include "pixmaps/weasel.xpm"
 #include "pixmaps/icecat.xpm"
 #include "pixmaps/newmail.xpm"
+#include "pixmaps/songbird.xpm"
 
 #include "nsMemory.h"
 #include "nsIBaseWindow.h"
@@ -280,6 +281,11 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
 
  switch(app)
  {
+   case 8: //songbird
+           df_icon=(char**)songbird_xpm;
+           sp_icon=(char**)songbird_xpm;
+	   text="Firetray (Songbird)";
+           break;
    case 7: //icecat
            df_icon=(char**)icecat_xpm;
            sp_icon=(char**)newmail_xpm;
