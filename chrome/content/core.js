@@ -211,7 +211,7 @@ FireTray.getMozillaAppCode = function() {
   const SONGBIRD_ID = "{ID_SONGBIRD}";
 
   var appname=appInfo.name.toLowerCase()
-
+  alert("appid: "+appInfo.ID);
   if(appInfo.ID == FIREFOX_ID) {
      if(appname=="swiftweasel") return 4; 
      if(appname=="iceweasel") return 6; 
