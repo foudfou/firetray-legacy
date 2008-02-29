@@ -176,6 +176,10 @@ FireTray.on_close = function() {
    }
    
 }
+/*FireTray.on_close2 = function() {
+      alert("onclose2");
+      return false;	 
+}*/
 
 FireTray.on_resize = function() {
    if(!FireTray.started)
@@ -186,19 +190,38 @@ FireTray.on_resize = function() {
 }
 
 FireTray.getMozillaAppCode = function() {
+
+  /* RETURN VALUE
+   0 - Unknown
+   1 - Firefox
+   2 - Thunderbird
+   3 - Swiftdove
+   4 - Swiftweasel
+   5 - Icedove
+   6 - iceweasel 
+   7 - icecat
+  */
+
  try {
   var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);
 
   const FIREFOX_ID = "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
 
+  var appname=appInfo.name.toLowerCase()
+
   if(appInfo.ID == FIREFOX_ID) {
+     if(appname=="swiftweasel") return 4; 
+     if(appname=="iceweasel") return 6; 
+     if(appname=="icecat") return 7; 
      return 1;  //Firefox
   } else if(appInfo.ID == THUNDERBIRD_ID) {
      FireTray.isMail=true; 
+     if(appname=="swiftdove") return 3; 
+     if(appname=="icedove") return 5; 
      return 2;  //Thunderbird
   } else {
-    //Unknown application... defaults to firefox
+   //Unknown application... defaults to firefox
     return 0;
   }
  }
@@ -246,6 +269,7 @@ FireTray.subscribe_to_mail_events = function()
 
 
 window.addEventListener("load", FireTray.init, true);
+//window.addEventListener("close", FireTray.on_close2, true);
 
 
 

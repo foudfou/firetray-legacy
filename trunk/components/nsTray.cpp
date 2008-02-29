@@ -1,12 +1,18 @@
 #include "nsTray.h"
-#include "pixmaps/tray.xpm"
-#include "pixmaps/thundertray.xpm"
+#include "pixmaps/firefox.xpm"
+#include "pixmaps/thunderbird.xpm"
+#include "pixmaps/dove.xpm"
+#include "pixmaps/weasel.xpm"
+#include "pixmaps/icecat.xpm"
 #include "pixmaps/newmail.xpm"
 
 #include "nsMemory.h"
 #include "nsIBaseWindow.h"
 #include <pango/pangoft2.h>
 #include <pango/pango-layout.h>
+
+#include <iostream>
+using namespace std;
 
 void nsTray::activate(GtkStatusIcon* status_icon, gpointer user_data) {
     PRBool ret = TRUE;
@@ -59,7 +65,7 @@ nsTray::nsTray() {
 
     this->systray_icon = gtk_status_icon_new();
 
-    this->icon = gdk_pixbuf_new_from_xpm_data((const char**)tray_icon);
+    this->icon = gdk_pixbuf_new_from_xpm_data((const char**)firefox_xpm);
 
     /* Connect signals */
     g_signal_connect(G_OBJECT(this->systray_icon), "activate", G_CALLBACK(nsTray::activate), this);
@@ -127,8 +133,16 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
         nativeWindow aNativeWindow;
         rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
         NS_ENSURE_SUCCESS(rv, rv);
+        
+        GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
+        
+        gdk_window_show(toplevel);
 
-        gdk_window_show(gdk_window_get_toplevel((GdkWindow*) aNativeWindow));
+        GdkWindowState s=gdk_window_get_state(toplevel);
+        cerr << "STATE: "<<s<<endl;
+        if(s & GDK_WINDOW_STATE_ICONIFIED) 
+          gdk_window_deiconify(toplevel);
+
     }
 
     return NS_OK;
@@ -242,6 +256,7 @@ NS_IMETHODIMP nsTray::Menu_length(PRUint32 menu, PRUint32 *_retval) {
 /* void set_default_xpm_icon (in PRUint32 app); */
 NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app) 
 {
+
  if(this->icon) { g_object_unref(this->icon); this->icon=NULL;}
  if(this->default_icon) { g_object_unref(this->default_icon); this->default_icon=NULL;}
  if(this->special_icon) { g_object_unref(this->special_icon); this->special_icon=NULL;}
@@ -251,17 +266,54 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
  char **df_icon;
  char **sp_icon;
 
+  /* APPS
+
+   0 - Unknown (defaults to firefox)
+   1 - Firefox
+   2 - Thunderbird
+   3 - Swiftdove
+   4 - Swiftweasel
+   5 - Icedove
+   6 - iceweasel
+ 
+  */
+
  switch(app)
  {
+   case 7: //icecat
+           df_icon=(char**)icecat_xpm;
+           sp_icon=(char**)newmail_xpm;
+	   text="Firetray (Icecat)";
+           break;
+   case 6: //iceweasel
+           df_icon=(char**)weasel_xpm;
+           sp_icon=(char**)newmail_xpm;
+	   text="Firetray (Iceweasel)";
+           break;
+   case 5: //swiftdove
+           df_icon=(char**)dove_xpm;
+           sp_icon=(char**)newmail_xpm;
+	   text="Firetray (Icedove)";
+           break;
+   case 4: //swiftweasel
+           df_icon=(char**)weasel_xpm;
+           sp_icon=(char**)newmail_xpm;
+	   text="Firetray (Swifweasel)";
+           break;
+   case 3: //swiftdove
+           df_icon=(char**)dove_xpm;
+           sp_icon=(char**)newmail_xpm;
+	   text="Firetray (Swiftdove)";
+           break;
    case 2: //thunderbird
-           df_icon=(char**)thundertray_xpm;
+           df_icon=(char**)thunderbird_xpm;
            sp_icon=(char**)newmail_xpm;
 	   text="Firetray (Thunderbird)";
            break;
    case 1: //firefox
    default:
-           df_icon=(char**)tray_icon;
-           sp_icon=(char**)tray_icon;
+           df_icon=(char**)firefox_xpm;
+           sp_icon=(char**)firefox_xpm;
 	   text="Firetray (Firefox)";
            break;
  }

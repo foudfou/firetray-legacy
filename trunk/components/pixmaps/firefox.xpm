@@ -1,5 +1,5 @@
 /* XPM */
-static char * tray_icon[] = {
+static char * firefox_xpm[] = {
 "48 48 248 2",
 "  	c None",
 ". 	c #7980B8",
