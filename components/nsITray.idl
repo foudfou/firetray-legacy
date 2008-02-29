@@ -16,7 +16,7 @@ interface nsITray : nsISupports
     void hideTray();
     void trayActivateEvent(in nsITrayCallback aCallback);
     void hideWindow(in nsIBaseWindow aBaseWindow);
-	void restore(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows); 
+    void restore(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows); 
     void restoreWindow(in nsIBaseWindow aBaseWindow);
 
     PRUint32 get_tray_menu();
@@ -36,7 +36,7 @@ interface nsITray : nsISupports
     void set_default_xpm_icon(in PRUint32 app); //selects default (embedded) icons for the specified application
     
     void set_default_icon(in string filename); //icon for normal usage
-    void set_special_icon(in string filename); //icon when text is displayed
+    void set_special_icon(in string filename); //icon shown when text is displayed
     
     void set_icon_text(in string text); //sets the icon text (used for mail count)
 
