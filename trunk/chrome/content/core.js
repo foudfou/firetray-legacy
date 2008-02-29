@@ -200,6 +200,7 @@ FireTray.getMozillaAppCode = function() {
    5 - Icedove
    6 - iceweasel 
    7 - icecat
+   8 - songbird
   */
 
  try {
@@ -207,6 +208,7 @@ FireTray.getMozillaAppCode = function() {
 
   const FIREFOX_ID = "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
+  const SONGBIRD_ID = "{ID_SONGBIRD}";
 
   var appname=appInfo.name.toLowerCase()
 
@@ -220,6 +222,8 @@ FireTray.getMozillaAppCode = function() {
      if(appname=="swiftdove") return 3; 
      if(appname=="icedove") return 5; 
      return 2;  //Thunderbird
+  }else if(appInfo.ID == SONGBIRD_ID) {
+    return 8; //songbird
   } else {
    //Unknown application... defaults to firefox
     return 0;
