@@ -11,9 +11,12 @@
 	    <preference id="pref3" name="extensions.firetray.confirm_exit" type="bool" />
     </preferences>
      
-    <checkbox id="check1" preference="pref1" label="&firetray.close_to_tray;" accesskey="C" />
-    <checkbox id="check2" preference="pref2" label="&firetray.start_min;" accesskey="S" />
-    <checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="O" />
+    <groupbox>
+      <caption label="Answer"/> 
+      <checkbox id="check1" preference="pref1" label="&firetray.close_to_tray;" accesskey="C" />
+      <checkbox id="check2" preference="pref2" label="&firetray.start_min;" accesskey="S" />
+      <checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="O" />
+    </groupbox>  
   </prefpane>
 
 </prefwindow>

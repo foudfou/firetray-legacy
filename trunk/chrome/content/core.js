@@ -238,6 +238,7 @@ FireTray.getMozillaAppCode = function() {
    6 - iceweasel 
    7 - icecat
    8 - songbird
+   9 - sunbird
   */
 
  try {
@@ -246,26 +247,38 @@ FireTray.getMozillaAppCode = function() {
   const FIREFOX_ID = "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
   const SONGBIRD_ID = "songbird@songbirdnest.com";
-
-  var appname=appInfo.name.toLowerCase()
+  const SUNBIRD_ID = "{718e30fb-e89b-41dd-9da7-e25a45638b28}";
   
-  if(appInfo.ID == FIREFOX_ID) {
-     if(appname=="swiftweasel") return 4; 
-     if(appname=="iceweasel") return 6; 
-     if(appname=="icecat") return 7; 
-     return 1;  //Firefox
-  } else if(appInfo.ID == THUNDERBIRD_ID) {
-     FireTray.isMail=true; 
-     if(appname=="swiftdove") return 3; 
-     if(appname=="icedove") return 5; 
-     return 2;  //Thunderbird
-  }else if(appInfo.ID == SONGBIRD_ID) {
-    FireTray.isPlayer=true;
-    return 8; //songbird
-  } else {
-   //Unknown application... defaults to firefox
-    return 0;
+  var appname=appInfo.name.toLowerCase()
+  //alert(appInfo.ID); 
+  switch(appInfo.ID) {
+     case FIREFOX_ID:
+        if(appname=="swiftweasel") return 4; 
+        if(appname=="iceweasel") return 6; 
+        if(appname=="icecat") return 7; 
+        return 1;  //Firefox
+        break;
+
+     case THUNDERBIRD_ID:
+        FireTray.isMail=true; 
+        if(appname=="swiftdove") return 3; 
+        if(appname=="icedove") return 5; 
+        return 2;  //Thunderbird
+        break;
+     case SONGBIRD_ID:
+        FireTray.isPlayer=true;
+        return 8; //songbird
+        break;
+
+     case SUNBIRD_ID:
+        return 9; //sunbird
+        break;
+
+     default:
+        return 0;
+        break;
   }
+
  }
  catch (err) {
         alert(err);
