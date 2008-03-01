@@ -6,6 +6,7 @@
 #include "pixmaps/icecat.xpm"
 #include "pixmaps/newmail.xpm"
 #include "pixmaps/songbird.xpm"
+#include "pixmaps/sunbird.xpm"
 
 #include "nsMemory.h"
 #include "nsIBaseWindow.h"
@@ -140,7 +141,7 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
         gdk_window_show(toplevel);
 
         GdkWindowState s=gdk_window_get_state(toplevel);
-        cerr << "STATE: "<<s<<endl;
+
         if(s & GDK_WINDOW_STATE_ICONIFIED) 
           gdk_window_deiconify(toplevel);
 
@@ -281,6 +282,11 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
 
  switch(app)
  {
+   case 9: //sunbird
+           df_icon=(char**)sunbird_xpm;
+           sp_icon=(char**)sunbird_xpm;
+	   text="Firetray (Sunbird)";
+           break;
    case 8: //songbird
            df_icon=(char**)songbird_xpm;
            sp_icon=(char**)songbird_xpm;
