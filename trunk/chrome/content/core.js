@@ -13,7 +13,7 @@ var firetray_unread_messages = mystrings.GetStringFromName("firetray_unread_mess
 
 var minimizeComponent = Components.classes['@mozilla.org/Minimize;1'].getService(Components.interfaces.nsIMinimize);
  
-
+var test;
 var FireTray = new Object();
 
 FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
