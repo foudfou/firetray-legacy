@@ -1,3 +1,3 @@
-<!ENTITY firetray.close_to_tray "Close to System Tray">
-<!ENTITY firetray.hide "Hide">
-<!ENTITY firetray.hide.accesskey "H">
+<!ENTITY firetray.close_to_tray "Свернуть в системный трей">
+<!ENTITY firetray.hide "Скрыть">
+<!ENTITY firetray.hide.accesskey "С">

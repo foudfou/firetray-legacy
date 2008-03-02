@@ -14,7 +14,19 @@
 #include <pango/pango-layout.h>
 
 #include <iostream>
+
 using namespace std;
+
+// Returns the lenght of a NULL-terminated UTF16 PRUnichar * string 
+PRUint32 PRUstrlen(const PRUnichar *text) {
+  if(!text) return 0;
+  PRUint32 cnt=0;
+  while(*text != 0) {
+    cnt++;
+    text++;
+  }
+  return cnt;
+}
 
 void nsTray::activate(GtkStatusIcon* status_icon, gpointer user_data) {
     PRBool ret = TRUE;
@@ -180,10 +192,13 @@ NS_IMETHODIMP nsTray::Menu_new(PRUint32 *_retval) {
     return NS_OK;
 }
 
-/* PRUint32 menu_item_new (in string label); */
-NS_IMETHODIMP nsTray::Menu_item_new(const char *label, PRUint32 *_retval) {
-    GtkWidget *item = gtk_menu_item_new_with_label(label);
+/* PRUint32 menu_item_new (in wstring label); */
+NS_IMETHODIMP nsTray::Menu_item_new(const PRUnichar *label, PRUint32 *_retval) {
+    PRUint32 len=PRUstrlen(label);  
+    gchar * utf8=g_utf16_to_utf8 ((const gunichar2 *)label, len, NULL, NULL, NULL);
+    GtkWidget *item = gtk_menu_item_new_with_label(utf8);
     *_retval = (PRUint32)item;
+    g_free(utf8);  
 
     return NS_OK;
 }
@@ -276,7 +291,10 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
    3 - Swiftdove
    4 - Swiftweasel
    5 - Icedove
-   6 - iceweasel
+   6 - iceweasel 
+   7 - icecat
+   8 - songbird
+   9 - sunbird
  
   */
 
@@ -394,7 +412,7 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
   GdkGC *gc = gdk_gc_new (pm);
   
   GdkColor fore = { 100, 255, 255, 0x00 };
-  GdkColor back = { 100, 105, 105, 0x00 };
+  //GdkColor back = { 100, 105, 105, 0x00 };
 
   /*GdkColor color;
   color.red=0;
@@ -448,6 +466,7 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
 
 
   //paints the text
+  //TODO
   gdk_draw_layout_with_colors (pm, gc, px, py, layout, &fore,NULL);
   g_object_unref (layout);   
   
@@ -480,13 +499,16 @@ NS_IMETHODIMP nsTray::Set_icon_text(const char *text) {
     return NS_OK;   
 }
 
-
-/* void set_tray_tooltip (in string text); */
-NS_IMETHODIMP nsTray::Set_tray_tooltip(const char *text) {
+  /* void set_tray_tooltip (in wstring text); */
+NS_IMETHODIMP nsTray::Set_tray_tooltip(const PRUnichar *text){
   if(!text) return NS_OK;
-  
-  gtk_status_icon_set_tooltip(this->systray_icon, text);
-//  gtk_status_icon_set_visible(this->systray_icon, TRUE);
+
+  PRUint32 len=PRUstrlen(text);
+  gchar * utf8=g_utf16_to_utf8 ((const gunichar2 *)text,len,NULL,NULL,NULL);
+
+  gtk_status_icon_set_tooltip(this->systray_icon, utf8);
+
+  g_free(utf8);  
  
   return NS_OK;
 }

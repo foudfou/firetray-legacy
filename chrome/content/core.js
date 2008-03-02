@@ -107,7 +107,6 @@ FireTray.init = function() {
 
 	    }
 
-
             var item_exit = FireTray.interface.menu_item_new(firetray_exit);
             FireTray.interface.menu_append(tray_menu, item_exit, FireTray.exitCallback);
             var item_s_three = FireTray.interface.separator_menu_item_new();
@@ -229,7 +228,7 @@ FireTray.on_resize = function() {
 FireTray.getMozillaAppCode = function() {
 
   /* RETURN VALUE
-   0 - Unknown
+   0 - Unknown (defaults to firefox)
    1 - Firefox
    2 - Thunderbird
    3 - Swiftdove
