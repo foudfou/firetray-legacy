@@ -6,6 +6,7 @@
 #include "pixmaps/icecat.xpm"
 #include "pixmaps/newmail.xpm"
 #include "pixmaps/songbird.xpm"
+#include "pixmaps/songbirdegg.xpm"
 #include "pixmaps/sunbird.xpm"
 
 #include "nsMemory.h"
@@ -306,7 +307,7 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
 	   text="Firetray (Sunbird)";
            break;
    case 8: //songbird
-           df_icon=(char**)songbird_xpm;
+           df_icon=(char**)songbirdegg_xpm;
            sp_icon=(char**)songbird_xpm;
 	   text="Firetray (Songbird)";
            break;
@@ -511,4 +512,16 @@ NS_IMETHODIMP nsTray::Set_tray_tooltip(const PRUnichar *text){
   g_free(utf8);  
  
   return NS_OK;
+}
+
+/* void set_tray_tooltip (in string text); */
+NS_IMETHODIMP nsTray::Set_tray_icon(PRUint32 FLAG) {
+	
+    if (!FLAG)
+       	gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
+    else
+		gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(special_icon));
+	
+	gtk_status_icon_set_visible(this->systray_icon, TRUE);
+  	return NS_OK;
 }
