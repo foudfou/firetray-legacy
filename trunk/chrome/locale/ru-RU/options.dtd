@@ -1,0 +1,5 @@
+<!ENTITY firetray.prefwindow "Настройки FireTray">
+<!ENTITY firetray.prefpane_options "Настройки">
+<!ENTITY firetray.close_to_tray "Кнопка Закрыть сворачивает в трей">
+<!ENTITY firetray.start_min "Запускать Firefox минимизированным">
+<!ENTITY firetray.confirm_exit "Подтверждать закрытие приложения">
