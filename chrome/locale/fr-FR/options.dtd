@@ -1,5 +1,0 @@
-<!ENTITY firetray.prefwindow "Options de FireTray">
-<!ENTITY firetray.prefpane_options "Options">
-<!ENTITY firetray.close_to_tray "Le bouton « Fermer » réduit vers la zone de notification (systray)">
-<!ENTITY firetray.start_min "Au démarrage, placer le programme dans la zone de notification">
-<!ENTITY firetray.confirm_exit "Confirmation avant de quitter l&apos;application">
