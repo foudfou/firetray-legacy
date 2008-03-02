@@ -23,8 +23,6 @@ interface nsITray : nsISupports
 
     PRUint32 menu_new();
     PRUint32 menu_item_new(in wstring label);
-//    PRUint32 menu_item_new2(in wstring label);
-
     PRUint32 separator_menu_item_new();
 
     void menu_append(in PRUint32 menu, in PRUint32 item, in nsITrayCallback aCallback);
@@ -43,9 +41,5 @@ interface nsITray : nsISupports
     void set_icon_text(in string text); //sets the icon text (used for mail count)
 
     void set_tray_tooltip(in wstring text); //sets the tray tooltip message
-
-    //void set_tray_tooltip_UTF16(in wstring text); //sets the tray tooltip message
-
-    /*void test1(in AString txt);
-    void test2(in wstring txt);*/
+    void set_tray_icon(in PRUint32 FLAG);  //switch systrayicon checking the FLAG
 };
