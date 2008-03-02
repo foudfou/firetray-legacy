@@ -1,0 +1,5 @@
+<!ENTITY firetray.prefwindow "FireTray オプション">
+<!ENTITY firetray.prefpane_options "オプション">
+<!ENTITY firetray.close_to_tray "閉じるボタンでトレイに最小化">
+<!ENTITY firetray.start_min "最小化してプログラムを開始">
+<!ENTITY firetray.confirm_exit "アプリケーション終了を確認">
