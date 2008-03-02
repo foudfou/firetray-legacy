@@ -303,7 +303,7 @@ FireTray.getMozillaAppCode = function() {
         return 2;  //Thunderbird
         break;
      case SONGBIRD_ID:
-        FireTray.isPlayer=true;
+        FireTray.isSong=true;
         return 8; //songbird
         break;
 
