@@ -6,6 +6,9 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <pango/pango.h>
+#include <glib-object.h>
+#include <gtk/gtksignal.h>
+#include <libnotify/notify.h>
 
 #include "nsITray.h"
 #include "nsCOMPtr.h"
@@ -14,6 +17,7 @@
 #define NS_ITRAY_CONTRACTID "@mozilla.org/FireTray;1"
 #define NS_ITRAY_CLASSNAME "System Tray for Firefox"
 #define NS_ITRAY_CID  { 0xbf249f85, 0x20f2, 0x49be, { 0x96, 0xf3, 0x96, 0x81, 0xf3, 0xbb, 0x03, 0x34 } }
+#define NS_NOTIFY_TIME 2500
 
 /* Header file */
 class nsTray : public nsITray {
@@ -35,7 +39,9 @@ public:
 
     GtkWidget *pop_menu;
     PangoLayout *layout;
-
+    
+    NotifyNotification *sys_notification;
+	
     static void activate(GtkStatusIcon*, gpointer);
     static void popup(GtkStatusIcon*, guint, guint, gpointer);
     static void item_event(GtkWidget *, gpointer);

@@ -14,6 +14,8 @@
 #include <pango/pangoft2.h>
 #include <pango/pango-layout.h>
 
+#include <gtk/gtksignal.h>
+#include <libnotify/notify.h>
 #include <iostream>
 
 using namespace std;
@@ -524,4 +526,39 @@ NS_IMETHODIMP nsTray::Set_tray_icon(PRUint32 FLAG) {
 	
 	gtk_status_icon_set_visible(this->systray_icon, TRUE);
   	return NS_OK;
+}
+/*
+NS_IMETHODIMP nsTray::Init_tooltip_image() {
+	GtkWidget * sysIW = GTK_WIDGET(this->systray_icon);
+	gtk_widget_set_has_tooltip(sysIW,TRUE);
+	GtkWidget *winTooltip = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	g_signal_connect(GTK_OBJECT(this->systray_icon), "query-tooltip",
+					   G_CALLBACK(gtk_widget_set_tooltip_window), 
+					   (sysIW,
+					   GTK_WINDOW(winTooltip)) );
+  	return NS_OK;
+}
+*/
+NS_IMETHODIMP nsTray::Show_a_notification(const gchar * title,const gchar * info,const gchar *image) {
+	
+	notify_notification_update(sys_notification,
+									title,
+									info,
+									image);							
+	if(!image)								
+		notify_notification_set_icon_from_pixbuf(sys_notification,GDK_PIXBUF(this->special_icon));
+	
+	notify_notification_show(sys_notification,NULL);
+  	
+  	return NS_OK;
+}
+
+NS_IMETHODIMP nsTray::Init_notification(const char * appName) {
+	
+	notify_init(appName);
+	sys_notification=notify_notification_new_with_status_icon(
+	"", "","", this->systray_icon);
+	notify_notification_set_timeout(sys_notification,NS_NOTIFY_TIME);
+	
+	return NS_OK;
 }

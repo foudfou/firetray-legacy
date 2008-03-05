@@ -124,6 +124,7 @@ FireTray.init = function() {
 
     
 	if(FireTray.isSong){
+		/*FireTray.interface.init_tooltip_image();*/
 		pPS = Components.classes["@songbirdnest.com/Songbird/PlaylistPlayback;1"]
                     	.getService(Components.interfaces.sbIPlaylistPlayback);
 		
@@ -160,8 +161,16 @@ FireTray.init = function() {
              	var artist=SBDataGetStringValue("metadata.artist");
    				var title=SBDataGetStringValue("metadata.title");
    				var album=SBDataGetStringValue("metadata.album");
+   				/*Check on null or empty infos*/
+   				if(artist =="" |artist == null)
+   					artist ="Unknown";
+   				if(title =="" |title == null)
+   					title ="Unknown";
+   				if(album =="" | album == null)
+   					album ="Unknown";
    				FireTray.interface.set_tray_tooltip("Artist:"+artist+"\nTitle:"+title+"\nAlbum:"+album);
    				FireTray.interface.set_tray_icon(1);
+   				FireTray.interface.show_a_notification(artist,"Title:"+title+"\nAlbum:"+album,null);
   				
  			},
  			onStop: function() {
@@ -304,6 +313,7 @@ FireTray.getMozillaAppCode = function() {
         break;
      case SONGBIRD_ID:
         FireTray.isSong=true;
+        FireTray.interface.init_notification(SONGBIRD_ID);
         return 8; //songbird
         break;
 
