@@ -42,4 +42,9 @@ interface nsITray : nsISupports
 
     void set_tray_tooltip(in wstring text); //sets the tray tooltip message
     void set_tray_icon(in PRUint32 FLAG);  //switch systrayicon checking the FLAG
+ /*void init_tooltip_image();			  //prepare tooltip handlers to show image*/
+    void init_notification(in string appname); //init the notification system 
+    void show_a_notification(in string title,
+    						 in string info,
+    						 in string image); //show a notification 
 };
