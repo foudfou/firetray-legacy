@@ -539,25 +539,39 @@ NS_IMETHODIMP nsTray::Init_tooltip_image() {
   	return NS_OK;
 }
 */
-NS_IMETHODIMP nsTray::Show_a_notification(const gchar * title,const gchar * info,const gchar *image) {
-	
-	notify_notification_update(sys_notification,
-									title,
-									info,
-									image);							
+NS_IMETHODIMP nsTray::Show_a_notification(const PRUnichar *title,const PRUnichar * info,const gchar *image) {
+
+  	
+  	PRUint32 len=PRUstrlen(title);
+  	gchar * utf8_title =g_utf16_to_utf8 ((const gunichar2 *)title,len,NULL,NULL,NULL);
+  	
+  	len=PRUstrlen(info);
+  	gchar * utf8_info =g_utf16_to_utf8 ((const gunichar2 *)info,len,NULL,NULL,NULL);
+
+	notify_notification_update(this->sys_notification,
+									utf8_title,utf8_info,image);
+							
 	if(!image)								
 		notify_notification_set_icon_from_pixbuf(sys_notification,GDK_PIXBUF(this->special_icon));
 	
 	notify_notification_show(sys_notification,NULL);
-  	
+
+	g_free(utf8_title);  	
+  	g_free(utf8_info);
   	return NS_OK;
 }
 
-NS_IMETHODIMP nsTray::Init_notification(const char * appName) {
+NS_IMETHODIMP nsTray::Init_notification(const gchar * appName) {
 	
 	notify_init(appName);
 	sys_notification=notify_notification_new_with_status_icon(
-	"", "","", this->systray_icon);
+											"FireTray Notification", 
+											NULL,
+											NULL,
+											this->systray_icon);
+											
+	notify_notification_attach_to_status_icon(sys_notification,
+                                              this->systray_icon);
 	notify_notification_set_timeout(sys_notification,NS_NOTIFY_TIME);
 	
 	return NS_OK;

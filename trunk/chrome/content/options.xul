@@ -9,6 +9,7 @@
 	    <preference id="pref1" name="extensions.firetray.close_to_tray" type="bool" />
 	    <preference id="pref2" name="extensions.firetray.start_minimized" type="bool" />
 	    <preference id="pref3" name="extensions.firetray.confirm_exit" type="bool" />
+	    <preference id="pref4" name="extensions.firetray.show_notification" type="bool" />
     </preferences>
      
     <groupbox>
@@ -16,6 +17,7 @@
       <checkbox id="check1" preference="pref1" label="&firetray.close_to_tray;" accesskey="C" />
       <checkbox id="check2" preference="pref2" label="&firetray.start_min;" accesskey="S" />
       <checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="O" />
+      <checkbox id="check4" preference="pref4" label="&firetray.show_notification;" accesskey="" />
     </groupbox>  
   </prefpane>
 
