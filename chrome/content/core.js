@@ -124,54 +124,67 @@ FireTray.init = function() {
 
     
 	if(FireTray.isSong){
-		/*FireTray.interface.init_tooltip_image();*/
+
 		pPS = Components.classes["@songbirdnest.com/Songbird/PlaylistPlayback;1"]
                     	.getService(Components.interfaces.sbIPlaylistPlayback);
+		/* Song controls */
+
+		var music_list = FireTray.interface.menu_new();
+		
+		var item_play = FireTray.interface.menu_item_new("Play");
+		FireTray.interface.menu_append(music_list, item_play, FireTray.playASong);
+		
+		var item_s_four = FireTray.interface.separator_menu_item_new();
+		FireTray.interface.menu_append(tray_menu, item_s_four, null);
+		var item_pause = FireTray.interface.menu_item_new("Pause");
+		FireTray.interface.menu_append(music_list, item_pause, FireTray.pauseASong);
+		
+		var item_s_five = FireTray.interface.separator_menu_item_new();
+		FireTray.interface.menu_append(tray_menu, item_s_five, null);
+		var item_stop = FireTray.interface.menu_item_new("Stop");
+		FireTray.interface.menu_append(music_list, item_stop, FireTray.stopASong);
+		
+		tray_menu = FireTray.interface.get_tray_menu();
+		
+		var item_s_six = FireTray.interface.separator_menu_item_new();
+		FireTray.interface.menu_insert(tray_menu, item_s_six, 0, null);
+		var item_music_ctrl = FireTray.interface.menu_item_new("Music");
+		FireTray.interface.menu_sub(item_music_ctrl, music_list);
+		FireTray.interface.menu_insert(tray_menu, item_music_ctrl, 1, null);
+		
 		
 		var myPlaylistPlaybackServiceListener = {
  			init: function() {
    				pPS.addListener(this);
-   				
-   				/* Song controls */
-
-            	var music_list = FireTray.interface.menu_new();
-            	
-            	var item_play = FireTray.interface.menu_item_new("Play");
-            	FireTray.interface.menu_append(music_list, item_play, FireTray.playASong);
-            	
-            	var item_s_four = FireTray.interface.separator_menu_item_new();
-           	 	FireTray.interface.menu_append(tray_menu, item_s_four, null);
-            	var item_pause = FireTray.interface.menu_item_new("Pause");
-            	FireTray.interface.menu_append(music_list, item_pause, FireTray.pauseASong);
-            	
-            	var item_s_five = FireTray.interface.separator_menu_item_new();
-           	 	FireTray.interface.menu_append(tray_menu, item_s_five, null);
-            	var item_stop = FireTray.interface.menu_item_new("Stop");
-            	FireTray.interface.menu_append(music_list, item_stop, FireTray.stopASong);
-            	
-            	tray_menu = FireTray.interface.get_tray_menu();
-            	
-            	var item_s_six = FireTray.interface.separator_menu_item_new();
-            	FireTray.interface.menu_insert(tray_menu, item_s_six, 0, null);
-   				var item_music_ctrl = FireTray.interface.menu_item_new("Music");
-   				FireTray.interface.menu_sub(item_music_ctrl, music_list);
-            	FireTray.interface.menu_insert(tray_menu, item_music_ctrl, 1, null);
  			},
  			onTrackChange: function(aMediaItem, aMediaView, aIndex) {
              	var artist=SBDataGetStringValue("metadata.artist");
    				var title=SBDataGetStringValue("metadata.title");
    				var album=SBDataGetStringValue("metadata.album");
-   				/*Check on null or empty infos*/
+   			    var showSong=FireTray.prefManager.getBoolPref("extensions.firetray.show_notification");
+   				
+   				/*Check on null or empty infos and length*/
    				if(artist =="" |artist == null)
    					artist ="Unknown";
    				if(title =="" |title == null)
    					title ="Unknown";
    				if(album =="" | album == null)
    					album ="Unknown";
+   				
+   				if(artist.length > 30){
+   					artist = artist.substring(0,30);	
+   				}
+   				if(title.length > 30){
+   					title = title.substring(0,30);	
+   				}
+   				if(album.length > 30){
+   					album = album.substring(0,30);	
+   				}
+   				
    				FireTray.interface.set_tray_tooltip("Artist:"+artist+"\nTitle:"+title+"\nAlbum:"+album);
    				FireTray.interface.set_tray_icon(1);
-   				FireTray.interface.show_a_notification(artist,"Title:"+title+"\nAlbum:"+album,null);
-  				
+   				if(showSong)
+   					FireTray.interface.show_a_notification(artist,"Title:"+title+"\nAlbum:"+album,null);
  			},
  			onStop: function() {
  				FireTray.interface.set_tray_icon(0);
@@ -380,7 +393,6 @@ FireTray.playASong = function () {
 FireTray.pauseASong = function () {
 	if(pPS != null && !pPS.paused){
 		pPS.pause();
- 		FireTray.interface.set_tray_icon(0);
 	}
 }
 FireTray.stopASong = function () {
@@ -392,7 +404,3 @@ FireTray.stopASong = function () {
 
 window.addEventListener("load", FireTray.init, true);
 //window.addEventListener("close", FireTray.on_close2, true);
-
-
-
-
