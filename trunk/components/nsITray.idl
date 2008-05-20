@@ -19,22 +19,22 @@ interface nsITray : nsISupports
     void restore(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows); 
     void restoreWindow(in nsIBaseWindow aBaseWindow);
 
-    PRUint32 get_tray_menu();
+    PRUint64 get_tray_menu();
 
-    PRUint32 menu_new();
-    PRUint32 menu_item_new(in wstring label);
-    PRUint32 separator_menu_item_new();
+    PRUint64 menu_new();
+    PRUint64 menu_item_new(in wstring label);
+    PRUint64 separator_menu_item_new();
 
-    void menu_append(in PRUint32 menu, in PRUint32 item, in nsITrayCallback aCallback);
-    void menu_prepend(in PRUint32 menu, in PRUint32 item, in nsITrayCallback aCallback);
-    void menu_insert(in PRUint32 menu, in PRUint32 item, in PRUint32 pos, in nsITrayCallback aCallback);
-    void menu_sub(in PRUint32 item, in PRUint32 sub_menu);
-    void menu_remove(in PRUint32 menu, in PRUint32 item);
-    void menu_remove_all(in PRUint32 menu);
-    PRUint32 menu_length(in PRUint32 menu);
+    void menu_append(in PRUint64 menu, in PRUint64 item, in nsITrayCallback aCallback);
+    void menu_prepend(in PRUint64 menu, in PRUint64 item, in nsITrayCallback aCallback);
+    void menu_insert(in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback);
+    void menu_sub(in PRUint64 item, in PRUint64 sub_menu);
+    void menu_remove(in PRUint64 menu, in PRUint64 item);
+    void menu_remove_all(in PRUint64 menu);
+    PRUint64 menu_length(in PRUint64 menu);
 
     void set_default_xpm_icon(in PRUint32 app); //selects default (embedded) icons for the specified application
-    
+
     void set_default_icon(in string filename); //icon for normal usage
     void set_special_icon(in string filename); //icon shown when text is displayed
     
@@ -43,8 +43,14 @@ interface nsITray : nsISupports
     void set_tray_tooltip(in wstring text); //sets the tray tooltip message
     void set_tray_icon(in PRUint32 FLAG);  //switch systrayicon checking the FLAG
  /*void init_tooltip_image();			  //prepare tooltip handlers to show image*/
+
+    void set_close_blocking(in boolean val); //determine if we have to block window closing
+    void get_close_blocking(out boolean val); 
+
     void init_notification(in string appname); //init the notification system 
     void show_a_notification(in wstring title,
     						 in wstring info,
     						 in string image); //show a notification 
+
+    void set_window_handler(in nsIBaseWindow aBaseWindow);
 };

@@ -1,5 +1,5 @@
 /* XPM */
-static char * weasel_xpm[] = {
+static const char * weasel_xpm[] = {
 "63 64 1907 2",
 "  	c None",
 ". 	c #7C9AC3",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * songbirdegg_xpm[] = {
+static const char * songbirdegg_xpm[] = {
 "128 128 3098 2",
 "  	c None",
 ". 	c #505154",

@@ -29,6 +29,16 @@ public:
 
     nsCOMPtr<nsITrayCallback> tray_callback;
     std::map <PRUint32, nsCOMPtr<nsITrayCallback> > item_callback_list;
+   
+    static void activate(GtkStatusIcon*, gpointer);
+    static void popup(GtkStatusIcon*, guint, guint, gpointer);
+    static void item_event(GtkWidget *, gpointer);
+    static void menu_remove_all_callback(GtkWidget *, gpointer);
+
+private:
+    ~nsTray();
+
+    bool block_close;
 
     GtkStatusIcon *systray_icon;
     
@@ -39,17 +49,9 @@ public:
 
     GtkWidget *pop_menu;
     PangoLayout *layout;
-    
+
     NotifyNotification *sys_notification;
 	
-    static void activate(GtkStatusIcon*, gpointer);
-    static void popup(GtkStatusIcon*, guint, guint, gpointer);
-    static void item_event(GtkWidget *, gpointer);
-    static void menu_remove_all_callback(GtkWidget *, gpointer);
-
-private:
-    ~nsTray();
-
 protected:
     /* additional members */
 };

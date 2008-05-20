@@ -1,5 +1,5 @@
 /* XPM */
-static char * dove_xpm[] = {
+static const char * dove_xpm[] = {
 "63 64 1801 2",
 "  	c None",
 ". 	c #92AFD8",
