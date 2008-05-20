@@ -1,5 +1,5 @@
 /* XPM */
-static char * songbird_xpm[] = {
+static const char * songbird_xpm[] = {
 "63 64 657 2",
 "  	c None",
 ". 	c #151515",

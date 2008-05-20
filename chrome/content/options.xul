@@ -3,22 +3,52 @@
 
 <!DOCTYPE prefwindow SYSTEM "chrome://firetray/locale/options.dtd" >
 <prefwindow id="firetrayPreferences" title="&firetray.prefwindow;" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <prefpane id="optionsPane" label="&firetray.prefpane_options;">
 
-    <preferences>
+<prefpane id="optionsPane" label="&firetray.prefpane_options;">
+
+	<preferences>
 	    <preference id="pref1" name="extensions.firetray.close_to_tray" type="bool" />
 	    <preference id="pref2" name="extensions.firetray.start_minimized" type="bool" />
 	    <preference id="pref3" name="extensions.firetray.confirm_exit" type="bool" />
-	    <preference id="pref4" name="extensions.firetray.show_notification" type="bool" />
-    </preferences>
+	    <preference id="pref4" name="extensions.firetray.restore_to_next_unread" type="bool" />
+	    
+	    <preference id="pref5" name="extensions.firetray.use_app_icon" type="bool" />
+	    <preference id="pref6" name="extensions.firetray.use_default_icon" type="bool" />
+	    <preference id="pref7" name="extensions.firetray.use_user_icon" type="bool" />
+	    <preference id="pref8" name="extensions.firetray.show_num_unread" type="bool" />
+	</preferences>
      
-    <groupbox>
-      <caption label="Answer"/> 
-      <checkbox id="check1" preference="pref1" label="&firetray.close_to_tray;" accesskey="C" />
-      <checkbox id="check2" preference="pref2" label="&firetray.start_min;" accesskey="S" />
-      <checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="O" />
-      <checkbox id="check4" preference="pref4" label="&firetray.show_notification;" accesskey="" />
-    </groupbox>  
-  </prefpane>
+	<groupbox>
+		<caption label="&firetray.behaviour_group;"/>
+		
+			<vbox>
+				<checkbox id="check1" preference="pref1" label="&firetray.close_to_tray;" accesskey="&firetray.close_to_tray_accesskey;" />
+			
+				<checkbox id="check2" preference="pref2" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
+				
+				<checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
+			
+				<checkbox id="check4" preference="pref4" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />
+			</vbox>    
+			
+ 	</groupbox>
+	
+        <groupbox>
+		<caption label="&firetray.tray_icon_group;" />
+		<vbox>
+			
+			<radiogroup selectedIndex="0">
+				<radio label="&firetray.use_app_icon;" preference="pref5" accesskey="&firetray.use_app_icon_accesskey;" disabled="true" />
+				<radio label="&firetray.use_default_icon;" preference="pref6" accesskey="&firetray.use_default_icon_accesskey;" disabled="true" />
+				<radio label="&firetray.use_user_icon;" preference="pref7" accesskey="&firetray.use_user_icon_accesskey;" disabled="true" />
+				
+				<checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;" disabled="true" preference="pref8" />
+
+			</radiogroup>
+
+		</vbox>
+	</groupbox>
+
+</prefpane>
 
 </prefwindow>

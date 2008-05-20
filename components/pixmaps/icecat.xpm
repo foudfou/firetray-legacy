@@ -1,5 +1,5 @@
 /* XPM */
-static char * icecat_xpm[] = {
+static const char * icecat_xpm[] = {
 "63 64 2155 2",
 "  	c None",
 ". 	c #2871C0",

@@ -1,5 +1,5 @@
 /* XPM */
-static char * sunbird_xpm[] = {
+static const char * sunbird_xpm[] = {
 "63 64 2541 2",
 "  	c None",
 ". 	c #609A33",

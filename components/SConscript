@@ -2,24 +2,49 @@ import sys, os, string
 
 platform = sys.platform
 
-try:
-    geckosdk = os.environ['GECKO_SDK']
-    if geckosdk[-1] != os.sep: geckosdk += os.sep
+
+try: 
+    gecko_bin = os.environ['GECKO_SDK_BIN'];
+    if gecko_bin[-1] != os.sep: gecko_bin += os.sep
+
+    gecko_include = os.environ['GECKO_SDK_INCLUDE'];
+    if gecko_include[-1] != os.sep: gecko_include += os.sep
+
+    gecko_idl = os.environ['GECKO_SDK_IDL'];
+    if gecko_idl[-1] != os.sep: gecko_idl += os.sep
+
+    gecko_lib = os.environ['GECKO_SDK_LIB'];
+    if gecko_lib[-1] != os.sep: gecko_lib += os.sep
+
 except:
-    print "Please set environment variable GECKO_SDK first."
-    sys.exit(1)
+    try:
+        geckosdk = os.environ['GECKO_SDK']
+        print "Using GECKO_SDK=" + geckosdk
+        if geckosdk[-1] != os.sep: geckosdk += os.sep
+        gecko_bin = geckosdk + 'bin'
+        gecko_include = geckosdk + 'include'
+        gecko_idl = geckosdk + 'idl'
+        gecko_lib = geckosdk + 'lib'
+    except:
+        print "Please set environment variable GECKO_SDK first (or in alternative the variables GECKO_SDK_BIN, GECKO_SDK_INCLUDE, GECKO_SDK_IDL, GECKO_SDK_LIB)."
+        sys.exit(1)
+
+print "GECKO_SDK_BIN: " + gecko_bin
+print "GECKO_SDK_INCLUDE: " + gecko_include
+print "GECKO_SDK_IDL: " + gecko_idl
+print "GECKO_SDK_LIB: " + gecko_lib
 
 # Create two builders to create xpt and header files from idl.
-bxpt = Builder(action = 'xpidl -w -m typelib -Icomponents -I' + geckosdk + 'idl -e $TARGET $SOURCE', suffix = '.xpt', src_suffix = '.idl')
-bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + geckosdk + 'idl -e $TARGET $SOURCE', suffix = '.h', src_suffix = '.idl')
+bxpt = Builder(action = 'xpidl -w -m typelib -Icomponents -I' + gecko_idl + ' -e $TARGET $SOURCE', suffix = '.xpt', src_suffix = '.idl')
+bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + gecko_idl + ' -e $TARGET $SOURCE', suffix = '.h', src_suffix = '.idl')
 
 # Create environment object for build
 env = Environment(
-    CPPPATH = [geckosdk + 'include'],
-    LIBPATH = [geckosdk + 'lib'],
+    CPPPATH = [gecko_include, '/usr/include/nspr' ],
+    LIBPATH = [gecko_lib],
     LIBS = ['xpcomglue', 'nspr4', 'plds4', 'xpcomglue_s.a' ],
     ENV = os.environ)
-env.AppendENVPath('PATH', geckosdk + 'bin')
+env.AppendENVPath('PATH', gecko_bin)
 env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
 
 # Add additional param for different platforms
