@@ -18,14 +18,20 @@
 #include <libnotify/notify.h>
 #include <iostream>
 
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <X11/Xutil.h>
+#include <gdk/gdkx.h>
+
+
 using namespace std;
 
 //#define DO_DEBUG 1
 
 #ifdef DO_DEBUG
- #define DEBUGSTR(str) cerr << str << endl;
+ #define DEBUGSTR(str) {cerr << str << endl; cerr.flush();}
 #else
- #define DEBUGSTR(str) ;
+ #define DEBUGSTR(str) {}
 #endif
 
 // Returns the lenght of a NULL-terminated UTF16 PRUnichar * string 
@@ -153,6 +159,8 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
     nsresult rv;
     PRUint32 i;
 
+    DEBUGSTR("RESTORING WINDOWS");
+
     NS_ENSURE_ARG(aCount);
     NS_ENSURE_ARG_POINTER(aBaseWindows);
 
@@ -164,7 +172,13 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
         GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
         
         gdk_window_show(toplevel);
-
+    
+	 gdk_window_focus (toplevel,
+                        gtk_get_current_event_time ());
+	//gtk_window_present(toplevel);
+     
+        //XSetInputFocus(GDK_DISPLAY(), xwin, RevertToNone, CurrentTime);
+      
         GdkWindowState s=gdk_window_get_state(toplevel);
 
         if(s & GDK_WINDOW_STATE_ICONIFIED) 
@@ -185,7 +199,14 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
     rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
     NS_ENSURE_SUCCESS(rv, rv);
 
-    gdk_window_show(gdk_window_get_toplevel((GdkWindow*)aNativeWindow));
+    GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*)aNativeWindow);
+
+    gdk_window_show(toplevel);
+
+    GdkWindowState s=gdk_window_get_state(toplevel);
+
+    if(s & GDK_WINDOW_STATE_ICONIFIED) 
+       gdk_window_deiconify(toplevel);
 
     return NS_OK;
 }
@@ -406,7 +427,7 @@ NS_IMETHODIMP nsTray::Set_special_icon(const char *filename)
 
        this->special_icon=new_icon;
       }
-    
+
     return NS_OK;   
 }
 
@@ -634,11 +655,6 @@ GtkWindow * get_gtkwindow_from_gdkwindow(GdkWindow *win)
 }
 
 
-#include<X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <gdk/gdkx.h>
-
-
 Atom delete_window = XInternAtom (GDK_DISPLAY(), "WM_DELETE_WINDOW", False);
 
 GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
@@ -647,8 +663,11 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
 
    XEvent *e=(XEvent *)xevent;
    nsTray *tray = (nsTray *)data;
+   
+   Window xwin=e->xany.window;
+   window_state *ws;
 
-   switch(e->xany.type)
+   switch(e->xany.type)  //AT THE MOMENT WE NEED ONLY WINDOW DELETE-EVENT
     {
       case DestroyNotify: 
              DEBUGSTR("DESTROY-NOTIFY!!!") 
@@ -663,6 +682,9 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
              DEBUGSTR("UnmapNotify-NOTIFY")
              break;
       case ClientMessage: 
+//       if(e->xany.type==ClientMessage)
+       {
+             if(e->xclient.data.l && tray) 
              if(e->xclient.data.l[0]==delete_window)
              {
               DEBUGSTR("CLOSING WINDOW") 
@@ -670,23 +692,37 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
               tray->Get_close_blocking(&block);
               if(block) 
                { 
+                 DEBUGSTR("CLOSE BLOCKING")
                  PRBool ret = TRUE;
                  if(tray->tray_callback)tray->tray_callback->Call(&ret);
+                 else  DEBUGSTR("NOT CALLBACK")
                  return GDK_FILTER_REMOVE; 
                }
              }
              else 
                DEBUGSTR("ClientMessage-NOTIFY");
+       }
              break;
+
       case VisibilityNotify: 
              DEBUGSTR("VisibilityNotify-NOTIFY")
-             break;
+             ws=tray->handled_windows[xwin];
+             if(ws) 
+             {
+DEBUGSTR(" updating ws state")
+                //update window visibility state
+                ws->visibility=e->xvisibility.state; 
+DEBUGSTR(" WS_STATE:"<<e->xvisibility.state)
+             }
+
+             break;	
+
       default:
              DEBUGSTR("FILTER_FUNC - UNKNOWN")
              break;
 
     }
-
+//**/
    return GDK_FILTER_CONTINUE;
 }
 
@@ -704,11 +740,262 @@ NS_IMETHODIMP nsTray::Set_window_handler(nsIBaseWindow *aBaseWindow)
 
       GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
 
-      /*GtkWindow *w=get_gtkwindow_from_gdkwindow(gdk_win);
-      GtkWidget *wdg=(GtkWidget *)w;*/
-      
       //filter close event
-      gdk_window_add_filter (gdk_win, filter_func, this);
+      
+      Window xwin=GDK_WINDOW_XID(gdk_win);
+     window_state *ws=handled_windows[xwin];
+      if(handled_windows[xwin]) DEBUGSTR(">>GIA' HANDLED")
+      else {
+        GdkEventMask m=(GdkEventMask)( /*  |*/ /*(GdkEventMask)*/GDK_VISIBILITY_NOTIFY_MASK | (long) gdk_window_get_events (gdk_win)) ;
+        
+        gdk_window_set_events   (gdk_win, m);
+
+        window_state *ws=new window_state;
+        ws->visibility=VisibilityUnobscured;
+        handled_windows[xwin]=ws;
+        gdk_window_add_filter (gdk_win, filter_func, this);
+      }
+      return NS_OK;
+}
+
+
+static GdkPixbuf* apply_mask (GdkPixbuf *pixbuf,
+            GdkPixbuf *mask)
+{
+  int w, h;
+  int i, j;
+  GdkPixbuf *with_alpha;
+  guchar *src;
+  guchar *dest;
+  int src_stride;
+  int dest_stride;
+  
+  w = MIN (gdk_pixbuf_get_width (mask), gdk_pixbuf_get_width (pixbuf));
+  h = MIN (gdk_pixbuf_get_height (mask), gdk_pixbuf_get_height (pixbuf));
+  
+  with_alpha = gdk_pixbuf_add_alpha (pixbuf, FALSE, 0, 0, 0);
+
+  dest = gdk_pixbuf_get_pixels (with_alpha);
+  src = gdk_pixbuf_get_pixels (mask);
+
+  dest_stride = gdk_pixbuf_get_rowstride (with_alpha);
+  src_stride = gdk_pixbuf_get_rowstride (mask);
+  
+  i = 0;
+  while (i < h)
+    {
+      j = 0;
+      while (j < w)
+        {
+          guchar *s = src + i * src_stride + j * 3;
+          guchar *d = dest + i * dest_stride + j * 4;
+          
+          /* s[0] == s[1] == s[2], they are 255 if the bit was set, 0
+           * otherwise
+           */
+          if (s[0] == 0)
+            d[3] = 0;   /* transparent */
+          else
+            d[3] = 255; /* opaque */
+          
+          ++j;
+        }
+      
+      ++i;
+    }
+
+  return with_alpha;
+}
+
+GdkColormap*
+get_cmap (GdkPixmap *pixmap)
+{
+  GdkColormap *cmap;
+
+  cmap = gdk_drawable_get_colormap (pixmap);
+  if (cmap)
+    g_object_ref (G_OBJECT (cmap));
+
+  if (cmap == NULL)
+    {
+      if (gdk_drawable_get_depth (pixmap) == 1)
+        {
+          /* try null cmap */
+          cmap = NULL;
+        }
+      else
+        {
+          /* Try system cmap */
+          GdkScreen *screen = gdk_drawable_get_screen (GDK_DRAWABLE (pixmap));
+          cmap = gdk_screen_get_system_colormap (screen);
+          g_object_ref (G_OBJECT (cmap));
+        }
+    }
+
+  /* Be sure we aren't going to blow up due to visual mismatch */
+  if (cmap &&
+      (gdk_colormap_get_visual (cmap)->depth !=
+       gdk_drawable_get_depth (pixmap)))
+    cmap = NULL;
+  
+  return cmap;
+}
+
+GdkPixbuf* GetFromPixmap(Pixmap p, unsigned int &w, unsigned int &h, unsigned int &depth)
+{
+   if(!p)return NULL;
+
+   Window root_ret;
+   int x_ret=0;
+   int y_ret=0;
+   unsigned int border_width_ret=0;
+   
+   if(!XGetGeometry(GDK_DISPLAY(), p, &root_ret, &x_ret, &y_ret, &w, &h, &border_width_ret, &depth))return NULL;
+      
+   GdkDrawable *gdrw=(GdkDrawable *)gdk_xid_table_lookup (p);
+   if(!gdrw) return NULL;
+ 
+   GdkColormap *color_map = NULL; //TODO get colormap
+
+   GdkPixbuf *pixbuf=NULL;
+        
+   pixbuf=gdk_pixbuf_get_from_drawable (NULL, gdrw, color_map, 0, 0, 0, 0, w, h);
+
+   //free gdrw
+
+   return pixbuf;
+}
+
+GdkPixbuf* GetFromWin(Window xwin)
+{
+   XWMHints *h=XGetWMHints(GDK_DISPLAY(), xwin);
+   if(!h) return NULL;
+   if(!(h->flags)&&IconPixmapHint) { XFree(h); return NULL; }
+    
+   unsigned int icon_w, icon_h, icon_depth;
+   GdkPixbuf *icon=GetFromPixmap(h->icon_pixmap, icon_w, icon_h, icon_depth);
+   
+   if(!(h->flags)&&IconMaskHint) { XFree(h); return icon; } //if there's no alpha mask return directly the icon
+   unsigned int mask_w, mask_h, mask_depth;
+   GdkPixbuf *mask=GetFromPixmap(h->icon_mask, mask_w, mask_h, mask_depth);
+   
+   if(mask) {
+	//add alpha channel to the icon
+        GdkPixbuf *alpha=gdk_pixbuf_add_alpha (icon, FALSE, 0,0,0);
+        //free old icon
+
+        //apply mask as alpha channel to the icon
+
+        guchar* alpha_ptr=gdk_pixbuf_get_pixels (alpha);
+	int alpha_rstride = gdk_pixbuf_get_rowstride (alpha);
+        int alpha_width=gdk_pixbuf_get_width(alpha);
+        int alpha_height=gdk_pixbuf_get_height(alpha);
+
+        guchar* mask_ptr=gdk_pixbuf_get_pixels (mask);
+	int mask_rstride = gdk_pixbuf_get_rowstride (mask);
+        int mask_width=gdk_pixbuf_get_width(mask);
+        int mask_height=gdk_pixbuf_get_height(mask);
+
+        int height=min(alpha_height, mask_height);
+        int width=min(alpha_width, mask_width); 
+
+        for (int r=0; r<height; r++)
+        {
+          guchar *alpha_rowstart=alpha_ptr+r*alpha_rstride;
+          guchar *mask_rowstart=mask_ptr+r*mask_rstride;
+
+          for (int c=0; c<width; c++)
+          {
+             guchar mask_pixel=*(mask_rowstart + 3*c ); //get the R value for the mask
+             *(alpha_rowstart + 4*c + 3)=mask_pixel;
+          }
+        }      
+
+        XFree(h);
+        return alpha;  
+       
+   }
+    
+   XFree (h);
+   return icon;
+
+}
+
+/* boolean get_focus_state (in nsIBaseWindow aBaseWindow); */
+NS_IMETHODIMP nsTray::Get_focus_state(nsIBaseWindow *aBaseWindow, PRBool *_retval) 
+{
+      *_retval=false;
+      nsresult rv;
+  
+      NS_ENSURE_ARG_POINTER(aBaseWindow);
+
+      nativeWindow aNativeWindow;
+      rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
+      NS_ENSURE_SUCCESS(rv, rv);
+
+      GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
+
+      XWindowAttributes res;
+   
+      Window xwin=GDK_WINDOW_XID(gdk_win);
+
+      window_state *ws=handled_windows[xwin];
+      if(ws) 
+       { *_retval = ws->visibility == 0; DEBUGSTR(" GOT VIS.STATE")}
+      else 
+        *_retval = TRUE;
+       if(*_retval)DEBUGSTR(" RETVAL: TRUE")
+       //else DEBUGSTR(" RETVAL: FALSE")
+
+       
+      
+//      XGetWindowAttributes(GDK_DISPLAY(), xwin, &res);
+      
+
+      DEBUGSTR("MAP-STATE "<<res.map_state)
+      
+/*
+
+      GtkWidget *w=(GtkWidget *)get_gtkwindow_from_gdkwindow(gdk_win);
+
+      if(GTK_WIDGET_HAS_FOCUS(w)) *_retval=true;*/
 
       return NS_OK;
 }
+
+
+/* void get_default_from_app (in nsIBaseWindow aBaseWindow); */
+NS_IMETHODIMP nsTray::Get_default_from_app(nsIBaseWindow *aBaseWindow) 
+{
+      nsresult rv;
+
+      NS_ENSURE_ARG_POINTER(aBaseWindow);
+
+      nativeWindow aNativeWindow;
+      rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
+      NS_ENSURE_SUCCESS(rv, rv);
+
+      GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
+      
+      Window xwin=GDK_WINDOW_XID(gdk_win);
+
+      GdkPixbuf *icon=GetFromWin(xwin);
+ 
+     if(icon)
+     {
+       if(this->default_icon) 
+            { 
+             g_object_unref(this->default_icon); 
+             this->default_icon=NULL;
+            }
+
+      this->default_icon=icon;
+
+       gtk_status_icon_set_from_pixbuf(this->systray_icon, this->default_icon);
+       gtk_status_icon_set_visible(this->systray_icon, TRUE);
+
+     }
+      return NS_OK;
+
+}
+

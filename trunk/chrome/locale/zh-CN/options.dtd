@@ -1,0 +1,5 @@
+<!ENTITY firetray.prefwindow "FireTray 选项">
+<!ENTITY firetray.prefpane_options "选项">
+<!ENTITY firetray.close_to_tray "关闭到系统托盘">
+<!ENTITY firetray.start_min "启动后最小化到系统托盘">
+<!ENTITY firetray.confirm_exit "退出程序时要求确认">

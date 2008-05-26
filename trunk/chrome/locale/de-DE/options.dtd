@@ -1,0 +1,5 @@
+<!ENTITY firetray.prefwindow "FireTray Optionen">
+<!ENTITY firetray.prefpane_options "Optionen">
+<!ENTITY firetray.close_to_tray "Schließen Menüeintrag minimiert in Iconleiste">
+<!ENTITY firetray.start_min "Programm minimiert starten">
+<!ENTITY firetray.confirm_exit "Beenden der Anwendung bestätigen">

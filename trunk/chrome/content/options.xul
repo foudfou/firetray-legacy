@@ -15,7 +15,7 @@
 	    <preference id="pref5" name="extensions.firetray.use_app_icon" type="bool" />
 	    <preference id="pref6" name="extensions.firetray.use_default_icon" type="bool" />
 	    <preference id="pref7" name="extensions.firetray.use_user_icon" type="bool" />
-	    <preference id="pref8" name="extensions.firetray.show_num_unread" type="bool" />
+	    <preference id="pref8" name="extensions.firetray.show_num_unread" type="bool" /> 
 	</preferences>
      
 	<groupbox>
@@ -28,11 +28,11 @@
 				
 				<checkbox id="check3" preference="pref3" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
 			
-				<checkbox id="check4" preference="pref4" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />
+<!--				<checkbox id="check4" preference="pref4" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />-->
 			</vbox>    
 			
  	</groupbox>
-	
+	<!--
         <groupbox>
 		<caption label="&firetray.tray_icon_group;" />
 		<vbox>
@@ -48,6 +48,7 @@
 
 		</vbox>
 	</groupbox>
+	-->
 
 </prefpane>
 

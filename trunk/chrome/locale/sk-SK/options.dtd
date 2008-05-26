@@ -1,0 +1,5 @@
+<!ENTITY firetray.prefwindow "Možnosti rozšírenia FireTray">
+<!ENTITY firetray.prefpane_options "Možnosti">
+<!ENTITY firetray.close_to_tray "Tlačidlo zatvorenia minimalizované do systémového panela (tray)">
+<!ENTITY firetray.start_min "Spustiť program minimalizovaný">
+<!ENTITY firetray.confirm_exit "Overiť ukončenie aplikácie">

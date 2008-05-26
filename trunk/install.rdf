@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.1.9a</em:version>
+    <em:version>0.1.9</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -15,7 +15,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>1.5</em:minVersion>
-	<em:maxVersion>3.0b5</em:maxVersion>
+	<em:maxVersion>3.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -62,15 +62,21 @@
     <em:developer>Francesco Solero</em:developer>
     <em:contributor>Simone "Underpass"</em:contributor>
     <em:contributor>Diego Rodriguez</em:contributor>
+    <em:contributor>Dave Bartlett</em:contributor>
+    <em:contributor>Bertolotti Pierre</em:contributor>
     
     <em:translator>Simone "Underpass" [it-IT]</em:translator>
     <em:translator>Quicksilver tears [ru-RU]</em:translator>
     <em:translator>Wacław Jacek [pl-PL]</em:translator>
     <em:translator>Alberto Eidh [pt-BR]</em:translator>
     <em:translator>drry [ja-JP]</em:translator>
-    <em:translator>BatBat [fr-FR]</em:translator>
+    <em:translator>BatBat,Jojaba,nico@nc [fr-FR]</em:translator>
+    <em:translator>bricks [de-DE]</em:translator>
+    <em:translator>lukas_sk [sk-SK]</em:translator>
+    <em:translator>xmoke [zh-CN]</em:translator>
     
     <em:homepageURL>http://firetray.xiaoduo.info</em:homepageURL>
     <em:optionsURL>chrome://firetray/content/options.xul</em:optionsURL>    
+    
   </Description>
 </RDF>
