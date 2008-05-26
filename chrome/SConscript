@@ -3,7 +3,7 @@ import os
 Import('zipbld')
 
 contents = []
-content = 'core.js browserOverlay.xul mailOverlay.xul options.xul options_browser.xul songOverlay.xul'
+content = 'core.js browserOverlay.xul mailOverlay.xul options.xul songOverlay.xul'
 for c in content.split(' '):
     contents.append('content' + os.sep + c)
 
