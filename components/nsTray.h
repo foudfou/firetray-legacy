@@ -9,6 +9,7 @@
 #include <glib-object.h>
 #include <gtk/gtksignal.h>
 #include <libnotify/notify.h>
+#include <X11/Xlib.h>
 
 #include "nsITray.h"
 #include "nsCOMPtr.h"
@@ -18,6 +19,13 @@
 #define NS_ITRAY_CLASSNAME "System Tray for Firefox"
 #define NS_ITRAY_CID  { 0xbf249f85, 0x20f2, 0x49be, { 0x96, 0xf3, 0x96, 0x81, 0xf3, 0xbb, 0x03, 0x34 } }
 #define NS_NOTIFY_TIME 2500
+
+
+
+struct window_state //keeps needed window information ... (at the moment only visibility status)
+{
+  int visibility; // VisibilityUnobscured, VisibilityPartiallyObscured, or VisibilityFullyObscured.
+};
 
 /* Header file */
 class nsTray : public nsITray {
@@ -29,6 +37,7 @@ public:
 
     nsCOMPtr<nsITrayCallback> tray_callback;
     std::map <PRUint32, nsCOMPtr<nsITrayCallback> > item_callback_list;
+    std::map<Window,window_state *> handled_windows;
    
     static void activate(GtkStatusIcon*, gpointer);
     static void popup(GtkStatusIcon*, guint, guint, gpointer);
@@ -51,7 +60,8 @@ private:
     PangoLayout *layout;
 
     NotifyNotification *sys_notification;
-	
+
+
 protected:
     /* additional members */
 };

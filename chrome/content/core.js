@@ -1,4 +1,3 @@
-var app_started=false;
 var gfiretrayBundle = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(Components.interfaces.nsIStringBundleService);
 
 var mystrings = gfiretrayBundle.createBundle("chrome://firetray/locale/core.properties");
@@ -10,6 +9,8 @@ var firetray_windowslist = mystrings.GetStringFromName("firetray_windowslist");
 var firetray_no_unread_messages = mystrings.GetStringFromName("firetray_no_unread_messages");
 var firetray_unread_message = mystrings.GetStringFromName("firetray_unread_message");
 var firetray_unread_messages = mystrings.GetStringFromName("firetray_unread_messages");
+var firetray_check_mail = mystrings.GetStringFromName("firetray_check_mail");
+var firetray_new_mail = mystrings.GetStringFromName("firetray_new_mail");
 
 var minimizeComponent = Components.classes['@mozilla.org/Minimize;1'].getService(Components.interfaces.nsIMinimize);
 var pPS=null;
@@ -42,14 +43,18 @@ var myPrefObserver =
 
 FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
 
+FireTray.app_started=false;
+
 FireTray.trayCallback = function() {
     var baseWindows = FireTray.getAllWindows();
-    if (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) {
-        if(FireTray.isMail){
+    var vis=FireTray.isVisible () ;
+    if ( !vis || (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list))) {
+    /*    if(FireTray.isMail){
 
            if(FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
               MsgNextUnreadMessage();
-        } //nextUnreadMessage
+        } //nextUnreadMessage*/
+        
         FireTray.interface.restore(baseWindows.length, baseWindows);
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
     } else {
@@ -182,10 +187,9 @@ FireTray.on_close = function() {
 }
 
 FireTray.on_resize = function() {
-   if(!app_started){
-	app_started=true;	
+   if(!FireTray.app_started){
+	Firetray.app_started=true;	
 	if(FireTray.prefManager.getBoolPref("extensions.firetray.start_minimized")){	
-		
 		FireTray.hide_to_tray();		
 	}
    }
@@ -297,6 +301,10 @@ FireTray.check_mail = function() {
   MsgGetMessagesForAllAuthenticatedAccounts();    
 }
 
+FireTray.new_mail = function() {
+  goOpenNewMessage();  
+}
+
 FireTray.playASong = function () {
 	if(pPS != null){
 			if(pPS.paused || !pPS.playing){
@@ -315,6 +323,34 @@ FireTray.stopASong = function () {
 			pPS.stop();
 			pPS.pause(); /* For now... because there is a bug into songbird API*/
 	}
+}
+
+FireTray.get_app_icon = function() {
+    var basewindow = FireTray.getBaseWindow(window);
+    FireTray.interface.get_default_from_app(basewindow);
+}
+
+/*FireTray.raise()
+{
+
+}*/
+
+FireTray.isVisible = function() {
+    var baseWindows = FireTray.getAllWindows();
+    var cnt=0;
+    var res=false;
+
+    for(var i=0; i<baseWindows.length; i++) {
+        var basewindow = baseWindows[i];
+          res=false;
+          res=FireTray.interface.get_focus_state(basewindow);
+          if(res) cnt++;
+        //basewindow.addEventListener("close", FireTray.on_close2, false);
+        //FireTray.interface.hideWindow(basewindow);
+        //FireTray.windows_list_add(basewindow);
+    }
+    if(cnt>0) return true;
+    return false;
 }
 
 
@@ -362,16 +398,36 @@ FireTray.init = function() {
             var item_s_two = FireTray.interface.separator_menu_item_new();
             FireTray.interface.menu_append(tray_menu, item_s_two, null);
  
-            if(FireTray.isMail) { //TODO 
+            if(FireTray.isMail) { 
 		//thunderbird special menu entries
-                var mail_check = FireTray.interface.menu_item_new("Check mail");
+                var mail_check = FireTray.interface.menu_item_new(firetray_check_mail);
                 FireTray.interface.menu_append(tray_menu, mail_check, FireTray.check_mail);
-                  
+
+                var new_mail = FireTray.interface.menu_item_new(firetray_new_mail);
+                FireTray.interface.menu_append(tray_menu, new_mail, FireTray.new_mail);
+
+/*                var getapp = FireTray.interface.menu_item_new("GET APP ICON");
+                FireTray.interface.menu_append(tray_menu, getapp, FireTray.get_app_icon);*/
+
                 var mail_end_separator = FireTray.interface.separator_menu_item_new();
                 FireTray.interface.menu_append(tray_menu, mail_end_separator, null);
 	    }
 
+            if(FireTray.isBrowser) { 
+		//thunderbird special menu entries
+              /*  var newwin = FireTray.interface.menu_item_new("Open new window");
+                FireTray.interface.menu_append(tray_menu, newwin, FireTray.new_window);
 
+                var newtab = FireTray.interface.menu_item_new("Open new tab");
+                FireTray.interface.menu_append(tray_menu, newtab, FireTray.new_tab);
+
+                var closewins = FireTray.interface.menu_item_new("Close windows");
+                FireTray.interface.menu_append(tray_menu, closewins, FireTray.close_windows);
+
+                var mail_end_separator = FireTray.interface.separator_menu_item_new();
+                FireTray.interface.menu_append(tray_menu, mail_end_separator, null);*/
+		
+            }
             var item_exit = FireTray.interface.menu_item_new(firetray_exit);
             FireTray.interface.menu_append(tray_menu, item_exit, FireTray.exitCallback);
             var item_s_three = FireTray.interface.separator_menu_item_new();
@@ -476,7 +532,7 @@ FireTray.init = function() {
 
     FireTray.UpdatePreferences();
     if(!FireTray.isBrowser)FireTray.set_close_handler();
-FireTray.hide_to_tray();
+   // FireTray.hide_to_tray();
 };
 
 window.addEventListener("load", FireTray.init, true);

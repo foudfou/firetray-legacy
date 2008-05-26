@@ -37,7 +37,7 @@ interface nsITray : nsISupports
 
     void set_default_icon(in string filename); //icon for normal usage
     void set_special_icon(in string filename); //icon shown when text is displayed
-    
+
     void set_icon_text(in string text); //sets the icon text (used for mail count)
 
     void set_tray_tooltip(in wstring text); //sets the tray tooltip message
@@ -52,5 +52,9 @@ interface nsITray : nsISupports
     						 in wstring info,
     						 in string image); //show a notification 
 
+    boolean get_focus_state(in nsIBaseWindow aBaseWindow); 
+
     void set_window_handler(in nsIBaseWindow aBaseWindow);
+    void get_default_from_app(in nsIBaseWindow aBaseWindow); //get icon from the application window
+    
 };

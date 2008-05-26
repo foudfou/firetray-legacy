@@ -1,5 +1,5 @@
-<!ENTITY firetray.prefwindow "FireTray - Opcje">
+<!ENTITY firetray.prefwindow "FireTray - opcje">
 <!ENTITY firetray.prefpane_options "Opcje">
-<!ENTITY firetray.close_to_tray "Przycisk &quot;Zamknij&quot; minimalizuje okna do traya">
-<!ENTITY firetray.start_min "Uruchom Firefoksa zminimalizowanego">
+<!ENTITY firetray.close_to_tray "Przycisk &quot;Zamknij&quot; minimalizuje do obszaru powiadomień">
+<!ENTITY firetray.start_min "Uruchom program zminimalizowany">
 <!ENTITY firetray.confirm_exit "Potwierdzaj wychodzenie z aplikacji">
