@@ -6,19 +6,15 @@
 <!ENTITY firetray.start_min_accesskey "A">
 <!ENTITY firetray.confirm_exit "Conferma per l&apos;uscita dall&apos;applicazione">
 <!ENTITY firetray.confirm_exit_accesskey "C">
-
 <!ENTITY firetray.show_next_unread "Al ripristino vai al primo messaggio non letto">
 <!ENTITY firetray.show_next_unread_accesskey "L">
-
-<!ENTITY firetray.use_app_icon "Usa icona dell'applicazione">
+<!ENTITY firetray.use_app_icon "Utilizza icona dell&apos;applicazione">
 <!ENTITY firetray.use_app_icon_accesskey "u">
-<!ENTITY firetray.use_default_icon "Usa icona predefinita">
+<!ENTITY firetray.use_default_icon "Utilizza icona predefinita">
 <!ENTITY firetray.use_default_icon_accesskey "i">
-<!ENTITY firetray.use_user_icon "Usa icona personalizzata">
+<!ENTITY firetray.use_user_icon "Utilizza icona personalizzata">
 <!ENTITY firetray.use_user_icon_accesskey "p">
-
 <!ENTITY firetray.show_unread_number "Mostra il numero di messaggi da leggere">
 <!ENTITY firetray.show_unread_number_accesskey "M">
-
 <!ENTITY firetray.behaviour_group "Comportamento delle finestre">
 <!ENTITY firetray.tray_icon_group "Impostazioni icona">

@@ -1,5 +1,20 @@
 <!ENTITY firetray.prefwindow "FireTray 选项">
 <!ENTITY firetray.prefpane_options "选项">
 <!ENTITY firetray.close_to_tray "关闭到系统托盘">
+<!ENTITY firetray.close_to_tray_accesskey "C">
 <!ENTITY firetray.start_min "启动后最小化到系统托盘">
+<!ENTITY firetray.start_min_accesskey "S">
 <!ENTITY firetray.confirm_exit "退出程序时要求确认">
+<!ENTITY firetray.confirm_exit_accesskey "O">
+<!ENTITY firetray.show_next_unread "恢复时显示下条未读消息">
+<!ENTITY firetray.show_next_unread_accesskey "n">
+<!ENTITY firetray.use_app_icon "使用程序图标">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "使用默认图标">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "使用自定义图标">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.show_unread_number "显示未读邮件的数目">
+<!ENTITY firetray.show_unread_number_accesskey "h">
+<!ENTITY firetray.behaviour_group "窗口选项">
+<!ENTITY firetray.tray_icon_group "图标设置">

@@ -1,5 +1,20 @@
 <!ENTITY firetray.prefwindow "FireTray オプション">
 <!ENTITY firetray.prefpane_options "オプション">
-<!ENTITY firetray.close_to_tray "閉じるボタンでトレイに最小化">
-<!ENTITY firetray.start_min "最小化してプログラムを開始">
-<!ENTITY firetray.confirm_exit "アプリケーション終了を確認">
+<!ENTITY firetray.close_to_tray "閉じるボタンでトレイに最小化する">
+<!ENTITY firetray.close_to_tray_accesskey "C">
+<!ENTITY firetray.start_min "最小化してプログラムを開始する">
+<!ENTITY firetray.start_min_accesskey "S">
+<!ENTITY firetray.confirm_exit "アプリケーションの終了を確認する">
+<!ENTITY firetray.confirm_exit_accesskey "O">
+<!ENTITY firetray.show_next_unread "元に戻す際に次の未読メッセージを表示する">
+<!ENTITY firetray.show_next_unread_accesskey "n">
+<!ENTITY firetray.use_app_icon "アプリケーションアイコンを利用する">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "既定のアイコンを利用する">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "ユーザ定義のアイコン">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.show_unread_number "未読メールの数を表示する">
+<!ENTITY firetray.show_unread_number_accesskey "h">
+<!ENTITY firetray.behaviour_group "ウィンドウ動作オプション">
+<!ENTITY firetray.tray_icon_group "アイコン設定">
