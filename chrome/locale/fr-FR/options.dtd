@@ -1,5 +1,20 @@
 <!ENTITY firetray.prefwindow "Options de FireTray">
 <!ENTITY firetray.prefpane_options "Options">
 <!ENTITY firetray.close_to_tray "Le bouton « Fermer » réduit vers la zone de notification (systray)">
+<!ENTITY firetray.close_to_tray_accesskey "L">
 <!ENTITY firetray.start_min "Au démarrage, placer le programme dans la zone de notification">
+<!ENTITY firetray.start_min_accesskey "A">
 <!ENTITY firetray.confirm_exit "Confirmation avant de quitter l&apos;application">
+<!ENTITY firetray.confirm_exit_accesskey "C">
+<!ENTITY firetray.show_next_unread "Afficher le message non lu suivant à la restauration">
+<!ENTITY firetray.show_next_unread_accesskey "m">
+<!ENTITY firetray.use_app_icon "Utiliser l&apos;icône du logiciel">
+<!ENTITY firetray.use_app_icon_accesskey "U">
+<!ENTITY firetray.use_default_icon "Utiliser l&apos;icône par défaut">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "Utiliser l&apos;icône choisie">
+<!ENTITY firetray.use_user_icon_accesskey "t">
+<!ENTITY firetray.show_unread_number "Afficher le nombre de messages non lus">
+<!ENTITY firetray.show_unread_number_accesskey "f">
+<!ENTITY firetray.behaviour_group "Options du comportement des fenêtres">
+<!ENTITY firetray.tray_icon_group "Paramètres de l&apos;icône">

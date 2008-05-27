@@ -1,5 +1,20 @@
 <!ENTITY firetray.prefwindow "Možnosti rozšírenia FireTray">
 <!ENTITY firetray.prefpane_options "Možnosti">
 <!ENTITY firetray.close_to_tray "Tlačidlo zatvorenia minimalizované do systémového panela (tray)">
+<!ENTITY firetray.close_to_tray_accesskey "z">
 <!ENTITY firetray.start_min "Spustiť program minimalizovaný">
+<!ENTITY firetray.start_min_accesskey "S">
 <!ENTITY firetray.confirm_exit "Overiť ukončenie aplikácie">
+<!ENTITY firetray.confirm_exit_accesskey "O">
+<!ENTITY firetray.show_next_unread "Pri obnovení zobraziť ďalšiu neprečítanú správu">
+<!ENTITY firetray.show_next_unread_accesskey "l">
+<!ENTITY firetray.use_app_icon "Použiť ikonu aplikácie">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "Použiť predvolenú ikonu">
+<!ENTITY firetray.use_default_icon_accesskey "p">
+<!ENTITY firetray.use_user_icon "Použiť vlastnú ikonu">
+<!ENTITY firetray.use_user_icon_accesskey "v">
+<!ENTITY firetray.show_unread_number "Zobraziť počet neprečítaných správ">
+<!ENTITY firetray.show_unread_number_accesskey "n">
+<!ENTITY firetray.behaviour_group "Nastavenia správania sa okien">
+<!ENTITY firetray.tray_icon_group "Nastavenie ikony">
