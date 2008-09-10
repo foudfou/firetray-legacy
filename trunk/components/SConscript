@@ -49,7 +49,7 @@ env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
 
 # Add additional param for different platforms
 if platform == 'linux2':
-    env.ParseConfig('pkg-config --libs --cflags gtk+-2.0 libnotify')
+    env.ParseConfig('pkg-config --libs --cflags gtk+-2.0') # libnotify
     env.AppendUnique(
         CXXFLAGS = ['-include', 'xpcom-config.h', '-Wall', '-O2',
                     '-fno-rtti', '-fno-exceptions',

@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.1.9</em:version>
+    <em:version>0.1.10-dev</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -38,15 +38,6 @@
     </em:targetApplication>   
     
     <em:targetApplication>
-      <!-- Seamonkey -->
-      <Description>
-	<em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id> 
-	<em:minVersion>0.3</em:minVersion>
-	<em:maxVersion>0.7</em:maxVersion>
-      </Description>
-    </em:targetApplication>
-    
-    <em:targetApplication>
       <!-- Sunbird -->
       <Description>
 	      <em:id>{718e30fb-e89b-41dd-9da7-e25a45638b28}</em:id> 
@@ -59,7 +50,7 @@
     <em:name>FireTray</em:name>
     <em:description>A system tray extension for linux</em:description>
     <em:creator>Hua Luo</em:creator>
-    <em:developer>Francesco Solero</em:developer>
+    <em:developer>Francesco S.</em:developer>
     <em:contributor>Simone "Underpass"</em:contributor>
     <em:contributor>Diego Rodriguez</em:contributor>
     <em:contributor>Dave Bartlett</em:contributor>
