@@ -188,7 +188,7 @@ FireTray.on_close = function() {
 
 FireTray.on_resize = function() {
    if(!FireTray.app_started){
-	Firetray.app_started=true;	
+	FireTray.app_started=true;	
 	if(FireTray.prefManager.getBoolPref("extensions.firetray.start_minimized")){	
 		FireTray.hide_to_tray();		
 	}
@@ -242,6 +242,7 @@ FireTray.getMozillaAppCode = function() {
         break;
 
      case SUNBIRD_ID:
+        FireTray.isCalendar=true; 
         return 9; //sunbird
         break;
 
@@ -261,9 +262,28 @@ FireTray.getMozillaAppCode = function() {
 FireTray.UpdateMailTray = function () {
 
   if(FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread"))
-    var res=FireTray.localfolders.getNumUnread(true); //gets the number of all unread mails
-  else res=0;
+    {
 
+	var res=FireTray.localfolders.getNumUnread(true); 
+
+	for(var i=0; i<accountManager.allServers.Count(); i++)    
+	{
+	
+	var el=accountManager.allServers.GetElementAt(i);
+
+	var server = el.QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+
+	var rootfolder=server.rootMsgFolder;
+	if(rootfolder && rootfolder!=FireTray.localfolders)
+	  {
+        	var emails=rootfolder.getNumUnread ( true);
+		res=res+emails;
+          }
+ 	}
+  
+  }
+  else res=0;
+//alert("EMS="+res); 
   if(FireTray.lastnum==res) return; //update the icon only if something has changed
   FireTray.lastnum=res;
   var tooltip="";
@@ -371,6 +391,7 @@ FireTray.set_close_handler = function() {
 FireTray.init = function() {
     FireTray.isMail=false;
     FireTray.isSong=false;
+    FireTray.isCalendar=false; 
     FireTray.lastnum=-1;
 
     //window.onunload = FireTray.on_unload
@@ -443,11 +464,14 @@ FireTray.init = function() {
     FireTray.interface.set_default_xpm_icon(app);
     FireTray.interface.showTray();
 
-    //window.addEventListener("close", FireTray.on_close2, true);
-
-    if(FireTray.isMail) {
+   if(FireTray.isMail && 1) {
 
       accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+
+
+
+
+
       FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
       FireTray.subscribe_to_mail_events();
       FireTray.UpdateMailTray();
@@ -531,7 +555,7 @@ FireTray.init = function() {
             }, 0);
 
     FireTray.UpdatePreferences();
-    if(!FireTray.isBrowser)FireTray.set_close_handler();
+    if(!FireTray.isBrowser) FireTray.set_close_handler();
    // FireTray.hide_to_tray();
 };
 

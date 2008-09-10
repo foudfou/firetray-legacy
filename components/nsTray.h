@@ -8,7 +8,7 @@
 #include <pango/pango.h>
 #include <glib-object.h>
 #include <gtk/gtksignal.h>
-#include <libnotify/notify.h>
+// REMOVE NOTIFY #include <libnotify/notify.h>
 #include <X11/Xlib.h>
 
 #include "nsITray.h"
@@ -59,7 +59,7 @@ private:
     GtkWidget *pop_menu;
     PangoLayout *layout;
 
-    NotifyNotification *sys_notification;
+// REMOVE NOTIFY   NotifyNotification *sys_notification;
 
 
 protected:
