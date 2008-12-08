@@ -32,8 +32,8 @@
 	    <!-- Songbird -->
 	    <Description>
 		    <em:id>songbird@songbirdnest.com</em:id>
-		    <em:minVersion>0.3</em:minVersion>
-		    <em:maxVersion>0.5pre</em:maxVersion>
+		    <em:minVersion>0.8</em:minVersion>
+		    <em:maxVersion>1.1.0pre</em:maxVersion>
 	    </Description>
     </em:targetApplication>   
     
