@@ -58,6 +58,7 @@ FireTray.trayCallback = function() {
         
         FireTray.interface.restore(baseWindows.length, baseWindows);
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
+        minimized = false;
     } else {
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
         FireTray.hide_to_tray();
