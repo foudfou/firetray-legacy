@@ -1,0 +1,3 @@
+Even if it could seem so, the project is not abandoned. However we need active developers. I've been developing some features I needed and tried to fix some issues, but at the moment i don't have time to work on this. As I am using the extension I will try to keep it working when future TB & FF versions will be released but for the moment the development of new features is stopped. 
+
+If you wish to contribute you're welcome, please consider to joining the project.
