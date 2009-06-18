@@ -11,9 +11,9 @@
 <!ENTITY firetray.use_app_icon "Utiliser l&apos;icône du logiciel">
 <!ENTITY firetray.use_app_icon_accesskey "U">
 <!ENTITY firetray.use_default_icon "Utiliser l&apos;icône par défaut">
-<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_default_icon_accesskey "t">
 <!ENTITY firetray.use_user_icon "Utiliser l&apos;icône choisie">
-<!ENTITY firetray.use_user_icon_accesskey "t">
+<!ENTITY firetray.use_user_icon_accesskey "i">
 <!ENTITY firetray.show_unread_number "Afficher le nombre de messages non lus">
 <!ENTITY firetray.show_unread_number_accesskey "f">
 <!ENTITY firetray.behaviour_group "Options du comportement des fenêtres">

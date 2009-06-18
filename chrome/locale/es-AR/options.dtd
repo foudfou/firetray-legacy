@@ -1,0 +1,20 @@
+<!ENTITY firetray.prefwindow "FireTray - Opciones">
+<!ENTITY firetray.prefpane_options "Opciones">
+<!ENTITY firetray.close_to_tray "Botón de cerrar minimiza a la bandeja">
+<!ENTITY firetray.close_to_tray_accesskey "B">
+<!ENTITY firetray.start_min "Inicia el programa minimizado">
+<!ENTITY firetray.start_min_accesskey "I">
+<!ENTITY firetray.confirm_exit "Confirmar salir de la apliación">
+<!ENTITY firetray.confirm_exit_accesskey "C">
+<!ENTITY firetray.show_next_unread "Al restaurar mostrar el siguiente mensaje no leído">
+<!ENTITY firetray.show_next_unread_accesskey "s">
+<!ENTITY firetray.use_app_icon "Usar el icono de la aplicación">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "Usar el icono predeterminado">
+<!ENTITY firetray.use_default_icon_accesskey "p">
+<!ENTITY firetray.use_user_icon "Icono definido por el usuario">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.show_unread_number "Mostrar el número de mensajes no leídos">
+<!ENTITY firetray.show_unread_number_accesskey "n">
+<!ENTITY firetray.behaviour_group "Opciones de comportamiento de las ventanas">
+<!ENTITY firetray.tray_icon_group "Opciones de Icono">

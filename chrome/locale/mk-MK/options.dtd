@@ -1,0 +1,20 @@
+<!ENTITY firetray.prefwindow "FireTray Опции">
+<!ENTITY firetray.prefpane_options "Опции">
+<!ENTITY firetray.close_to_tray "Копчето за затворање минимизира во системската лента">
+<!ENTITY firetray.close_to_tray_accesskey "К">
+<!ENTITY firetray.start_min "Стартувај ја програмата минимизирана">
+<!ENTITY firetray.start_min_accesskey "С">
+<!ENTITY firetray.confirm_exit "Потврдете излез од апликацијата">
+<!ENTITY firetray.confirm_exit_accesskey "О">
+<!ENTITY firetray.show_next_unread "При обновување покажи ја следната непрочитана порака">
+<!ENTITY firetray.show_next_unread_accesskey "н">
+<!ENTITY firetray.use_app_icon "Користи ја иконата на апликацијата">
+<!ENTITY firetray.use_app_icon_accesskey "а">
+<!ENTITY firetray.use_default_icon "Користи стандардна икона">
+<!ENTITY firetray.use_default_icon_accesskey "с">
+<!ENTITY firetray.use_user_icon "Кориснички дефинирана икона">
+<!ENTITY firetray.use_user_icon_accesskey "к">
+<!ENTITY firetray.show_unread_number "Покажи го бројот на непрочитани пораки">
+<!ENTITY firetray.show_unread_number_accesskey "о">
+<!ENTITY firetray.behaviour_group "Опции на однесувањето на прозорците">
+<!ENTITY firetray.tray_icon_group "Поставувања на иконата">
