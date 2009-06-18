@@ -1,0 +1,20 @@
+<!ENTITY firetray.prefwindow "Opcions del FireTray">
+<!ENTITY firetray.prefpane_options "Opcions">
+<!ENTITY firetray.close_to_tray "El botó de tancar minimitza a la safata">
+<!ENTITY firetray.close_to_tray_accesskey "S">
+<!ENTITY firetray.start_min "Obre el programa minimitzat">
+<!ENTITY firetray.start_min_accesskey "O">
+<!ENTITY firetray.confirm_exit "Confirma en sortir de l&apos;aplicació">
+<!ENTITY firetray.confirm_exit_accesskey "C">
+<!ENTITY firetray.show_next_unread "En restaurar mostra el següent missatge no llegit">
+<!ENTITY firetray.show_next_unread_accesskey "s">
+<!ENTITY firetray.use_app_icon "Utilitza la icona de l&apos;aplicació">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "Utilitza la icona per defecte">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "Icona definida per l&apos;usuari">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.show_unread_number "Mostra el número de correus no llegits">
+<!ENTITY firetray.show_unread_number_accesskey "n">
+<!ENTITY firetray.behaviour_group "Opcions del comportament de les finestres">
+<!ENTITY firetray.tray_icon_group "Configuració de la icona">

@@ -1,0 +1,20 @@
+<!ENTITY firetray.prefwindow "Možnosti za FireTray">
+<!ENTITY firetray.prefpane_options "Možnosti">
+<!ENTITY firetray.close_to_tray "Gumb Zapri pomanjša v pladenj">
+<!ENTITY firetray.close_to_tray_accesskey "Z">
+<!ENTITY firetray.start_min "Zaženi program pomanjšano">
+<!ENTITY firetray.start_min_accesskey "m">
+<!ENTITY firetray.confirm_exit "Potrdi izhod iz programa">
+<!ENTITY firetray.confirm_exit_accesskey "P">
+<!ENTITY firetray.show_next_unread "Ob obnovitvi pokaži naslednje neprebrano sporočilo">
+<!ENTITY firetray.show_next_unread_accesskey "b">
+<!ENTITY firetray.use_app_icon "Uporabi ikono programa">
+<!ENTITY firetray.use_app_icon_accesskey "k">
+<!ENTITY firetray.use_default_icon "Uporabi privzeto ikono">
+<!ENTITY firetray.use_default_icon_accesskey "n">
+<!ENTITY firetray.use_user_icon "Uporabi določeno ikono">
+<!ENTITY firetray.use_user_icon_accesskey "d">
+<!ENTITY firetray.show_unread_number "Pokaži število neprebrane pošte">
+<!ENTITY firetray.show_unread_number_accesskey "š">
+<!ENTITY firetray.behaviour_group "Možnosti vedenja oken">
+<!ENTITY firetray.tray_icon_group "Nastavitve ikone">

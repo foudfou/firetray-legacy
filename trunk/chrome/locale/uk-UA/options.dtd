@@ -1,0 +1,20 @@
+<!ENTITY firetray.prefwindow "Налаштування FireTray">
+<!ENTITY firetray.prefpane_options "Налаштування">
+<!ENTITY firetray.close_to_tray "Кнопка &quot;закрити&quot; згортає до системної панелі">
+<!ENTITY firetray.close_to_tray_accesskey "К">
+<!ENTITY firetray.start_min "Запускати програму згорнутою до системної панелі">
+<!ENTITY firetray.start_min_accesskey "З">
+<!ENTITY firetray.confirm_exit "Підтверджувати вихід з програми">
+<!ENTITY firetray.confirm_exit_accesskey "П">
+<!ENTITY firetray.show_next_unread "При відновленні вікна показувати наступне непрочитане повідомлення">
+<!ENTITY firetray.show_next_unread_accesskey "н">
+<!ENTITY firetray.use_app_icon "Використовувати піктограму програми">
+<!ENTITY firetray.use_app_icon_accesskey "В">
+<!ENTITY firetray.use_default_icon "Використовувати типову піктограму">
+<!ENTITY firetray.use_default_icon_accesskey "т">
+<!ENTITY firetray.use_user_icon "Піктограма, що визначена користувачем">
+<!ENTITY firetray.use_user_icon_accesskey "к">
+<!ENTITY firetray.show_unread_number "Показати кількість непрочитаних листів">
+<!ENTITY firetray.show_unread_number_accesskey "л">
+<!ENTITY firetray.behaviour_group "Параметри поведінки вікон">
+<!ENTITY firetray.tray_icon_group "Налаштування піктограм">

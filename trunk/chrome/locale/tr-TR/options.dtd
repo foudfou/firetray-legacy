@@ -1,0 +1,20 @@
+<!ENTITY firetray.prefwindow "FireTray Ayarları">
+<!ENTITY firetray.prefpane_options "Ayarlar">
+<!ENTITY firetray.close_to_tray "Kapat tuşu gizler">
+<!ENTITY firetray.close_to_tray_accesskey "C">
+<!ENTITY firetray.start_min "C">
+<!ENTITY firetray.start_min_accesskey "S">
+<!ENTITY firetray.confirm_exit "Uyguluma çıkışını onayla">
+<!ENTITY firetray.confirm_exit_accesskey "O">
+<!ENTITY firetray.show_next_unread "Açıldığında sonraki okunmayan mesajı göster">
+<!ENTITY firetray.show_next_unread_accesskey "n">
+<!ENTITY firetray.use_app_icon "Uygulama simgesini kullan">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "Varsayılan simgeyi kullan">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "Kullanıcı tanımlı simge">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.show_unread_number "Okunmayan mesaj sayısını göster">
+<!ENTITY firetray.show_unread_number_accesskey "h">
+<!ENTITY firetray.behaviour_group "Pencere görünüm ayarları">
+<!ENTITY firetray.tray_icon_group "Simge Ayarları">
