@@ -124,7 +124,7 @@ function config_options_window() {
 	config_enabled_controls();
 }
  
-function choose_file(icon_label, icon_filename)
+function choose_file(icon_filename)
 {
 	const nsIFilePicker = Components.interfaces.nsIFilePicker;
 	//this.netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect'); 
@@ -136,7 +136,6 @@ function choose_file(icon_label, icon_filename)
 	var rv = fp.show();
 	if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace) 
 	{
-		icon_label.value=fp.file.leafName;
 		icon_filename.value=fp.file.path;
 		var prefpane= document.getElementById("optionsPane");	
 		prefpane.userChangedValue(icon_filename);
@@ -146,17 +145,13 @@ function choose_file(icon_label, icon_filename)
 
 function choose_normal_icon_file()
 {
-  var filelabel = document.getElementById("normal_icon_label");	
   var filepath = document.getElementById("normal_icon_filename");	
-
-  choose_file(filelabel, filepath);  	
+  choose_file(filepath);  	
 }
 
 
 function choose_special_icon_file()
 {
-  var filelabel = document.getElementById("special_icon_label");	
   var filepath = document.getElementById("special_icon_filename");	
-
-  choose_file(filelabel, filepath);  	
+  choose_file(filepath);  	
 }
