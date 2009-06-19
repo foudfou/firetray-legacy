@@ -15,9 +15,9 @@
 	    <preference id="close_to_tray" name="extensions.firetray.close_to_tray" type="bool" />
 	    <preference id="start_minimized" name="extensions.firetray.start_minimized" type="bool" />
 	    <preference id="confirm_exit" name="extensions.firetray.confirm_exit" type="bool" />
-	    <preference id="restore_to_next_unread" name="extensions.firetray.restore_to_next_unread" type="bool" />
-	    
-
+	    <preference id="restore_to_next_unread" name="extensions.firetray.restore_to_next_unread" type="bool" />   
+	    <preference id="show_num_unread" name="extensions.firetray.show_num_unread" type="bool" />
+	    <preference id="show_unread_only_minimized" name="extensions.firetray.show_unread_only_minimized" type="bool" />
 	    <preference id="use_custom_normal_icon" name="extensions.firetray.use_custom_normal_icon" type="bool" />
 	    <preference id="use_custom_special_icon" name="extensions.firetray.use_custom_special_icon" type="bool" />
 	    <preference id="custom_normal_icon" name="extensions.firetray.custom_normal_icon" type="string" />
@@ -57,8 +57,7 @@
 
 					<hbox align="center">
 	            		    		<textbox id="normal_icon_filename" preference="custom_normal_icon" hidden="FALSE" />
-						<button id="select_normal_icon" label="seleziona" oncommand="choose_normal_icon_file()	"/>
-						<label id="normal_icon_label" value="nomefile.png" hidden="true" />	
+						<button id="select_normal_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey;" oncommand="choose_normal_icon_file()	"/>	
 					</hbox>
    	    	 
 
@@ -71,10 +70,10 @@
 
 	
 	 <groupbox id="special_icon_group">
-		<caption label="Icona arrivo nuova mail" />
+		<caption label="&firetray.newmail_settings;" />
 		<vbox>
-			<checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="pref8" />
-			<checkbox label="mostra solo se nascosto" />
+			<checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="show_num_unread" />
+			<checkbox label="&firetray.show_only_hidden;" accesskey="&firetray.show_only_hidden_accesskey;" preference="show_unread_only_minimized" />
 
 	
 			<radiogroup>
@@ -88,15 +87,14 @@
 
 					<hbox align="center">
 	            		    		<textbox id="special_icon_filename" preference="custom_special_icon" />
-						<button id="select_special_icon" label="seleziona" oncommand="choose_special_icon_file();"/>
-						<label id="special_icon_label" value="nomefile.png" hidden="true" />	
+						<button id="select_special_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey;" oncommand="choose_special_icon_file();"/>					
 					</hbox>
    	    	 
 
 				</hbox>
 
 				<hbox align="center">			
-					<label value="Colore font numero messaggi:" />
+					<label value="&firetray.msg_font_color;" />
 					<colorpicker type="button" preference="text_color" />
 				</hbox>
 	

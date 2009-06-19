@@ -121,19 +121,6 @@ function config_options_window() {
 //	var radio_default_special_icon = document.getElementById("radio_default_special_icon");
 //	var radio_user_special_icon = document.getElementById("radio_user_special_icon");
 
-
-        var path=filepath.label;
-	
-
-	if( path === undefined) 
-	{
-		filelabel.value="Non specificato";	
-	}
-	else
-	{
-		filelabel.value=path;
-	}
-
 	config_enabled_controls();
 }
  
