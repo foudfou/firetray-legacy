@@ -18,3 +18,10 @@
 <!ENTITY firetray.show_unread_number_accesskey "M">
 <!ENTITY firetray.behaviour_group "Comportamento delle finestre">
 <!ENTITY firetray.tray_icon_group "Impostazioni icona">
+<!ENTITY firetray.choose "Scegli">
+<!ENTITY firetray.choose_accesskey "S">
+<!ENTITY firetray.msg_font_color "Colore del numero di messaggi da leggere" >
+<!ENTITY firetray.newmail_settings "Impostazioni icona nuovi messaggi" >
+<!ENTITY firetray.show_only_hidden "Mostra solo se nascosto nella tray" >
+<!ENTITY firetray.show_only_hidden_accesskey "o" >
+

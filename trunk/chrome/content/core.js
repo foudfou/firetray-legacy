@@ -42,21 +42,26 @@ var myPrefObserver =
   }
 }
 
+FireTray.isHidden = function() {
+  var baseWindows = FireTray.getAllWindows();
+  return  (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) || (FireTray.isSong && minimized) ; 
+}
+
 FireTray.interface = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
 
 FireTray.app_started=false;
 
 FireTray.trayCallback = function() {
-    var baseWindows = FireTray.getAllWindows();
-    var vis=FireTray.isVisible () ;
-    if ( !vis || (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) || (FireTray.isSong && minimized)) {
+    //var vis=FireTray.isVisible () ; TOFIX: ISVISIBLE NOT WORKING
+    if ( FireTray.isHidden() ) {
     
-    if(FireTray.isMail){
+   if(FireTray.isMail){
 
            if(FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
               MsgNextUnreadMessage();
         } //nextUnreadMessage*/
-        
+      
+        var baseWindows = FireTray.getAllWindows();
         FireTray.interface.restore(baseWindows.length, baseWindows);
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
         minimized = false;
@@ -64,6 +69,14 @@ FireTray.trayCallback = function() {
         FireTray.interface.menu_remove_all(minimizeComponent.menu_window_list);
         FireTray.hide_to_tray();
     }
+
+   if(FireTray.isMail)
+   {
+      FireTray.lastnum=-1;
+      FireTray.UpdateMailTray(); 
+   } 
+ 
+ 
 };
 
 FireTray.exitCallback = function() {
@@ -310,12 +323,16 @@ FireTray.getMozillaAppCode = function() {
 
 FireTray.UpdateMailTray = function () {
 
-  if(FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread"))
+  var show_num_mail=false;
+
+  if( FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread") && 
+	 !(FireTray.prefManager.getBoolPref("extensions.firetray.show_unread_only_minimized") && !FireTray.isHidden() )  )
     {
+        show_num_mail = true;
 
 	var res=FireTray.localfolders.getNumUnread(true); 
 
-	for(var i=0; i<accountManager.allServers.Count(); i++)    
+	for(var i=0; i<accountManager.allServers.Count(); i++)     // TO ADD: AVOID CONSIDERING SPAM...
 	{
 	
 	var el=accountManager.allServers.GetElementAt(i);
@@ -325,13 +342,20 @@ FireTray.UpdateMailTray = function () {
 	var rootfolder=server.rootMsgFolder;
 	if(rootfolder && rootfolder!=FireTray.localfolders)
 	  {
-        	var emails=rootfolder.getNumUnread ( true);
+        	var emails=rootfolder.getNumUnread (true);
 		res=res+emails;
           }
  	}
   
   }
   else res=0;
+
+  if(!show_num_mail) 
+  {
+     FireTray.interface.set_icon_text("", "#000000");
+     FireTray.SetDefaultTextTooltip();
+     return;
+  }
 
   if(FireTray.lastnum==res) return; //update the icon only if something has changed
   FireTray.lastnum=res;
@@ -455,6 +479,14 @@ FireTray.set_close_handler = function() {
     }
 };
 
+FireTray.SetDefaultTextTooltip = function()
+{
+  var appcode=FireTray.getMozillaAppCode();
+  var text=FireTray.getDefaultAppString(appcode);
+  FireTray.interface.set_tray_tooltip(text);
+} 
+
+
 FireTray.SetTrayIcon = function() {
  
  //alert("SETTRAY_ICON");	
@@ -488,8 +520,7 @@ catch (err)  {
 
 }
 
-  var text=FireTray.getDefaultAppString();
-  FireTray.interface.set_tray_tooltip(text);
+  FireTray.SetDefaultTextTooltip();
   FireTray.interface.showTray();
 
   if (FireTray.isMail)

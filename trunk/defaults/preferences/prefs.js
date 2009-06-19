@@ -8,7 +8,6 @@ pref("extensions.firetray.restore_to_next_unread", true);
 pref("extensions.firetray.show_num_unread", true);
 pref("extensions.firetray.show_unread_only_minimized", false);
 
-
 pref("extensions.firetray.use_custom_normal_icon", false);
 pref("extensions.firetray.use_custom_special_icon", false);
 pref("extensions.firetray.custom_normal_icon", "");
