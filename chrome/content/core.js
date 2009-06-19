@@ -50,7 +50,8 @@ FireTray.trayCallback = function() {
     var baseWindows = FireTray.getAllWindows();
     var vis=FireTray.isVisible () ;
     if ( !vis || (baseWindows.length == FireTray.interface.menu_length(minimizeComponent.menu_window_list)) || (FireTray.isSong && minimized)) {
-    /*    if(FireTray.isMail){
+    
+    if(FireTray.isMail){
 
            if(FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
               MsgNextUnreadMessage();
@@ -88,11 +89,11 @@ FireTray.restoreCallback = function() {
 };
 
 FireTray.UpdatePreferences=function(){
+
+    FireTray.SetTrayIcon();
     
     //set windows close command blocking 
-    FireTray.interface.set_close_blocking(FireTray.prefManager.getBoolPref("extensions.firetray.close_to_tray"));
-    if (FireTray.isMail)
-        FireTray.UpdateMailTray();
+    FireTray.interface.set_close_blocking(FireTray.prefManager.getBoolPref("extensions.firetray.close_to_tray"));	
 
 }
 
@@ -198,6 +199,51 @@ FireTray.on_resize = function() {
    }
 }
 
+FireTray.getDefaultAppString = function(appcode) 
+{
+
+   var text="";
+   switch(appcode)
+   {
+
+   	case 9: //sunbird
+	   	text="Firetray (Sunbird)";
+   	        break;
+
+	case 8: //songbird
+	   	text="Firetray (Songbird)";
+         	break;
+
+	case 7: //icecat
+	   	text="Firetray (Icecat)";
+           	break;
+
+   	case 6: //iceweasel
+	   	text="Firetray (Iceweasel)";
+           	break;
+  	case 5: //swiftdove
+	   	text="Firetray (Icedove)";
+           	break;
+   	case 4: //swiftweasel
+	   	text="Firetray (Swifweasel)";
+           	break;
+   	case 3: //swiftdove
+	   	text="Firetray (Swiftdove)";
+           	break;
+   	case 2: //thunderbird
+	   	text="Firetray (Thunderbird)";
+           	break;
+   	case 1: //firefox
+   	default:
+	   	text="Firetray (Firefox)";
+           	break;
+
+  }
+  
+  return text;
+
+}
+
 FireTray.getMozillaAppCode = function() {
 
   /* RETURN VALUE
@@ -286,7 +332,7 @@ FireTray.UpdateMailTray = function () {
   
   }
   else res=0;
-//alert("EMS="+res); 
+
   if(FireTray.lastnum==res) return; //update the icon only if something has changed
   FireTray.lastnum=res;
   var tooltip="";
@@ -295,7 +341,13 @@ FireTray.UpdateMailTray = function () {
   else if(res==1)  tooltip=res + " " + firetray_unread_message; 
        else tooltip = res + " " + firetray_unread_messages;
 
-  FireTray.interface.set_icon_text(num);
+  var color="#000000";
+
+  try { 
+   color=FireTray.prefManager.getCharPref("extensions.firetray.text_color")
+  }  catch (err) {  }
+
+  FireTray.interface.set_icon_text(num, color);
   FireTray.interface.set_tray_tooltip(tooltip);
 }
 
@@ -403,6 +455,50 @@ FireTray.set_close_handler = function() {
     }
 };
 
+FireTray.SetTrayIcon = function() {
+ 
+ //alert("SETTRAY_ICON");	
+  
+ var app=FireTray.getMozillaAppCode();
+  FireTray.interface.set_default_xpm_icon(app);
+
+  //check use user specified icons
+ try {
+
+  if( FireTray.prefManager.getBoolPref("extensions.firetray.use_custom_normal_icon") )
+     {
+//	alert("CUSTOM_ICON");
+	var icon_normal=FireTray.prefManager.getCharPref("extensions.firetray.custom_normal_icon");
+	FireTray.interface.set_default_icon(icon_normal);
+
+     }
+
+  if( FireTray.prefManager.getBoolPref("extensions.firetray.use_custom_special_icon") )
+     {
+	var icon_special=FireTray.prefManager.getCharPref("extensions.firetray.custom_special_icon");
+	FireTray.interface.set_special_icon(icon_special);
+     }
+
+  
+
+}
+catch (err)  { 
+
+  	alert(err); 
+
+}
+
+  var text=FireTray.getDefaultAppString();
+  FireTray.interface.set_tray_tooltip(text);
+  FireTray.interface.showTray();
+
+  if (FireTray.isMail)
+    {
+	FireTray.lastnum =-1; //force mail number update (to reflect color change)
+        FireTray.UpdateMailTray();
+    }
+
+}
 
 FireTray.init = function() {
     FireTray.isMail=false;
@@ -479,8 +575,6 @@ FireTray.init = function() {
     }
 
 
-    FireTray.interface.set_default_xpm_icon(app);
-    FireTray.interface.showTray();
 
    if(FireTray.isMail && 1) {
 
@@ -488,9 +582,9 @@ FireTray.init = function() {
 
       FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
       FireTray.subscribe_to_mail_events();
-      FireTray.UpdateMailTray();
     }
 
+    FireTray.SetTrayIcon();
     
 	if(FireTray.isSong){
 

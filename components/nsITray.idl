@@ -35,10 +35,10 @@ interface nsITray : nsISupports
 
     void set_default_xpm_icon(in PRUint32 app); //selects default (embedded) icons for the specified application
 
-    void set_default_icon(in string filename); //icon for normal usage
-    void set_special_icon(in string filename); //icon shown when text is displayed
+    boolean set_default_icon(in string filename); //icon for normal usage
+    boolean set_special_icon(in string filename); //icon shown when text is displayed
 
-    void set_icon_text(in string text); //sets the icon text (used for mail count)
+    void set_icon_text(in string text, in string color); //sets the icon text (used for mail count)
 
     void set_tray_tooltip(in wstring text); //sets the tray tooltip message
     void set_tray_icon(in PRUint32 FLAG);  //switch systrayicon checking the FLAG
