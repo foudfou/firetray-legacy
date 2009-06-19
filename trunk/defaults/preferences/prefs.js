@@ -5,8 +5,12 @@ pref("extensions.firetray.start_minimized", false);
 pref("extensions.firetray.confirm_exit", true);
 pref("extensions.firetray.restore_to_next_unread", true);
 
-pref("extensions.firetray.use_app_icon", true);
-pref("extensions.firetray.use_default_icon", false);
-pref("extensions.firetray.use_user_icon", false);
-
 pref("extensions.firetray.show_num_unread", true);
+pref("extensions.firetray.show_unread_only_minimized", false);
+
+
+pref("extensions.firetray.use_custom_normal_icon", false);
+pref("extensions.firetray.use_custom_special_icon", false);
+pref("extensions.firetray.custom_normal_icon", "");
+pref("extensions.firetray.custom_special_icon", "");
+pref("extensions.firetray.text_color", "#000000");

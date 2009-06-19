@@ -26,12 +26,20 @@
 
 using namespace std;
 
-//#define DO_DEBUG 1
+#define DO_DEBUG 1
 
 #ifdef DO_DEBUG
  #define DEBUGSTR(str) {cerr << str << endl; cerr.flush();}
 #else
  #define DEBUGSTR(str) {}
+#endif
+
+//#define DO_DEBUG_FILTER
+
+#ifdef DO_DEBUG_FILTER
+ #define FDEBUGSTR(str) {cerr << str << endl; cerr.flush();}
+#else
+ #define FDEBUGSTR(str) {}
 #endif
 
 // Returns the lenght of a NULL-terminated UTF16 PRUnichar * string 
@@ -118,6 +126,7 @@ nsTray::~nsTray() {
 /* void showTray (); */
 NS_IMETHODIMP nsTray::ShowTray() {
     if (this->systray_icon) {
+        gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
         gtk_status_icon_set_visible(this->systray_icon, TRUE);
     }
 
@@ -312,8 +321,6 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
  if(this->default_icon) { g_object_unref(this->default_icon); this->default_icon=NULL;}
  if(this->special_icon) { g_object_unref(this->special_icon); this->special_icon=NULL;}
 
- 
- const char * text;
  char **df_icon;
  char **sp_icon;
 
@@ -337,104 +344,113 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
    case 9: //sunbird
            df_icon=(char**)sunbird_xpm;
            sp_icon=(char**)sunbird_xpm;
-	   text="Firetray (Sunbird)";
            break;
    case 8: //songbird
            df_icon=(char**)songbirdegg_xpm;
            sp_icon=(char**)songbird_xpm;
-	   text="Firetray (Songbird)";
            break;
    case 7: //icecat
            df_icon=(char**)icecat_xpm;
            sp_icon=(char**)newmail_xpm;
-	   text="Firetray (Icecat)";
            break;
    case 6: //iceweasel
            df_icon=(char**)weasel_xpm;
            sp_icon=(char**)newmail_xpm;
-	   text="Firetray (Iceweasel)";
            break;
    case 5: //swiftdove
            df_icon=(char**)dove_xpm;
            sp_icon=(char**)newmail_xpm;
-	   text="Firetray (Icedove)";
            break;
    case 4: //swiftweasel
            df_icon=(char**)weasel_xpm;
            sp_icon=(char**)newmail_xpm;
-	   text="Firetray (Swifweasel)";
            break;
    case 3: //swiftdove
            df_icon=(char**)dove_xpm;
            sp_icon=(char**)newmail_xpm;
-	   text="Firetray (Swiftdove)";
            break;
    case 2: //thunderbird
            df_icon=(char**)thunderbird_xpm;
            sp_icon=(char**)newmail_xpm;
-	   text="Firetray (Thunderbird)";
            break;
    case 1: //firefox
    default:
            df_icon=(char**)firefox_xpm;
            sp_icon=(char**)firefox_xpm;
-	   text="Firetray (Firefox)";
            break;
  }
   
  this->default_icon = gdk_pixbuf_new_from_xpm_data((const char**)df_icon);
  this->special_icon = gdk_pixbuf_new_from_xpm_data((const char**)sp_icon);
 
- gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->default_icon));
+/* gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->default_icon));
 
  gtk_status_icon_set_tooltip(this->systray_icon, text);
- gtk_status_icon_set_visible(this->systray_icon, TRUE);
+ gtk_status_icon_set_visible(this->systray_icon, TRUE);*/
 
  return NS_OK;   
 }
 
-/* void set_default_icon (in string filename); */
-NS_IMETHODIMP nsTray::Set_default_icon(const char *filename) 
+
+
+  /* boolean set_default_icon (in string filename); */
+NS_IMETHODIMP nsTray::Set_default_icon(const char *filename, PRBool *_retval)
 {
+    *_retval=true;   
+
+   DEBUGSTR(filename);
+
     GError * error = NULL;
     GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
     if(new_icon) 
      {
-       if(this->default_icon) 
-        { 
-           g_object_unref(this->default_icon); 
-           this->default_icon=NULL;
-        }
+       DEBUGSTR("OK!")
 
-       this->default_icon=new_icon;
+       if(this->default_icon) { 
+           g_object_unref(this->default_icon); 
+        }
+        this->default_icon=new_icon;
       }
+    else 
+	{
+		DEBUGSTR("ERROR!")
+               *_retval=false;
+	}
     
     return NS_OK;   
 }
 
-/* void set_special_icon (in string filename); */
-NS_IMETHODIMP nsTray::Set_special_icon(const char *filename)
+  /* boolean set_special_icon (in string filename); */
+NS_IMETHODIMP nsTray::Set_special_icon(const char *filename, PRBool *_retval) 
 {
+    *_retval=true;   
+
+   DEBUGSTR(filename);
+
     GError * error = NULL;
     GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
     if(new_icon) 
      {
-       if(this->special_icon) 
-        { 
+       DEBUGSTR("OK!")
+
+       if(this->special_icon) { 
            g_object_unref(this->special_icon); 
-           this->special_icon=NULL;
         }
-
-       this->special_icon=new_icon;
+        this->special_icon=new_icon;
       }
-
+    else 
+	{
+		DEBUGSTR("ERROR!")
+               *_retval=false;
+	}
+    
     return NS_OK;   
 }
 
 
 #define MIN_FONT_SIZE 4
 
-GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
+GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
 { 
   if(!base || !text) return NULL;
  
@@ -445,14 +461,21 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
     
   GdkGC *gc = gdk_gc_new (pm);
   
-  GdkColor fore = { 100, 255, 255, 0x00 };
-  //GdkColor back = { 100, 105, 105, 0x00 };
+  GdkColor fore; // = { 0xFFFF, 255, 255, 0x00 };
 
-  /*GdkColor color;
-  color.red=0;
-  color.green=100;
-  color.blue=200;*/
-  //gdk_gc_set_rgb_fg_color (gc,&color);
+  if(  gdk_color_parse  (colorstr, &fore) ) DEBUGSTR("COLOR OK")
+  else DEBUGSTR("COLOR ERROR")
+
+//  GdkColormap * colormap=gdk_gc_get_colormap (gc);
+//  if(colormap) 
+   {
+     DEBUGSTR("COLORMAP NOT NULL")
+     gboolean res=gdk_colormap_alloc_color (gdk_rgb_get_cmap (), &fore,true,true);
+
+     if(res) DEBUGSTR("RES=TRUE")
+    else DEBUGSTR("RES=FALSE")
+
+   }
 
   gdk_draw_pixbuf (pm, gc, base, 0, 0, 0, 0, w, h, GDK_RGB_DITHER_NONE, 0, 0);
 
@@ -486,7 +509,7 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
         sz=MIN_FONT_SIZE;
         break; 
     }
-    sz-=PANGO_SCALE; //to do: check if is absolute...
+    sz-=PANGO_SCALE; 
    
     pango_font_description_set_size (fnt,sz);
     pango_layout_set_font_description   (layout, fnt);
@@ -500,7 +523,6 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
 
 
   //paints the text
-  //TODO
   gdk_draw_layout_with_colors (pm, gc, px, py, layout, &fore,NULL);
   g_object_unref (layout);   
   
@@ -510,12 +532,14 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text)
   return ret;
 }
 
-/* void set_icon_text (in string text); */
-NS_IMETHODIMP nsTray::Set_icon_text(const char *text) {
+
+/* void set_icon_text (in string text, in string color); */
+NS_IMETHODIMP nsTray::Set_icon_text(const char *text, const char *color) 
+{
 
     if(strlen(text)>0 && special_icon) 
      {
-       GdkPixbuf *edit=DrawText (special_icon, (gchar *)text);       
+       GdkPixbuf *edit=DrawText (special_icon, (gchar *)text, color);       
 
        gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(edit));
        gtk_status_icon_set_visible(this->systray_icon, TRUE);
@@ -671,16 +695,16 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
    switch(e->xany.type)  //AT THE MOMENT WE NEED ONLY WINDOW DELETE-EVENT
     {
       case DestroyNotify: 
-             DEBUGSTR("DESTROY-NOTIFY!!!") 
+             FDEBUGSTR("DESTROY-NOTIFY!!!") 
              break;
       case ConfigureNotify: 
-             DEBUGSTR("CONFIGURE-NOTIFY")
+             FDEBUGSTR("CONFIGURE-NOTIFY")
              break;
       case MapNotify: 
-             DEBUGSTR("MapNotify-NOTIFY")
+             FDEBUGSTR("MapNotify-NOTIFY")
              break;
       case UnmapNotify: 
-             DEBUGSTR("UnmapNotify-NOTIFY")
+             FDEBUGSTR("UnmapNotify-NOTIFY")
              break;
       case ClientMessage: 
 //       if(e->xany.type==ClientMessage)
@@ -688,38 +712,38 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
              if(e->xclient.data.l && tray) 
              if(e->xclient.data.l[0]==delete_window)
              {
-              DEBUGSTR("CLOSING WINDOW") 
+              FDEBUGSTR("CLOSING WINDOW") 
               PRBool block=FALSE;
               tray->Get_close_blocking(&block);
               if(block) 
                { 
-                 DEBUGSTR("CLOSE BLOCKING")
+                 FDEBUGSTR("CLOSE BLOCKING")
                  PRBool ret = TRUE;
                  if(tray->tray_callback)tray->tray_callback->Call(&ret);
-                 else  DEBUGSTR("NOT CALLBACK")
+                 else  FDEBUGSTR("NOT CALLBACK")
                  return GDK_FILTER_REMOVE; 
                }
              }
              else 
-               DEBUGSTR("ClientMessage-NOTIFY");
+               FDEBUGSTR("ClientMessage-NOTIFY");
        }
              break;
 
       case VisibilityNotify: 
-             DEBUGSTR("VisibilityNotify-NOTIFY")
+             FDEBUGSTR("VisibilityNotify-NOTIFY")
              ws=tray->handled_windows[xwin];
              if(ws) 
              {
-DEBUGSTR(" updating ws state")
+FDEBUGSTR(" updating ws state")
                 //update window visibility state
                 ws->visibility=e->xvisibility.state; 
-DEBUGSTR(" WS_STATE:"<<e->xvisibility.state)
+FDEBUGSTR(" WS_STATE:"<<e->xvisibility.state)
              }
 
              break;	
 
       default:
-             DEBUGSTR("FILTER_FUNC - UNKNOWN")
+             FDEBUGSTR("FILTER_FUNC - UNKNOWN")
              break;
 
     }
@@ -745,7 +769,7 @@ NS_IMETHODIMP nsTray::Set_window_handler(nsIBaseWindow *aBaseWindow)
       
       Window xwin=GDK_WINDOW_XID(gdk_win);
      window_state *ws=handled_windows[xwin];
-      if(handled_windows[xwin]) DEBUGSTR(">>GIA' HANDLED")
+      if(handled_windows[xwin]) FDEBUGSTR(">>ALREADY HANDLED")
       else {
         GdkEventMask m=(GdkEventMask)( /*  |*/ /*(GdkEventMask)*/GDK_VISIBILITY_NOTIFY_MASK | (long) gdk_window_get_events (gdk_win)) ;
         
