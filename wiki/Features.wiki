@@ -10,13 +10,12 @@
 
 - when restoring if the window is iconified, deiconify it
 
+- Custom tray icon
+
+
 *Wishes / planned features
 
 - Hotkey for Hide/Unhide
-
-- testing on 64 bit systems
-
-- Custom tray icon
 
 - Enable the user to close all firefox windows while still keeping firefox in the tray and add a menu item to the tray icon "open new window
 
