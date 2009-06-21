@@ -12,7 +12,7 @@ rm $FILE
 scons $FILE
 if [ -e $FILE ] 
 then
-  #zip $FILE components/libnptray_i386.so
+  zip $FILE components/libnptray_i386.so
   echo ok
 else 
   echo error compiling $FILE
