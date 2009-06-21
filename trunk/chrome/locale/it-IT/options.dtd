@@ -25,3 +25,6 @@
 <!ENTITY firetray.show_only_hidden "Mostra solo se nascosto nella tray" >
 <!ENTITY firetray.show_only_hidden_accesskey "o" >
 
+<!ENTITY firetray.dont_consider_spam "Non includere i nuovi messaggi dalle seguenti cartelle:" >
+<!ENTITY firetray.dont_consider_spam_accesskey "N" >
+<!ENTITY firetray.dont_consider_spam_indications "Indicare i nomi delle cartelle separati dal carattere punto e virgola (;)" >

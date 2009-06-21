@@ -8,8 +8,8 @@
 
 
 <prefpane id="optionsPane" onpaneload="config_options_window()" label="&firetray.prefpane_options;">
-	<script src="chrome://firetray/content/options.js" /> 
-<!-- <script src="/Temp/FireTray/CLEAN/firetray/chrome/content/options.js" />-->
+	<script src="chrome://firetray/content/options.js" />
+ <!--<script src="/Temp/FireTray/CLEAN/firetray/chrome/content/options.js" />-->
 
 	<preferences>
 	    <preference id="close_to_tray" name="extensions.firetray.close_to_tray" type="bool" />
@@ -73,6 +73,9 @@
 		<caption label="&firetray.newmail_settings;" />
 		<vbox>
 			<checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="show_num_unread" />
+			<!--<checkbox id="check_dont_consider_spam" label="&firetray.dont_consider_spam;" accesskey="&firetray.dont_consider_spam_accesskey;" />
+			<textbox id="textbox_spam_folders" value="Spam;Trash" tooltiptext="&firetray.dont_consider_spam_indications;" />  	  -->
+	
 			<checkbox label="&firetray.show_only_hidden;" accesskey="&firetray.show_only_hidden_accesskey;" preference="show_unread_only_minimized" />
 
 	

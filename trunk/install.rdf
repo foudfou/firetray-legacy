@@ -33,7 +33,7 @@
 	    <Description>
 		    <em:id>songbird@songbirdnest.com</em:id>
 		    <em:minVersion>0.8</em:minVersion>
-		    <em:maxVersion>1.1.0pre</em:maxVersion>
+		    <em:maxVersion>1.2.0</em:maxVersion>
 	    </Description>
     </em:targetApplication>   
     
@@ -58,6 +58,7 @@
     <em:contributor>Diego Rodriguez</em:contributor>
     <em:contributor>Dave Bartlett</em:contributor>
     <em:contributor>Bertolotti Pierre</em:contributor>
+    <em:contributor>Ziyuan Yao</em:contributor>
     
     <em:translator>Simone "Underpass" [it-IT]</em:translator>
     <em:translator>Quicksilver tears [ru-RU]</em:translator>

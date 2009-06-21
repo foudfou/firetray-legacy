@@ -15,7 +15,9 @@
 #include <pango/pango-layout.h>
 
 #include <gtk/gtksignal.h>
-// REMOVE NOTIFY #include <libnotify/notify.h>
+#include <gdk/gdkkeysyms.h>
+
+//// REMOVE NOTIFY #include <libnotify/notify.h>
 #include <iostream>
 
 #include <X11/Xlib.h>
@@ -269,62 +271,89 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
 
     return NS_OK;
 }
-/*
-nativeWindow aNativeWindow;
-        rv = aBaseWindows[i]->GetParentNativeWindow(&aNativeWindow);
-        NS_ENSURE_SUCCESS(rv, rv);
-        
-        GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
-        
-        gdk_window_show(toplevel);       
-    
-	 gdk_window_focus (toplevel,
-                        gtk_get_current_event_time ());
-	//gtk_window_present(toplevel);
-     
-        //XSetInputFocus(GDK_DISPLAY(), xwin, RevertToNone, CurrentTime);
-      
-        GdkWindowState s=gdk_window_get_state(toplevel);
 
-        if(s & GDK_WINDOW_STATE_ICONIFIED) 
-          gdk_window_deiconify(toplevel);*/
-
-/* PRUint64 get_tray_menu (); */
-NS_IMETHODIMP nsTray::Get_tray_menu(PRUint64 *_retval) {
+/* PRUint64 getTrayMenu (); */
+NS_IMETHODIMP nsTray::GetTrayMenu(PRUint64 *_retval) {
     *_retval = (PRUint64)this->pop_menu;
 
     return NS_OK;
 }
 
-/* PRUint64 menu_new (in string label); */
-NS_IMETHODIMP nsTray::Menu_new(PRUint64 *_retval) {
+/* PRUint64 menuNew (in string label); */
+NS_IMETHODIMP nsTray::MenuNew(PRUint64 *_retval) {
     GtkWidget *menu = gtk_menu_new();
     *_retval = (PRUint64)menu;
 
     return NS_OK;
 }
 
-/* PRUint64 menu_item_new (in wstring label); */
-NS_IMETHODIMP nsTray::Menu_item_new(const PRUnichar *label, PRUint64 *_retval) {
-    PRUint32 len=PRUstrlen(label);  
-    gchar * utf8=g_utf16_to_utf8 ((const gunichar2 *)label, len, NULL, NULL, NULL);
-    GtkWidget *item = gtk_menu_item_new_with_label(utf8);
-    *_retval = (PRUint64)item;
-    g_free(utf8);  
-
-    return NS_OK;
+gchar *convertUtf16ToUtf8(const PRUnichar *str)
+{
+    PRUint32 len=PRUstrlen(str);  
+    gchar * utf8=g_utf16_to_utf8 ((const gunichar2 *)str, len, NULL, NULL, NULL);
+    return utf8;
 }
 
-/* PRUint64 separator_menu_item_new (); */
-NS_IMETHODIMP nsTray::Separator_menu_item_new(PRUint64 *_retval) {
+
+/* PRUint64 menuItemNew (in wstring label, in wstring img); */
+NS_IMETHODIMP nsTray::MenuItemNew(const PRUnichar *label, const PRUnichar *img, PRUint64 *_retval) {
+
+    if(!img) DEBUGSTR("IMMG NULL")
+    else {
+       DEBUGSTR("IMMG NOT NULL:")	
+       DEBUGSTR(img)
+    }
+ 
+    GtkWidget *item=NULL;
+
+    gchar * label_utf8=convertUtf16ToUtf8(label);
+
+    if(img && PRUstrlen(img)>0) //try to create menu item with stock image
+    {
+       gchar * img_utf8=convertUtf16ToUtf8(img);
+       item = gtk_image_menu_item_new_with_label (label_utf8);
+       gtk_image_menu_item_set_image((GtkImageMenuItem*)item, gtk_image_new_from_stock ( img_utf8 ,GTK_ICON_SIZE_MENU));
+       g_free(img_utf8);  
+    }
+
+    if(!item) //if img not specified or img error just set menu item with label
+    {
+       item = gtk_menu_item_new_with_label(label_utf8);
+    }
+
+    g_free(label_utf8);  
+
+    *_retval = (PRUint64)item;
+    return NS_OK; 
+}
+
+/* PRUint64 separatorMenuItemNew (); */
+NS_IMETHODIMP nsTray::SeparatorMenuItemNew(PRUint64 *_retval) {
     GtkWidget *item = gtk_separator_menu_item_new();
     *_retval = (PRUint64)item;
 
     return NS_OK;
 }
+/*///ADDED FOR IMG MENU
+/ PRUint64 menu_item_new (in wstring label); /
+NS_IMETHODIMP nsTray::Menu_item_img_new(const PRUnichar *label, const PRUnichar *immg, PRUint64 *_retval) {
+   PRUint32 len=PRUstrlen(label);  
+   gchar * utf8=g_utf16_to_utf8 ((const gunichar2 *)label, len, NULL, NULL, NULL);
+   len=PRUstrlen(immg);  
+   
+gchar * iconn=g_utf16_to_utf8 ((const gunichar2 *)immg, len, NULL, NULL, NULL);
 
-/* void menu_append (in PRUint64 menu_item); */
-NS_IMETHODIMP nsTray::Menu_append(PRUint64 menu, PRUint64 item, nsITrayCallback *aCallback) {
+   gtk_image_menu_item_set_image((GtkImageMenuItem*)item, gtk_image_new_from_stock (iconn,GTK_ICON_SIZE_MENU));
+   *_retval = (PRUint64)item;
+   g_free(utf8);  
+   g_free(iconn); 
+    return NS_OK;
+}
+
+//////*/
+
+/* void menuAppend (in PRUint64 menu_item); */
+NS_IMETHODIMP nsTray::MenuAppend(PRUint64 menu, PRUint64 item, nsITrayCallback *aCallback) {
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
@@ -333,8 +362,8 @@ NS_IMETHODIMP nsTray::Menu_append(PRUint64 menu, PRUint64 item, nsITrayCallback 
     return NS_OK;
 }
 
-/* void menu_prepend (in PRUint64 item, in nsITrayCallback aCallback); */
-NS_IMETHODIMP nsTray::Menu_prepend(PRUint64 menu, PRUint64 item, nsITrayCallback *aCallback) {
+/* void menuPrepend (in PRUint64 item, in nsITrayCallback aCallback); */
+NS_IMETHODIMP nsTray::MenuPrepend(PRUint64 menu, PRUint64 item, nsITrayCallback *aCallback) {
     gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
@@ -342,8 +371,8 @@ NS_IMETHODIMP nsTray::Menu_prepend(PRUint64 menu, PRUint64 item, nsITrayCallback
 
     return NS_OK;
 }
-/* void menu_insert (in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback); */
-NS_IMETHODIMP nsTray::Menu_insert(PRUint64 menu, PRUint64 item, PRUint64 pos, nsITrayCallback *aCallback) {
+/* void menuInsert (in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback); */
+NS_IMETHODIMP nsTray::MenuInsert(PRUint64 menu, PRUint64 item, PRUint64 pos, nsITrayCallback *aCallback) {
     gtk_menu_shell_insert(GTK_MENU_SHELL(menu), GTK_WIDGET(item), pos);
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
@@ -352,38 +381,38 @@ NS_IMETHODIMP nsTray::Menu_insert(PRUint64 menu, PRUint64 item, PRUint64 pos, ns
     return NS_OK;
 }
 
-/* void menu_sub (in PRUint64 item, in PRUint64 sub_menu); */
-NS_IMETHODIMP nsTray::Menu_sub(PRUint64 item, PRUint64 sub_menu) {
+/* void menuSub (in PRUint64 item, in PRUint64 sub_menu); */
+NS_IMETHODIMP nsTray::MenuSub(PRUint64 item, PRUint64 sub_menu) {
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), GTK_WIDGET(sub_menu));
 
     return NS_OK;
 }
 
-/* void menu_remove (in PRUint64 menu, in PRUint64 item); */
-NS_IMETHODIMP nsTray::Menu_remove(PRUint64 menu, PRUint64 item) {
+/* void menuRemove (in PRUint64 menu, in PRUint64 item); */
+NS_IMETHODIMP nsTray::MenuRemove(PRUint64 menu, PRUint64 item) {
     gtk_container_remove(GTK_CONTAINER(menu), GTK_WIDGET(item));
     this->item_callback_list.erase(item);
 
     return NS_OK;
 }
 
-/* void menu_remove_all (in PRUint64 menu); */
-NS_IMETHODIMP nsTray::Menu_remove_all(PRUint64 menu) {
+/* void menuRemoveAll (in PRUint64 menu); */
+NS_IMETHODIMP nsTray::MenuRemoveAll(PRUint64 menu) {
     gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)(nsTray::menu_remove_all_callback), this);
 
     return NS_OK;
 }
 
-/* void menu_length (in PRUint64 menu); */
-NS_IMETHODIMP nsTray::Menu_length(PRUint64 menu, PRUint64 *_retval) {
+/* void menuLength (in PRUint64 menu); */
+NS_IMETHODIMP nsTray::MenuLength(PRUint64 menu, PRUint64 *_retval) {
     GList *list = gtk_container_get_children(GTK_CONTAINER(menu));
     *_retval = g_list_length(list);
 
     return NS_OK;
 }
 
-/* void set_default_xpm_icon (in PRUint64 app); */
-NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app) 
+/* void setDefaultXpmIcon (in PRUint64 app); */
+NS_IMETHODIMP nsTray::SetDefaultXpmIcon(PRUint32 app) 
 {
 
  if(this->icon) { g_object_unref(this->icon); this->icon=NULL;}
@@ -462,8 +491,8 @@ NS_IMETHODIMP nsTray::Set_default_xpm_icon(PRUint32 app)
 
 
 
-  /* boolean set_default_icon (in string filename); */
-NS_IMETHODIMP nsTray::Set_default_icon(const char *filename, PRBool *_retval)
+  /* boolean setDefaultIcon (in string filename); */
+NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, PRBool *_retval)
 {
     *_retval=true;   
 
@@ -489,8 +518,8 @@ NS_IMETHODIMP nsTray::Set_default_icon(const char *filename, PRBool *_retval)
     return NS_OK;   
 }
 
-  /* boolean set_special_icon (in string filename); */
-NS_IMETHODIMP nsTray::Set_special_icon(const char *filename, PRBool *_retval) 
+  /* boolean setSpecialIcon (in string filename); */
+NS_IMETHODIMP nsTray::SetSpecialIcon(const char *filename, PRBool *_retval) 
 {
     *_retval=true;   
 
@@ -602,8 +631,8 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
 }
 
 
-/* void set_icon_text (in string text, in string color); */
-NS_IMETHODIMP nsTray::Set_icon_text(const char *text, const char *color) 
+/* void setIconText (in string text, in string color); */
+NS_IMETHODIMP nsTray::SetIconText(const char *text, const char *color) 
 {
 
     if(strlen(text)>0 && special_icon) 
@@ -625,8 +654,8 @@ NS_IMETHODIMP nsTray::Set_icon_text(const char *text, const char *color)
     return NS_OK;   
 }
 
-  /* void set_tray_tooltip (in wstring text); */
-NS_IMETHODIMP nsTray::Set_tray_tooltip(const PRUnichar *text){
+  /* void setTrayTooltip (in wstring text); */
+NS_IMETHODIMP nsTray::SetTrayTooltip(const PRUnichar *text){
   if(!text) return NS_OK;
 
   PRUint64 len=PRUstrlen(text);
@@ -639,8 +668,8 @@ NS_IMETHODIMP nsTray::Set_tray_tooltip(const PRUnichar *text){
   return NS_OK;
 }
 
-/* void set_tray_tooltip (in string text); */
-NS_IMETHODIMP nsTray::Set_tray_icon(PRUint32 FLAG) {
+/* void setTrayIcon(in PRUint32 FLAG); */
+NS_IMETHODIMP nsTray::SetTrayIcon(PRUint32 FLAG) {
 	
     if (!FLAG)
        	gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
@@ -664,7 +693,42 @@ NS_IMETHODIMP nsTray::Init_tooltip_image() {
   	return NS_OK;
 }
 */
-NS_IMETHODIMP nsTray::Show_a_notification(const PRUnichar *title,const PRUnichar * info,const gchar *image) {
+
+/* void setCloseBlocking (in boolean block); */
+NS_IMETHODIMP nsTray::SetCloseBlocking(PRBool val)  
+{
+    block_close=val;
+    return NS_OK;
+}
+
+/* void getCloseBlocking (out boolean block); */
+NS_IMETHODIMP nsTray::GetCloseBlocking(PRBool *val) 
+{
+    if(val)*val=this->block_close;
+    return NS_OK;
+}
+
+
+/* void initNotification(in string appname); */
+NS_IMETHODIMP nsTray::InitNotification(const gchar * appName) {
+	
+// REMOVE NOTIFY 
+/*	notify_init(appName);
+	sys_notification=notify_notification_new_with_status_icon(
+											"FireTray Notification", 
+											NULL,
+											NULL,
+											this->systray_icon);
+											
+	notify_notification_attach_to_status_icon(sys_notification,
+                                              this->systray_icon);
+	notify_notification_set_timeout(sys_notification,NS_NOTIFY_TIME);
+*/	
+	return NS_OK;
+}
+
+/* void showANotification(in wstring title, in wstring info,in string image); */
+NS_IMETHODIMP nsTray::ShowANotification(const PRUnichar *title,const PRUnichar * info,const gchar *image) {
 
  // REMOVE NOTIFY  	
  /* 	PRUint64 len=PRUstrlen(title);
@@ -686,36 +750,6 @@ NS_IMETHODIMP nsTray::Show_a_notification(const PRUnichar *title,const PRUnichar
   	return NS_OK;
 }
 
-NS_IMETHODIMP nsTray::Init_notification(const gchar * appName) {
-	
-// REMOVE NOTIFY 
-/*	notify_init(appName);
-	sys_notification=notify_notification_new_with_status_icon(
-											"FireTray Notification", 
-											NULL,
-											NULL,
-											this->systray_icon);
-											
-	notify_notification_attach_to_status_icon(sys_notification,
-                                              this->systray_icon);
-	notify_notification_set_timeout(sys_notification,NS_NOTIFY_TIME);
-*/	
-	return NS_OK;
-}
-
-  /* void set_close_blocking (in boolean block); */
-NS_IMETHODIMP nsTray::Set_close_blocking(PRBool val)  
-{
-    block_close=val;
-    return NS_OK;
-}
-
-/* void get_close_blocking (out boolean block); */
-NS_IMETHODIMP nsTray::Get_close_blocking(PRBool *val) 
-{
-    if(val)*val=this->block_close;
-    return NS_OK;
-}
 
 
 GtkWindow * get_gtkwindow_from_gdkwindow(GdkWindow *win)
@@ -778,12 +812,13 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
       case ClientMessage: 
 //       if(e->xany.type==ClientMessage)
        {
-             if(e->xclient.data.l && tray) 
+            if(e->xclient.data.l && tray) 
+            {
              if(e->xclient.data.l[0]==delete_window)
              {
               FDEBUGSTR("CLOSING WINDOW") 
               PRBool block=FALSE;
-              tray->Get_close_blocking(&block);
+              tray->GetCloseBlocking(&block);
               if(block) 
                { 
                  FDEBUGSTR("CLOSE BLOCKING")
@@ -795,6 +830,7 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
              }
              else 
                FDEBUGSTR("ClientMessage-NOTIFY");
+            }
        }
              break;
 
@@ -823,9 +859,8 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
    return GDK_FILTER_CONTINUE;
 }
 
-
-
-NS_IMETHODIMP nsTray::Set_window_handler(nsIBaseWindow *aBaseWindow) 
+/* void setWindowHandler(in nsIBaseWindow aBaseWindow); */
+NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow) 
 {
       nsresult rv;
 
@@ -858,8 +893,8 @@ NS_IMETHODIMP nsTray::Set_window_handler(nsIBaseWindow *aBaseWindow)
 }
 
 
-/* boolean get_focus_state (in nsIBaseWindow aBaseWindow); */
-NS_IMETHODIMP nsTray::Get_focus_state(nsIBaseWindow *aBaseWindow, PRBool *_retval) 
+/*     boolean getFocusState(in nsIBaseWindow aBaseWindow); */
+NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval) 
 {
       *_retval=false;
       nsresult rv;

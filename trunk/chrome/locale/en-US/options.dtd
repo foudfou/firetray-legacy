@@ -25,3 +25,6 @@
 <!ENTITY firetray.show_only_hidden "Show only when hidden on tray" >
 <!ENTITY firetray.show_only_hidden_accesskey "w" >
 
+<!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:" >
+<!ENTITY firetray.dont_consider_spam_accesskey "t" >
+<!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character" >
