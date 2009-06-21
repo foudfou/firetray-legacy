@@ -20,11 +20,16 @@
 #define NS_ITRAY_CID  { 0xbf249f85, 0x20f2, 0x49be, { 0x96, 0xf3, 0x96, 0x81, 0xf3, 0xbb, 0x03, 0x34 } }
 #define NS_NOTIFY_TIME 2500
 
+//#define Point std::pair<gint,gint>
 
-
-struct window_state //keeps needed window information ... (at the moment only visibility status)
+struct window_state //keeps needed window information ... 
 {
   int visibility; // VisibilityUnobscured, VisibilityPartiallyObscured, or VisibilityFullyObscured.
+  
+ // GdkWindow *win; //pointer to gdkwindow structure
+
+  int pos_x;	//save the position of the window 
+  int pos_y;
 };
 
 /* Header file */

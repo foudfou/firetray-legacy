@@ -188,8 +188,8 @@ FireTray.hide_to_tray = function() {
     minimized = true;
     for(var i=0; i<baseWindows.length; i++) {
         var basewindow = baseWindows[i];
-        FireTray.interface.hideWindow(basewindow);
         FireTray.windows_list_add(basewindow);
+        FireTray.interface.hideWindow(basewindow);
     }
 };
 
@@ -342,9 +342,28 @@ FireTray.UpdateMailTray = function () {
 	var rootfolder=server.rootMsgFolder;
 	if(rootfolder && rootfolder!=FireTray.localfolders)
 	  {
-        	var emails=rootfolder.getNumUnread (true);
+       	var emails=rootfolder.getNumUnread (true);
 		res=res+emails;
-          }
+      }
+
+      /*  if(rootfolder)
+	{
+		var text="["+rootfolder.name+"] ";
+
+		var folder;
+
+		if(rootfolder.subFolders)
+		while(rootfolder.subFolders.hasMoreElements())
+                {
+                   folder=rootfolder.subFolders.getNext();
+
+                   if(folder) { text=text + "-" + folder.name;  }			
+                    text=text+ " - ";
+		}
+
+		alert(text + " [ " + rootfolder.numSubFolders + " subs. ]");
+	}/**/
+
  	}
   
   }
@@ -473,9 +492,7 @@ FireTray.set_close_handler = function() {
     for(var i=0; i<baseWindows.length; i++) {
         var basewindow = baseWindows[i];
           FireTray.interface.set_window_handler(basewindow);
-        //basewindow.addEventListener("close", FireTray.on_close2, false);
-        //FireTray.interface.hideWindow(basewindow);
-        //FireTray.windows_list_add(basewindow);
+
     }
 };
 
@@ -701,7 +718,7 @@ FireTray.init = function() {
             }, 0);
 
     FireTray.UpdatePreferences();
-    if(!FireTray.isBrowser) FireTray.set_close_handler();
+   /* if(!FireTray.isBrowser) */ FireTray.set_close_handler();
    // FireTray.hide_to_tray();
 };
 
