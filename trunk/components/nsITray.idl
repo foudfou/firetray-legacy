@@ -55,6 +55,5 @@ interface nsITray : nsISupports
     boolean get_focus_state(in nsIBaseWindow aBaseWindow); 
 
     void set_window_handler(in nsIBaseWindow aBaseWindow);
-    void get_default_from_app(in nsIBaseWindow aBaseWindow); //get icon from the application window
     
 };

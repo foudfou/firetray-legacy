@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.0</em:version>
+    <em:version>0.2.1</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -80,6 +80,7 @@
 
     <em:homepageURL>http://firetray.xiaoduo.info</em:homepageURL>
     <em:optionsURL>chrome://firetray/content/options.xul</em:optionsURL>    
+    <em:iconURL>chrome://firetray/content/icon.png</em:iconURL>    
     
   </Description>
 </RDF>
