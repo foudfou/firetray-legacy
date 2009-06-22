@@ -7,18 +7,3 @@ overlay chrome://calendar/content/calendar.xul			chrome://firetray/content/mailO
 
 locale	firetray	en-US	jar:chrome/firetray.jar!/locale/en-US/
 locale	firetray	it-IT	jar:chrome/firetray.jar!/locale/it-IT/
-locale	firetray	ru-RU	jar:chrome/firetray.jar!/locale/ru-RU/
-locale	firetray	pl-PL	jar:chrome/firetray.jar!/locale/pl-PL/
-locale	firetray	pt-BR	jar:chrome/firetray.jar!/locale/pt-BR/
-locale	firetray	ja-JP	jar:chrome/firetray.jar!/locale/ja-JP/
-locale	firetray	fr-FR	jar:chrome/firetray.jar!/locale/fr-FR/
-locale	firetray	de-DE	jar:chrome/firetray.jar!/locale/de-DE/
-locale	firetray	sk-SK	jar:chrome/firetray.jar!/locale/sk-SK/
-locale	firetray	zh-CN	jar:chrome/firetray.jar!/locale/zh-CN/
-locale	firetray	bg-BG  	jar:chrome/firetray.jar!/locale/bg-BG/
-locale	firetray	ca-AD 	jar:chrome/firetray.jar!/locale/ca-AD/
-locale	firetray	es-AR	jar:chrome/firetray.jar!/locale/es-AR/
-locale	firetray	es-ES	jar:chrome/firetray.jar!/locale/es-ES/
-locale	firetray	mk-MK	jar:chrome/firetray.jar!/locale/mk-MK/
-locale	firetray	sl-SI	jar:chrome/firetray.jar!/locale/sl-SI/
-locale	firetray	uk-UA	jar:chrome/firetray.jar!/locale/uk-UA/

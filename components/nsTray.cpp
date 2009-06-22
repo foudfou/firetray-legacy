@@ -28,7 +28,7 @@
 
 using namespace std;
 
-#define DO_DEBUG 1
+//#define DO_DEBUG 1
 
 #ifdef DO_DEBUG
  #define DEBUGSTR(str) {cerr << str << endl; cerr.flush();}
@@ -36,7 +36,7 @@ using namespace std;
  #define DEBUGSTR(str) {}
 #endif
 
-#define DO_DEBUG_FILTER 1
+//#define DO_DEBUG_FILTER 1
 
 #ifdef DO_DEBUG_FILTER
  #define FDEBUGSTR(str) {cerr << str << endl; cerr.flush();}

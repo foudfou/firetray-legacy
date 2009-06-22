@@ -509,8 +509,6 @@ FireTray.SetDefaultTextTooltip = function()
 
 FireTray.setTrayIcon = function() {
  
- //alert("SETTRAY_ICON");	
-  
  var app=FireTray.getMozillaAppCode();
   FireTray.interface.setDefaultXpmIcon(app);
 
@@ -519,7 +517,6 @@ FireTray.setTrayIcon = function() {
 
   if( FireTray.prefManager.getBoolPref("extensions.firetray.use_custom_normal_icon") )
      {
-//	alert("CUSTOM_ICON");
 	var icon_normal=FireTray.prefManager.getCharPref("extensions.firetray.custom_normal_icon");
 	FireTray.interface.setDefaultIcon(icon_normal);
 
@@ -530,15 +527,10 @@ FireTray.setTrayIcon = function() {
 	var icon_special=FireTray.prefManager.getCharPref("extensions.firetray.custom_special_icon");
 	FireTray.interface.setSpecialIcon(icon_special);
      }
-
-  
-
-}
-catch (err)  { 
-
+  }
+  catch (err)  { 
   	alert(err); 
-
-}
+  }
 
   FireTray.SetDefaultTextTooltip();
   FireTray.interface.showTray();
@@ -617,17 +609,17 @@ FireTray.setupMenus = function() {
 
             if ( !FireTray.isSong){
 
-                var item_s_three = FireTray.interface.separatorMenuItemNew();
-                FireTray.interface.menuInsert(tray_menu, item_s_three, 0, null);
+                //var item_s_three = FireTray.interface.separatorMenuItemNew();
+                //FireTray.interface.menuInsert(tray_menu, item_s_three, 0, null);
 
                 var item_windows_list = FireTray.interface.menuItemNew(firetray_windowslist,"");
-                FireTray.interface.menuInsert(tray_menu, item_windows_list, 1, null);
+                FireTray.interface.menuInsert(tray_menu, item_windows_list, 0, null);
 
     
                 minimizeComponent.menu_window_list = FireTray.interface.menuNew();
   	        FireTray.interface.menuSub(item_windows_list, minimizeComponent.menu_window_list);
 
-            }/**/
+            }
 
         }
 
@@ -727,8 +719,6 @@ FireTray.init = function() {
     myPrefObserver.register();
 
     var app=FireTray.getMozillaAppCode();
-
-      alert("AppInit");
 
     if (!minimizeComponent.menu_window_list) {
 
