@@ -2,7 +2,7 @@
 const BROWSER=0;
 const MAIL=1;
 const MUSIC=2;
-const CALENDAR=3;
+const CALENDAR=4;
 
 function getAppType()  
 {
@@ -18,40 +18,41 @@ function getAppType()
    7 - icecat
    8 - songbird
    9 - sunbird
+   10 - seamonkey
   */
 
-try 
-{
-
+ try {
   var appInfo = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo);
 
   const FIREFOX_ID = "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}";
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
   const SONGBIRD_ID = "songbird@songbirdnest.com";
   const SUNBIRD_ID = "{718e30fb-e89b-41dd-9da7-e25a45638b28}";
+  const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
   
   var appname=appInfo.name.toLowerCase()
 
   switch(appInfo.ID) {
 
-     case FIREFOX_ID:
-        return BROWSER;
-        break;
-
      case THUNDERBIRD_ID:
-	return MAIL;		
+        return MAIL;  
         break;
 
      case SONGBIRD_ID:
-	return MUSIC;	
+        return MUSIC;
         break;
 
      case SUNBIRD_ID:
-        return CALENDAR;
+        return CALENDAR; 
         break;
 
+     case SEAMONKEY_ID:
+        return BROWSER;
+        break;
+
+     case FIREFOX_ID:
      default:
-        return 0;
+        return BROWSER;
         break;
   }
 
@@ -59,7 +60,7 @@ try
  catch (err) {
         alert(err);
         return -1;
- }
+    }
 }
 
 
@@ -105,8 +106,8 @@ function config_options_window() {
 	var filelabel = document.getElementById("normal_icon_label");	
 	var check_restore_next_unread = document.getElementById("check_restore_next_unread");	
 
-	mail_group.hidden=(appType!=MAIL);
-	check_restore_next_unread.hidden=(appType!=MAIL);
+	mail_group.hidden=!(appType & MAIL);
+	check_restore_next_unread.hidden=!(appType & MAIL);
 
 //	var check_user_normal_icon = document.getElementById("check_user_normal_icon");
 //	var radio_default_normal_icon = document.getElementById("radio_default_normal_icon");

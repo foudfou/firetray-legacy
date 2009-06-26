@@ -7,10 +7,10 @@
         xmlns:xbl="http://www.mozilla.org/xbl">
     	<script type="application/x-javascript" src="core.js"/>
     	<menupopup id="menu_FilePopup">
-        	<menuitem insertbefore="menu_FileQuitItem" label="&firetray.close_to_tray;" id="menu_hideTray" oncommand="FireTray.hide_to_tray()" />
+        	<menuitem insertbefore="menu_FileQuitItem" label="&firetray.close_to_tray;" id="menu_hideTray" oncommand="FireTray.hideToTray()" />
    		</menupopup>
    	    <menupopup id="menu_viewPopup">
-        	<menuitem insertbefore="menuitem_view_feathers" label="&firetray.hide;" id="menu_hide" accesskey="h" oncommand="FireTray.hide_window()" />
+        	<menuitem insertbefore="menuitem_view_feathers" label="&firetray.hide;" id="menu_hide" accesskey="h" oncommand="FireTray.hideWindow()" />
         	<menuseparator insertbefore="menuitem_view_feathers" />
     	</menupopup>
 </overlay>

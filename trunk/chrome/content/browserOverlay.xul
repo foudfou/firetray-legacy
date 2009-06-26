@@ -4,10 +4,10 @@
 <overlay id="firetrayBrowserOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script type="application/x-javascript" src="core.js" />
     <menupopup id="menu_FilePopup">
-        <menuitem insertbefore="menu_closeWindow" label="&firetray.close_to_tray;" id="menu_hideTray" oncommand="FireTray.hide_to_tray()" />
+        <menuitem insertbefore="menu_closeWindow" label="&firetray.close_to_tray;" id="menu_hideTray" oncommand="FireTray.hideToTray()" />
     </menupopup>
     <menupopup id="menu_viewPopup">
-        <menuitem insertbefore="viewToolbarsMenu" label="&firetray.hide;" id="menu_hide" accesskey="&firetray.hide.accesskey;" oncommand="FireTray.hide_window()" />
+        <menuitem insertbefore="viewToolbarsMenu" label="&firetray.hide;" id="menu_hide" accesskey="&firetray.hide.accesskey;" oncommand="FireTray.hideWindow()" />
         <menuseparator insertbefore="viewToolbarsMenu" />
     </menupopup>
 </overlay>

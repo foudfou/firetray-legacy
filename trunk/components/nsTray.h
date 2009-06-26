@@ -45,6 +45,7 @@ public:
     std::map<Window,window_state *> handled_windows;
    
     static void activate(GtkStatusIcon*, gpointer);
+    static gboolean scroll(GtkStatusIcon  *status_icon, GdkEventScroll *event, gpointer user_data);
     static void popup(GtkStatusIcon*, guint, guint, gpointer);
     static void item_event(GtkWidget *, gpointer);
     static void menu_remove_all_callback(GtkWidget *, gpointer);
@@ -53,6 +54,8 @@ private:
     ~nsTray();
 
     bool block_close;
+    bool appStarted;
+    bool menuCreated;
 
     GtkStatusIcon *systray_icon;
     
