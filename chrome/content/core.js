@@ -59,8 +59,6 @@ FireTray.isHidden = function() {
   return  (baseWindows.length == FireTray.interface.menuLength(minimizeComponent.menu_window_list)) || (FireTray.isSong && minimized) ; 
 }
 
-FireTray.appStarted=false;
-FireTray.appInitOk=false;
 
 FireTray.trayCallback = function() {
     //var vis=FireTray.isVisible () ; TOFIX: ISVISIBLE NOT WORKING
@@ -215,8 +213,7 @@ FireTray.closeEventHandler = function() {
 }
 
 FireTray.resizeEventHandler = function() {
-   if(!FireTray.appStarted){
-	FireTray.appStarted=true;	
+   if(!FireTray.interface.appStarted){	
 	if(FireTray.prefManager.getBoolPref("extensions.firetray.start_minimized")){	
 		FireTray.hideToTray();		
 	}
@@ -229,6 +226,9 @@ FireTray.getDefaultAppString = function(appcode)
    var text="";
    switch(appcode)
    {
+        case 10: //seamonkey
+  	   	text="Firetray (Seamonkey)";
+   	        break;
 
    	case 9: //sunbird
 	   	text="Firetray (Sunbird)";
@@ -281,6 +281,7 @@ FireTray.getMozillaAppCode = function() {
    7 - icecat
    8 - songbird
    9 - sunbird
+   10 - seamonkey
   */
 
  try {
@@ -290,6 +291,7 @@ FireTray.getMozillaAppCode = function() {
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
   const SONGBIRD_ID = "songbird@songbirdnest.com";
   const SUNBIRD_ID = "{718e30fb-e89b-41dd-9da7-e25a45638b28}";
+  const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
   
   var appname=appInfo.name.toLowerCase()
 
@@ -319,6 +321,12 @@ FireTray.getMozillaAppCode = function() {
         return 9; //sunbird
         break;
 
+     case SEAMONKEY_ID:
+        FireTray.isBrowser=true; 
+        //FireTray.isMail=true;   <<   Before enabling fix mail issues
+        return 10;  //Seamonkey
+        break;
+
      default:
         return 0;
         break;
@@ -341,22 +349,32 @@ FireTray.updateMailTray = function () {
     {
         show_num_mail = true;
 
-	var res=FireTray.localfolders.getNumUnread(true); 
+	var folders = [FireTray.localfolders];
+	var allServers = accountManager.allServers;
 
-	for(var i=0; i<accountManager.allServers.Count(); i++)     // TO ADD: AVOID CONSIDERING SPAM...
+        var res = folders[0].getNumUnread(true);
+
+	for(var i=0; i< allServers.Count(); i++)     // TO ADD: AVOID CONSIDERING SPAM...
 	{
-	
-	var el=accountManager.allServers.GetElementAt(i);
+	    var folder = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer).rootMsgFolder;
+	    
+            var found = false;
+	    for(var j = 0; j < folders.length; j++)
+	    {
+		if(folder == folders[j])
+		{
+			found = true;
+			break;
+		}
+	    }
 
-	var server = el.QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+	    if(!found)
+	    {
+		folders.push(folder);
+		res += folder.getNumUnread(true);
+	    }
 
-	var rootfolder=server.rootMsgFolder;
-	if(rootfolder && rootfolder!=FireTray.localfolders)
-	  {
-       	var emails=rootfolder.getNumUnread (true);
-		res=res+emails;
-      }
-
+	}
       /*  if(rootfolder)
 	{
 		var text="["+rootfolder.name+"] ";
@@ -375,7 +393,7 @@ FireTray.updateMailTray = function () {
 		alert(text + " [ " + rootfolder.numSubFolders + " subs. ]");
 	}/**/
 
- 	}
+ 
   
   }
   else res=0;
@@ -698,11 +716,18 @@ FireTray.songSettings = function() {
 	
 }
 
+FireTray.appStarted = function(){ 
+  if(!FireTray.interface.appStarted) { 
+    FireTray.interface.appStarted=true;
+  }
+}
+
+var timerEvent = { notify: function(timer) { FireTray.appStarted(); } }
+
 FireTray.init = function() {
 
-    if(FireTray.appInitOk) return;
-
-    FireTray.appInitOk=true;
+    if(FireTray.interface.menuCreated) return;
+    else FireTray.interface.menuCreated=true;
 
     FireTray.isMail=false;
     FireTray.isSong=false;
@@ -738,7 +763,29 @@ FireTray.init = function() {
 
     FireTray.updatePreferences();
    /* if(!FireTray.isBrowser) */ FireTray.setCloseHandler();
-   // FireTray.hideToTray();
+
+    
+ 
+ 
+    var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
+ 
+    var nsec=5;
+    timer.initWithCallback( timerEvent, nsec * 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+
+
+  // FireTray.hideToTray();
 }
 
+
+
+
+
 window.addEventListener("load", FireTray.init, true);
+
+//trick to know when all windows are restored by SessionSaver
+//document.addEventListener("SSTabRestored", FireTray.checkAppStarted, false);
+
+
+
+
+

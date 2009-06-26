@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.2</em:version>
+    <em:version>0.2.3</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -15,7 +15,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>2.0</em:minVersion>
-	<em:maxVersion>3.5</em:maxVersion>
+	<em:maxVersion>3.6</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -36,6 +36,15 @@
 		    <em:maxVersion>1.2.0</em:maxVersion>
 	    </Description>
     </em:targetApplication>   
+    
+    <em:targetApplication>  
+      <!-- SeaMonkey -->  
+      <Description>  
+        <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>  
+        <em:minVersion>2.0a1</em:minVersion>  
+        <em:maxVersion>2.0</em:maxVersion>  
+      </Description>  
+    </em:targetApplication>  
     
     <em:targetApplication>
       <!-- Sunbird -->
@@ -59,6 +68,7 @@
     <em:contributor>Dave Bartlett</em:contributor>
     <em:contributor>Bertolotti Pierre</em:contributor>
     <em:contributor>Ziyuan Yao</em:contributor>
+    <em:contributor>SparkyBluefang</em:contributor>
     
     <em:translator>Simone "Underpass" [it-IT]</em:translator>
     <em:translator>Quicksilver tears [ru-RU]</em:translator>
@@ -79,7 +89,7 @@
     <em:translator>miles [sl-SL]</em:translator>
 
 
-    <em:homepageURL>http://firetray.xiaoduo.info</em:homepageURL>
+    <em:homepageURL>http://code.google.com/p/firetray/</em:homepageURL>
     <em:optionsURL>chrome://firetray/content/options.xul</em:optionsURL>    
     <em:iconURL>chrome://firetray/content/icon.png</em:iconURL>    
     

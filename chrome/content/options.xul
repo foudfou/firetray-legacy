@@ -35,8 +35,6 @@
 				<checkbox id="check2" preference="start_minimized" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
 				
 				<checkbox id="check3" preference="confirm_exit" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
-			
-				<checkbox id="check_restore_next_unread" preference="restore_to_next_unread" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />
 			</vbox>    
 			
  	</groupbox>
@@ -72,6 +70,9 @@
 	 <groupbox id="special_icon_group">
 		<caption label="&firetray.newmail_settings;" />
 		<vbox>
+			
+			<checkbox id="check_restore_next_unread" preference="restore_to_next_unread" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />
+
 			<checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="show_num_unread" />
 			<!--<checkbox id="check_dont_consider_spam" label="&firetray.dont_consider_spam;" accesskey="&firetray.dont_consider_spam_accesskey;" />
 			<textbox id="textbox_spam_folders" value="Spam;Trash" tooltiptext="&firetray.dont_consider_spam_indications;" />  	  -->
@@ -82,7 +83,7 @@
 			<radiogroup>
 <!--				<radio id="radio_default_special_icon" label="&firetray.use_default_icon;" accesskey="&firetray.use_default_icon_accesskey;" oncommand="config_enabled_controls()" />
 				<radio id="radio_user_special_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;"  oncommand="config_enabled_controls()" />-->
-				<checkbox id="check_user_special_icon" preference="use_custom_special_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;"  oncommand="config_enabled_controls()" />
+				<checkbox id="check_user_special_icon" preference="use_custom_special_icon" label="&firetray.use_user_icon;"    oncommand="config_enabled_controls()" /> <!-- accesskey="&firetray.use_user_icon_accesskey;"-->
 			</radiogroup>
 
 			<vbox>

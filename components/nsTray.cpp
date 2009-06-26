@@ -1,10 +1,13 @@
 #include "nsTray.h"
+
+//BUILT IN PIXMAPS 
 #include "pixmaps/firefox.xpm"
 #include "pixmaps/thunderbird.xpm"
 #include "pixmaps/dove.xpm"
 #include "pixmaps/weasel.xpm"
 #include "pixmaps/icecat.xpm"
 #include "pixmaps/newmail.xpm"
+#include "pixmaps/seamonkey.xpm"
 #include "pixmaps/songbird.xpm"
 #include "pixmaps/songbirdegg.xpm"
 #include "pixmaps/sunbird.xpm"
@@ -28,7 +31,7 @@
 
 using namespace std;
 
-//#define DO_DEBUG 1
+#define DO_DEBUG 1
 
 #ifdef DO_DEBUG
  #define DEBUGSTR(str) {cerr << str << endl; cerr.flush();}
@@ -60,6 +63,42 @@ void nsTray::activate(GtkStatusIcon* status_icon, gpointer user_data) {
     nsTray *data = static_cast<nsTray*>(user_data);
 
     data->tray_callback->Call(&ret);
+}
+
+gboolean nsTray::scroll(GtkStatusIcon  *status_icon, GdkEventScroll *event, gpointer user_data)  
+{
+    nsTray *data = static_cast<nsTray*>(user_data);
+
+    if(!event) return false;
+
+
+    switch(event->direction)
+    {    
+        case GDK_SCROLL_UP:
+	      DEBUGSTR("SCROLL UP")	  
+	      break;
+
+        case GDK_SCROLL_DOWN:
+	      DEBUGSTR("SCROLL DOWN")	  
+	      break;
+
+        case GDK_SCROLL_LEFT:
+	      DEBUGSTR("SCROLL LEFT")	  
+	      break;
+
+        case GDK_SCROLL_RIGHT:
+	      DEBUGSTR("SCROLL RIGHT")	  
+	      break;
+
+        default:
+	      DEBUGSTR("SCROLL UNKNOWN")	  
+	      break;
+
+      
+    }
+
+    return true; 
+
 }
 
 void nsTray::popup(GtkStatusIcon *status_icon, guint button, guint activate_time, gpointer user_data) {
@@ -96,23 +135,27 @@ void nsTray::menu_remove_all_callback(GtkWidget *widget, gpointer user_data) {
 NS_IMPL_ISUPPORTS1(nsTray, nsITray)
 
 nsTray::nsTray() {
+
     /* member initializers and constructor code */
-    this->block_close=false;
+    appStarted=false;
+    menuCreated=false;
+    block_close=false;
 
-    this->systray_icon = NULL;
-    this->icon = NULL;
-    this->default_icon = NULL;
-    this->special_icon = NULL;
-    this->pop_menu = NULL;
-    this->tray_callback = NULL;
+    systray_icon = NULL;
+    icon = NULL;
+    default_icon = NULL;
+    special_icon = NULL;
+    pop_menu = NULL;
+    tray_callback = NULL;
 
-    this->systray_icon = gtk_status_icon_new();
+    systray_icon = gtk_status_icon_new();
 
-    this->icon = gdk_pixbuf_new_from_xpm_data((const char**)firefox_xpm);
+    icon = gdk_pixbuf_new_from_xpm_data((const char**)firefox_xpm);
 
     /* Connect signals */
     g_signal_connect(G_OBJECT(this->systray_icon), "activate", G_CALLBACK(nsTray::activate), this);
     g_signal_connect(G_OBJECT(this->systray_icon), "popup-menu", G_CALLBACK(nsTray::popup), this);
+    g_signal_connect(G_OBJECT(this->systray_icon), "scroll-event", G_CALLBACK(nsTray::scroll), this);
 
     this->pop_menu = gtk_menu_new();
 }
@@ -127,8 +170,11 @@ nsTray::~nsTray() {
 
 /* void showTray (); */
 NS_IMETHODIMP nsTray::ShowTray() {
+
+   DEBUGSTR("SHOWTRAY")
     if (this->systray_icon) {
-        gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
+         gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
+//	this->systray_icon=gtk_status_icon_new_from_pixbuf(GDK_PIXBUF(default_icon));
         gtk_status_icon_set_visible(this->systray_icon, TRUE);
     }
 
@@ -196,7 +242,7 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
             Window parent;
 
             if(GetParent(xwin,&parent)) //we need to get the position of the window with the titlebar
-              if(GetParent(parent,&parent)) 
+              if(GetParent(parent,&parent) && parent) 
                 {              
     	          XWindowAttributes attrib;
   	          if( XGetWindowAttributes(GDK_DISPLAY(), parent, &attrib) )
@@ -434,11 +480,16 @@ NS_IMETHODIMP nsTray::SetDefaultXpmIcon(PRUint32 app)
    7 - icecat
    8 - songbird
    9 - sunbird
- 
+   10 - seamonkey
+
   */
 
  switch(app)
  {
+   case 10: //seamonkey  
+           df_icon=(char**)seamonkey_xpm;
+           sp_icon=(char**)newmail_xpm;
+           break;
    case 9: //sunbird
            df_icon=(char**)sunbird_xpm;
            sp_icon=(char**)sunbird_xpm;
@@ -934,4 +985,40 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
 
       return NS_OK;
 }
+
+
+
+
+/* attribute boolean appStarted; */
+NS_IMETHODIMP nsTray::GetAppStarted(PRBool *aAppStarted) 
+{
+   if(aAppStarted)*aAppStarted=appStarted;
+   return NS_OK;
+}
+
+NS_IMETHODIMP nsTray::SetAppStarted(PRBool aAppStarted) 
+{
+   appStarted=aAppStarted;
+   return NS_OK;
+}
+
+
+
+
+  /* attribute boolean menuCreated; */
+NS_IMETHODIMP nsTray::GetMenuCreated(PRBool *aMenuCreated) 
+{
+  if(*aMenuCreated)*aMenuCreated=menuCreated;
+  return NS_OK;
+}
+
+NS_IMETHODIMP nsTray::SetMenuCreated(PRBool aMenuCreated) 
+{
+   menuCreated=aMenuCreated;
+   return NS_OK;
+}
+
+
+
+
 

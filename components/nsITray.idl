@@ -52,5 +52,8 @@ interface nsITray : nsISupports
 
     boolean getFocusState(in nsIBaseWindow aBaseWindow); 
     void setWindowHandler(in nsIBaseWindow aBaseWindow);
+
+    attribute boolean appStarted; 
+    attribute boolean menuCreated; 
     
 };
