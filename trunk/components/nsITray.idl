@@ -21,7 +21,7 @@ interface nsIScrollCallback : nsISupports
 interface nsIKeySymCallback : nsISupports
 {
     // Javascript function call
-    boolean call(in string keysym);
+    boolean call(in string keysym, in PRUint64 keycode);
 };
 
 
@@ -77,6 +77,7 @@ interface nsITray : nsISupports
     // MULTIMEDIA KEYS HANDLING
 
     boolean addHandledKey(in string key_string);
+    boolean addHandledKeyCode(in PRUint64 key_code);
 
 
     attribute boolean appStarted; 

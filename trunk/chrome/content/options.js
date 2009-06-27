@@ -94,12 +94,41 @@ function config_enabled_controls()
   select_special_icon.disabled=use_default_special_icon;
   special_icon_filename.disabled=use_default_special_icon;
 
+
+// Handles SCROLL SETTINGS
+  var check_scroll_hide = document.getElementById("check_scroll_hide");
+
+  var radio_scroll1 = document.getElementById("radio_scroll1");
+  var radio_scroll2 = document.getElementById("radio_scroll2");
+  var radio_scroll3 = document.getElementById("radio_scroll3");
+  var radio_scroll4 = document.getElementById("radio_scroll4");
+
+  radio_scroll1.disabled=!check_scroll_hide.checked;
+  radio_scroll2.disabled=!check_scroll_hide.checked;
+  radio_scroll3.disabled=!check_scroll_hide.checked;
+  radio_scroll4.disabled=!check_scroll_hide.checked;
+
 }
 
+function update_radio_preferences() {
+   var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+
+   var radiogroup = document.getElementById("radiogroup_scroll"); 
+   var scroll_action=radiogroup.selectedIndex;
+   /*var radio_scroll2 = document.getElementById("radio_scroll2");
+   if(radio_scroll2.selected) scroll_action=1;
+   var radio_scroll3 = document.getElementById("radio_scroll3");
+   if(radio_scroll3.selected) scroll_action=2;*/
+
+   prefManager.setIntPref("extensions.firetray.scroll_action",scroll_action);
+
+}
 
 function config_options_window() {
 
 	var appType=getAppType();
+
+	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 
 	var mail_group = document.getElementById("special_icon_group");
 	var filepath = document.getElementById("normal_icon_filename");	
@@ -108,6 +137,34 @@ function config_options_window() {
 
 	mail_group.hidden=!(appType & MAIL);
 	check_restore_next_unread.hidden=!(appType & MAIL);
+
+        var check_scroll_hide = document.getElementById("check_scroll_hide");
+
+        var radiogroup = document.getElementById("radiogroup_scroll"); 
+	var radio_scroll3 = document.getElementById("radio_scroll3");
+	var radio_scroll4 = document.getElementById("radio_scroll4");
+	radio_scroll3.hidden=!(appType & MUSIC);
+	radio_scroll4.hidden=!(appType & MUSIC);
+
+	config_enabled_controls();
+
+        var pref=prefManager.getIntPref("extensions.firetray.scroll_action");
+
+        radiogroup.selectedIndex=pref;
+        /*switch(pref)
+	{
+           case 0:
+		radio_scroll1.selected=true;
+		break;
+	   case 1:
+		radio_scroll2.selected=true;
+		break;
+           case 2: 
+		radio_scroll3.selected=true;
+		break;
+        }
+*/
+
 
 //	var check_user_normal_icon = document.getElementById("check_user_normal_icon");
 //	var radio_default_normal_icon = document.getElementById("radio_default_normal_icon");
@@ -122,7 +179,6 @@ function config_options_window() {
 //	var radio_default_special_icon = document.getElementById("radio_default_special_icon");
 //	var radio_user_special_icon = document.getElementById("radio_user_special_icon");
 
-	config_enabled_controls();
 }
  
 function choose_file(icon_filename)

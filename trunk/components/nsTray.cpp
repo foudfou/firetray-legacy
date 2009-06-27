@@ -957,7 +957,8 @@ GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer dat
    KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), kev->keycode,0);
    if(ks==NoSymbol) return GDK_FILTER_CONTINUE;
    char *str=XKeysymToString(ks);
-   if(str) if(tray->key_callback)tray->key_callback->Call(str,&ret);
+   if(!str) str="-"; 
+   if(tray->key_callback)tray->key_callback->Call(str, kev->keycode, &ret);
               
    return GDK_FILTER_CONTINUE;
 }
@@ -977,7 +978,6 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
 
    switch(e->xany.type)  
     {
-  
       case DestroyNotify: 
              FDEBUGSTR("DESTROY-NOTIFY!!!") 
              break;
@@ -1076,6 +1076,39 @@ NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow)
 }
 
 
+/* boolean addHandledKeyCode (in PRUint64 key_code); */
+NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
+#ifdef _KEYSYMS_
+
+      gdk_error_trap_push ();
+
+
+      KeyCode key=(KeyCode) key_code;
+
+      GdkDisplay *gdkdisplay=gdk_display_get_default();
+      
+      gint nscr=gdk_display_get_n_screens(gdkdisplay);
+
+      for (int i=0; i<nscr; i++)
+      {
+         GdkScreen *screen=gdk_display_get_screen(gdkdisplay,i);
+         GdkWindow *rootwin=gdk_screen_get_root_window(screen);
+         XGrabKey( GDK_DISPLAY() , key, AnyModifier, GDK_WINDOW_XID(rootwin), true, GrabModeAsync, GrabModeAsync);
+         gdk_window_add_filter (rootwin, key_filter_func, this);
+         DEBUGSTR("ADDED KEY FILTER FOR KEY " << key_code)
+      }      
+
+      gdk_flush ();
+      if (gdk_error_trap_pop ())
+      {
+         DEBUGSTR("COULDN'T GET GRAB ON KEY "<< key_code);
+      }
+
+
+
+#endif
+}
+
 /* boolean addHandledKey (in string key_string); */
 NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
     DEBUG_CALL("addHandledKey")
@@ -1083,10 +1116,10 @@ NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
 #ifdef _KEYSYMS_
       if(!key_string) return NS_OK;
 
-      DEBUGSTR("KEY STRING: "<< key_string)
-
       gdk_error_trap_push ();
-  
+
+      DEBUGSTR("KEY STRING: "<< key_string)  
+
       KeySym ksym=getKeySymFromString(key_string); //XStringToKeysym
       DEBUGSTR(ksym);
 
@@ -1099,18 +1132,7 @@ NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
 
       if(!key) { DEBUGSTR("NOKEY_CODE"); return NS_OK; }
       
-      GdkDisplay *gdkdisplay=gdk_display_get_default();
-      
-      gint nscr=gdk_display_get_n_screens(gdkdisplay);
-
-      for (int i=0; i<nscr; i++)
-      {
-         GdkScreen *screen=gdk_display_get_screen(gdkdisplay,i);
-         GdkWindow *rootwin=gdk_screen_get_root_window(screen);
-         XGrabKey( GDK_DISPLAY() , key, AnyModifier, GDK_WINDOW_XID(rootwin), true, GrabModeAsync, GrabModeAsync);
-         gdk_window_add_filter (rootwin, key_filter_func, this);
-         DEBUGSTR("ADDED KEY FILTER")
-      }      
+      PRBool ret=true; 
 
       gdk_flush ();
       if (gdk_error_trap_pop ())
@@ -1118,6 +1140,8 @@ NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
          DEBUGSTR("COULDN'T GET GRAB ON KEY "<< key_string);
       }
 
+
+      AddHandledKeyCode( (PRUint64)kk ,&ret);
 #endif
 
       return NS_OK;

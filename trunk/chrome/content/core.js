@@ -87,19 +87,51 @@ FireTray.trayScrollCallback = function(direction) {
  
    if(FireTray.prefManager.getBoolPref("extensions.firetray.scroll_to_hide"))
    {
-       if(direction==0) //up
-           FireTray.hideToTray();
-       if(direction==1) //down
-           FireTray.restoreFromTray();
+       var scroll_action=FireTray.prefManager.getIntPref("extensions.firetray.scroll_action");
+
+       switch(scroll_action)
+       {
+	  case 0: // UP=hide DOWN=unhide
+                if(direction==0) FireTray.hideToTray();
+	        if(direction==1) FireTray.restoreFromTray();
+		break;
+
+	  case 1: // UP=unhide DOWN=hide
+	        if(direction==0) FireTray.restoreFromTray();
+                if(direction==1) FireTray.hideToTray();
+		break;
+
+	  case 2: // Songbird volume control
+	        /*if(direction==0) FireTray.restoreFromTray();
+                if(direction==1) FireTray.hideToTray();*/
+		break;
+
+          case 3: // Songbird prev/next song
+                break;
+
+          default:
+		break;
+       }  
+
    }
   
 }
 
-FireTray.trayKeyCallback = function(key_string) {
+FireTray.trayKeyCallback = function(key_string, key_code) {
 
-  alert("KEY: " +key_string);
-  var res=FireTray.interface.menuCreated;
+  //alert(key_string + " KEY_CODE: "+key_code);
+ 
+  try {
+ 
+  if (key_code==FireTray.prefManager.getIntPref("extensions.firetray.hide_show_mm_key")) FireTray.trayCallback();
 
+  if(!FireTray.isSong) return;
+  if (key_string=="XF86AudioPlay") FireTray.playPause();
+  if (key_string=="XF86AudioPause") FireTray.playPause();
+  if (key_string=="XF86AudioNext") FireTray.nextTrack();
+  if (key_string=="XF86AudioPrev") FireTray.prevTrack();
+  if (key_string=="XF86AudioStop") FireTray.stopASong();
+  } catch(err) {}
 }
 
 
@@ -589,10 +621,19 @@ FireTray.setupMenus = function() {
         FireTray.interface.trayScrollEvent(FireTray.trayScrollCallback);
         FireTray.interface.trayKeyEvent(FireTray.trayKeyCallback);
       
-        FireTray.interface.addHandledKey("XF86XK_AudioPlay");
-        FireTray.interface.addHandledKey("XF86XK_AudioPause");
-        FireTray.interface.addHandledKey("XF86XK_AudioNext");
+        if(FireTray.prefManager.getBoolPref("extensions.firetray.grab_multimedia_keys"))
+        {   
+          FireTray.interface.addHandledKeyCode(FireTray.prefManager.getIntPref("extensions.firetray.hide_show_mm_key"));
 
+          if(FireTray.isSong)
+          {
+             FireTray.interface.addHandledKey("XF86AudioPlay");
+             FireTray.interface.addHandledKey("XF86AudioPause");
+             FireTray.interface.addHandledKey("XF86AudioNext");
+             FireTray.interface.addHandledKey("XF86AudioPrev");
+             FireTray.interface.addHandledKey("XF86AudioStop");
+          }
+        }
         // Init basic pop-up menu items.
         var tray_menu = FireTray.interface.getTrayMenu();
 
@@ -648,7 +689,7 @@ FireTray.setupMenus = function() {
 	       FireTray.interface.menuInsert(tray_menu,
 	       FireTray.interface.menuItemNew(firetray_next_track,"gtk-media-next"), 3, FireTray.nextTrack);
 
-	       var volume_menu = FireTray.interface.menuNew();
+	       /*var volume_menu = FireTray.interface.menuNew();
 
 	       FireTray.interface.menuInsert(volume_menu,
 	       FireTray.interface.menuItemNew("100%",""), 0, FireTray.nextTrack);
@@ -667,7 +708,7 @@ FireTray.setupMenus = function() {
 	       FireTray.interface.menuInsert(tray_menu,item_volume, 4, null);
 	       
 
-  	       FireTray.interface.menuSub(item_volume, volume_menu);
+  	       FireTray.interface.menuSub(item_volume, volume_menu);*/
 
 	    }
 

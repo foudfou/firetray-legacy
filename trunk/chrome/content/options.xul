@@ -24,7 +24,7 @@
 	    <preference id="custom_special_icon" name="extensions.firetray.custom_special_icon" type="string" />
 	    <preference id="text_color" name="extensions.firetray.text_color" type="string" />
 	    <preference id="scroll_to_hide" name="extensions.firetray.scroll_to_hide" type="bool" />
- 
+	    <preference id="grab_multimedia_keys" name="extensions.firetray.grab_multimedia_keys" type="bool" /> 
 	</preferences>
      
 	<groupbox>
@@ -43,13 +43,26 @@
 	<groupbox>
 		<caption label="Scroll Events"/>
 
+			 <vbox>			
+				<checkbox id="check_scroll_hide" preference="scroll_to_hide" label="Enable mouse scroll on tray icon" oncommand="config_enabled_controls()" />
+				<radiogroup id="radiogroup_scroll">
 
-			<vbox>
-			
-				<checkbox id="check_scroll_hide" preference="scroll_to_hide" label="Scroll UP/DOWN to Hide/UnHide" />
+					<radio id="radio_scroll1" label="UP to Hide, DOWN to UnHide" oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll2" label="DOWN to Hide, UP to UnHide"  oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll3" label="UP=Volume up, DOWN=Volume down"  oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll4" label="UP=next track, DOWN=previous track"  oncommand="update_radio_preferences()" />
+				
+				</radiogroup>
+
 			 </vbox>
 	</groupbox>
 
+	<groupbox>
+		<caption label="Multimedia keys"/>
+			 <vbox>			
+				<checkbox id="check_grab_mmkeys" preference="grab_multimedia_keys" label="Grab multimedia keys (needs restart to apply)" />
+			 </vbox>
+	</groupbox>
 
         <groupbox>
 		<caption label="&firetray.tray_icon_group;" />
