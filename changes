@@ -4,7 +4,7 @@
        Applied fix to the repeated mail count (Issue 43)
        Begin support for seamonkey 2 alpha (not complete, mail issues)
        Added scroll support 
-       Initial Multimedia keys grabbing support	
+       Multimedia keys grabbing support	
        
 0.2.2  Added menu images from gtk stock
 
@@ -21,14 +21,11 @@ TODO:
   
   - fix FF3.5 and TB3 icon problems
   - save windows z-order
-  - scroll event configuration
 
   - fix close to tray on songbird
   - minimize windows to tray 
   - close single window menu element (Issue 32)
   
-  - hotkeys (+multimedia keys) with configuration
-
   - songbird alternative icon configuration
   - songbird volume control
   - songbird "duplicate menu items" issue 

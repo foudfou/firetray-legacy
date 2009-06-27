@@ -15,4 +15,7 @@ pref("extensions.firetray.custom_special_icon", "");
 pref("extensions.firetray.text_color", "#000000");
 
 pref("extensions.firetray.scroll_to_hide", true);
+pref("extensions.firetray.scroll_action",0);
 
+pref("extensions.firetray.grab_multimedia_keys", true);
+pref("extensions.firetray.hide_show_mm_key",161);
