@@ -23,6 +23,7 @@
 	    <preference id="custom_normal_icon" name="extensions.firetray.custom_normal_icon" type="string" />
 	    <preference id="custom_special_icon" name="extensions.firetray.custom_special_icon" type="string" />
 	    <preference id="text_color" name="extensions.firetray.text_color" type="string" />
+	    <preference id="scroll_to_hide" name="extensions.firetray.scroll_to_hide" type="bool" />
  
 	</preferences>
      
@@ -38,7 +39,18 @@
 			</vbox>    
 			
  	</groupbox>
-	
+
+	<groupbox>
+		<caption label="Scroll Events"/>
+
+
+			<vbox>
+			
+				<checkbox id="check_scroll_hide" preference="scroll_to_hide" label="Scroll UP/DOWN to Hide/UnHide" />
+			 </vbox>
+	</groupbox>
+
+
         <groupbox>
 		<caption label="&firetray.tray_icon_group;" />
 			

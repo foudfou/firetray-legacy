@@ -41,6 +41,10 @@ public:
     nsTray();
 
     nsCOMPtr<nsITrayCallback> tray_callback;
+    nsCOMPtr<nsIScrollCallback> scroll_callback;
+    nsCOMPtr<nsIKeySymCallback> key_callback;
+
+
     std::map <PRUint32, nsCOMPtr<nsITrayCallback> > item_callback_list;
     std::map<Window,window_state *> handled_windows;
    

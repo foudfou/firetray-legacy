@@ -3,7 +3,8 @@
        Cleaning interface code
        Applied fix to the repeated mail count (Issue 43)
        Begin support for seamonkey 2 alpha (not complete, mail issues)
-       Fixed songbird "duplicate menu items" issue 
+       Added scroll support 
+       Initial Multimedia keys grabbing support	
        
 0.2.2  Added menu images from gtk stock
 
@@ -23,10 +24,17 @@ TODO:
   - scroll event configuration
 
   - fix close to tray on songbird
-  - minimize windows to tray
-  - close single window menu element
-  - hotkeys (+multimedia keys)
+  - minimize windows to tray 
+  - close single window menu element (Issue 32)
+  
+  - hotkeys (+multimedia keys) with configuration
+
   - songbird alternative icon configuration
+  - songbird volume control
+  - songbird "duplicate menu items" issue 
+  - enable seamonkey mail icon
   
   - handle system shutdown event ???
   - handle songbird theme change (reset all handlers to new window)
+
+  - Honor thunderbird option mail.check_all_imap_folders_for_new (Issue 41)

@@ -13,3 +13,6 @@ pref("extensions.firetray.use_custom_special_icon", false);
 pref("extensions.firetray.custom_normal_icon", "");
 pref("extensions.firetray.custom_special_icon", "");
 pref("extensions.firetray.text_color", "#000000");
+
+pref("extensions.firetray.scroll_to_hide", true);
+
