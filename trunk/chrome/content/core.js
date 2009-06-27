@@ -61,32 +61,47 @@ FireTray.isHidden = function() {
 
 
 FireTray.trayCallback = function() {
-    //var vis=FireTray.isVisible () ; TOFIX: ISVISIBLE NOT WORKING
-    if ( FireTray.isHidden() ) {
+   //var vis=FireTray.isVisible () ; TOFIX: ISVISIBLE NOT WORKING
+   if ( FireTray.isHidden() ) {
     
-   if(FireTray.isMail){
-
-           if(FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
+       if(FireTray.isMail && FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
               MsgNextUnreadMessage();
-        } //nextUnreadMessage*/
-      
-        var baseWindows = FireTray.getAllWindows();
-        FireTray.interface.restore(baseWindows.length, baseWindows);
-        FireTray.interface.menuRemoveAll(minimizeComponent.menu_window_list);
-        minimized = false;
+
+       FireTray.restoreFromTray(); 	  
+
     } else {
-        FireTray.interface.menuRemoveAll(minimizeComponent.menu_window_list);
-        FireTray.hideToTray();
-    }
+        
+       FireTray.hideToTray();
+
+   }
 
    if(FireTray.isMail)
    {
       FireTray.lastnum=-1;
       FireTray.updateMailTray(); 
    } 
+}
+
+
+FireTray.trayScrollCallback = function(direction) {
  
- 
-};
+   if(FireTray.prefManager.getBoolPref("extensions.firetray.scroll_to_hide"))
+   {
+       if(direction==0) //up
+           FireTray.hideToTray();
+       if(direction==1) //down
+           FireTray.restoreFromTray();
+   }
+  
+}
+
+FireTray.trayKeyCallback = function(key_string) {
+
+  alert("KEY: " +key_string);
+  var res=FireTray.interface.menuCreated;
+
+}
+
 
 FireTray.exitCallback = function() {
     try {
@@ -190,6 +205,7 @@ FireTray.hideWindow = function() {
     FireTray.windowsListAdd(basewindow);
 }
 
+
 FireTray.hideToTray = function() {
     FireTray.interface.menuRemoveAll(minimizeComponent.menu_window_list);
 
@@ -202,6 +218,12 @@ FireTray.hideToTray = function() {
     }
 }
 
+FireTray.restoreFromTray = function() {
+    var baseWindows = FireTray.getAllWindows();
+    FireTray.interface.restore(baseWindows.length, baseWindows);
+    FireTray.interface.menuRemoveAll(minimizeComponent.menu_window_list);
+    minimized = false;
+}
 
 FireTray.closeEventHandler = function() {
    // if the window menubar is not visible (ex.popup windows) don't close to tray
@@ -564,6 +586,12 @@ FireTray.setTrayIcon = function() {
 FireTray.setupMenus = function() {
 
         FireTray.interface.trayActivateEvent(FireTray.trayCallback);
+        FireTray.interface.trayScrollEvent(FireTray.trayScrollCallback);
+        FireTray.interface.trayKeyEvent(FireTray.trayKeyCallback);
+      
+        FireTray.interface.addHandledKey("XF86XK_AudioPlay");
+        FireTray.interface.addHandledKey("XF86XK_AudioPause");
+        FireTray.interface.addHandledKey("XF86XK_AudioNext");
 
         // Init basic pop-up menu items.
         var tray_menu = FireTray.interface.getTrayMenu();
@@ -619,6 +647,28 @@ FireTray.setupMenus = function() {
 	  
 	       FireTray.interface.menuInsert(tray_menu,
 	       FireTray.interface.menuItemNew(firetray_next_track,"gtk-media-next"), 3, FireTray.nextTrack);
+
+	       var volume_menu = FireTray.interface.menuNew();
+
+	       FireTray.interface.menuInsert(volume_menu,
+	       FireTray.interface.menuItemNew("100%",""), 0, FireTray.nextTrack);
+	       FireTray.interface.menuInsert(volume_menu,
+	       FireTray.interface.menuItemNew("90%",""), 0, FireTray.nextTrack);
+	       FireTray.interface.menuInsert(volume_menu,
+	       FireTray.interface.menuItemNew("80%",""), 0, FireTray.nextTrack);
+	       FireTray.interface.menuInsert(volume_menu,
+	       FireTray.interface.menuItemNew("50%",""), 0, FireTray.nextTrack);
+	       FireTray.interface.menuInsert(volume_menu,
+	       FireTray.interface.menuItemNew("25%",""), 0, FireTray.nextTrack);
+	       FireTray.interface.menuInsert(volume_menu,
+	       FireTray.interface.menuItemNew("0%",""), 0, FireTray.nextTrack);
+
+	       var item_volume=FireTray.interface.menuItemNew("Volume","");
+	       FireTray.interface.menuInsert(tray_menu,item_volume, 4, null);
+	       
+
+  	       FireTray.interface.menuSub(item_volume, volume_menu);
+
 	    }
 
             var item_exit = FireTray.interface.menuItemNew(firetray_exit,"gtk-quit");
@@ -733,8 +783,6 @@ FireTray.init = function() {
     FireTray.isSong=false;
     FireTray.isCalendar=false; 
     FireTray.lastnum=-1;
-
-
 
     window.onresize = FireTray.resizeEventHandler;
 

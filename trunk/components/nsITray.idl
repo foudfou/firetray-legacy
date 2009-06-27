@@ -9,12 +9,33 @@ interface nsITrayCallback : nsISupports
     boolean call();
 };
 
+[scriptable, function, uuid(cb451092-6269-11de-84bb-3bce55d89593)]
+interface nsIScrollCallback : nsISupports
+{
+    // Javascript function call
+    boolean call(in PRUint32 direction);
+};
+
+
+[scriptable, function, uuid(d22950aa-62a8-11de-b360-94c756d89593)]
+interface nsIKeySymCallback : nsISupports
+{
+    // Javascript function call
+    boolean call(in string keysym);
+};
+
+
 [scriptable, uuid(bf249f85-20f2-49be-96f3-9681f3bb0334)]
 interface nsITray : nsISupports
 {
     void showTray();
     void hideTray();
+
+    //event callbacks
     void trayActivateEvent(in nsITrayCallback aCallback);
+    void trayScrollEvent(in nsIScrollCallback aCallback);
+    void trayKeyEvent(in nsIKeySymCallback aCallback);
+
     void hideWindow(in nsIBaseWindow aBaseWindow);
     void restore(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows); 
     void restoreWindow(in nsIBaseWindow aBaseWindow);
@@ -52,6 +73,11 @@ interface nsITray : nsISupports
 
     boolean getFocusState(in nsIBaseWindow aBaseWindow); 
     void setWindowHandler(in nsIBaseWindow aBaseWindow);
+
+    // MULTIMEDIA KEYS HANDLING
+
+    boolean addHandledKey(in string key_string);
+
 
     attribute boolean appStarted; 
     attribute boolean menuCreated; 
