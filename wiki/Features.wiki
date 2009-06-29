@@ -16,6 +16,7 @@
 
 - Multimedia keys grabbing to allow playback control in songbird
 
+- Handle mouse scrolls on tray icon
 
 *Wishes / planned features
 
