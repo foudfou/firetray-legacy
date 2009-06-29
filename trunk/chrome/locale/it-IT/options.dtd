@@ -20,10 +20,27 @@
 <!ENTITY firetray.tray_icon_group "Impostazioni icona">
 <!ENTITY firetray.choose "Scegli">
 <!ENTITY firetray.choose_accesskey "S">
+<!ENTITY firetray.choose_accesskey2 "e">
 <!ENTITY firetray.msg_font_color "Colore del numero di messaggi da leggere" >
 <!ENTITY firetray.newmail_settings "Impostazioni icona nuovi messaggi" >
 <!ENTITY firetray.show_only_hidden "Mostra solo se nascosto nella tray" >
 <!ENTITY firetray.show_only_hidden_accesskey "o" >
+
+<!ENTITY firetray.mouse_wheel_options "Opzioni rotella del mouse" >
+<!ENTITY firetray.enable_mouse_scroll "Gestisci scorrimento della rotella del mouse" >
+<!ENTITY firetray.enable_mouse_scroll_accesskey "G">
+<!ENTITY firetray.up "ALTO" >
+<!ENTITY firetray.down "BASSO" >
+<!ENTITY firetray.hide "nascondi" >
+<!ENTITY firetray.restore "ripristina" >
+<!ENTITY firetray.volume "volume" >
+<!ENTITY firetray.next_track "traccia successiva" >
+<!ENTITY firetray.prev_track "traccia precedente" >
+
+<!ENTITY firetray.multimedia_keys "Tasti multimediali" >
+<!ENTITY firetray.grab_multimedia_keys "Cattura tasti multimediali" >
+<!ENTITY firetray.grab_multimedia_keys_accesskey "t" >
+<!ENTITY firetray.restart_to_apply "Riavviare per applicare" >
 
 <!ENTITY firetray.dont_consider_spam "Non includere i nuovi messaggi dalle seguenti cartelle:" >
 <!ENTITY firetray.dont_consider_spam_accesskey "N" >

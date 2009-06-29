@@ -75,11 +75,6 @@ FireTray.trayCallback = function() {
 
    }
 
-   if(FireTray.isMail)
-   {
-      FireTray.lastnum=-1;
-      FireTray.updateMailTray(); 
-   } 
 }
 
 
@@ -87,27 +82,35 @@ FireTray.trayScrollCallback = function(direction) {
  
    if(FireTray.prefManager.getBoolPref("extensions.firetray.scroll_to_hide"))
    {
-       var scroll_action=FireTray.prefManager.getIntPref("extensions.firetray.scroll_action");
+     var scroll_action=FireTray.prefManager.getIntPref("extensions.firetray.scroll_action");
 
-       switch(scroll_action)
-       {
-	  case 0: // UP=hide DOWN=unhide
-                if(direction==0) FireTray.hideToTray();
-	        if(direction==1) FireTray.restoreFromTray();
-		break;
+     switch(scroll_action)
+     {
+      case 0: // UP=hide DOWN=unhide
+            if(direction==0) FireTray.hideToTray();
+            if(direction==1) FireTray.restoreFromTray();
+            break;
 
-	  case 1: // UP=unhide DOWN=hide
-	        if(direction==0) FireTray.restoreFromTray();
-                if(direction==1) FireTray.hideToTray();
-		break;
+      case 1: // UP=unhide DOWN=hide
+            if(direction==0) FireTray.restoreFromTray();
+            if(direction==1) FireTray.hideToTray();
+            break;
 
-	  case 2: // Songbird volume control
-	        /*if(direction==0) FireTray.restoreFromTray();
-                if(direction==1) FireTray.hideToTray();*/
-		break;
+      case 2: // Songbird volume control
+           if(FireTray.isSong){
+            if(direction==0) FireTray.volumeChange(true); 
+            if(direction==1) FireTray.volumeChange(false);
+           }
 
-          case 3: // Songbird prev/next song
-                break;
+           break;
+
+      case 3: // Songbird prev/next song
+           if(FireTray.isSong){
+            if(direction==0) FireTray.prevTrack();
+            if(direction==1) FireTray.nextTrack();
+           }
+           
+           break;
 
           default:
 		break;
@@ -160,6 +163,7 @@ FireTray.restoreCallback = function() {
 FireTray.updatePreferences=function(){
 
     FireTray.setTrayIcon();
+    if(FireTray.isMail) FireTray.updateMailTray(true);  
     
     //set windows close command blocking 
     FireTray.interface.setCloseBlocking(FireTray.prefManager.getBoolPref("extensions.firetray.close_to_tray"));	
@@ -248,6 +252,8 @@ FireTray.hideToTray = function() {
         FireTray.windowsListAdd(basewindow);
         FireTray.interface.hideWindow(basewindow);
     }
+
+   if(FireTray.isMail) FireTray.updateMailTray(true);  
 }
 
 FireTray.restoreFromTray = function() {
@@ -255,6 +261,8 @@ FireTray.restoreFromTray = function() {
     FireTray.interface.restore(baseWindows.length, baseWindows);
     FireTray.interface.menuRemoveAll(minimizeComponent.menu_window_list);
     minimized = false;
+
+    if(FireTray.isMail) FireTray.updateMailTray(true);  
 }
 
 FireTray.closeEventHandler = function() {
@@ -269,7 +277,8 @@ FireTray.closeEventHandler = function() {
 FireTray.resizeEventHandler = function() {
    if(!FireTray.interface.appStarted){	
 	if(FireTray.prefManager.getBoolPref("extensions.firetray.start_minimized")){	
-		FireTray.hideToTray();		
+        if(FireTray.isMail)FireTray.appStarted();
+		FireTray.hideToTray();		        
 	}
    }
 }
@@ -394,9 +403,11 @@ FireTray.getMozillaAppCode = function() {
 }
 
 
-FireTray.updateMailTray = function () {
+FireTray.updateMailTray = function (force_update) {
 
   var show_num_mail=false;
+
+  if(force_update) FireTray.lastnum=-1; //force updating icon
 
   if( FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread") && 
 	 !(FireTray.prefManager.getBoolPref("extensions.firetray.show_unread_only_minimized") && !FireTray.isHidden() )  )
@@ -488,7 +499,7 @@ FireTray.subscribeToMailEvents = function()
   OnItemAdded: function(parent, item) {},
   OnItemBoolPropertyChanged: function(item, property, oldValue, newValue) {},
   OnItemEvent: function(item, event)  {},
-  OnItemIntPropertyChanged: function(item, property, oldValue, newValue) { FireTray.updateMailTray(); },
+  OnItemIntPropertyChanged: function(item, property, oldValue, newValue) { FireTray.updateMailTray(false); },
   OnItemPropertyChanged: function(parent, item, viewString) {},
   OnItemPropertyFlagChanged: function(item, property, oldFlag, newFlag) {},
   OnItemRemoved: function(parent, item) {},
@@ -506,43 +517,62 @@ FireTray.composeNewMail = function() {
   goOpenNewMessage();  
 }
 
-FireTray.prevTrack = function() {
-    if(pPS != null){
-        pPS.sequencer.previous();
-        pPS.sequencer.play();
+FireTray.volumeChange = function(raise) {
+    if(pPS == null) return;
+   
+    var volume=pPS.volumeControl.volume;
+
+    var delta=0.1; // change volume by 10%
+
+    if(raise) {
+       if(volume<1) {
+           volume=volume+delta;
+           if(volume>1) volume=1;
+           pPS.volumeControl.volume=volume;
+       }
+    } else {
+       if(volume>0) {
+           volume=volume-delta;
+           if(volume<0) volume=0;
+           pPS.volumeControl.volume=volume;
+       }
     }
+
+}
+
+FireTray.prevTrack = function() {
+    if(pPS == null) return;
+        
+    pPS.sequencer.previous();
+    pPS.sequencer.play();
 }
 
 FireTray.nextTrack = function() {
-    if(pPS != null){
-        pPS.sequencer.next();
-        pPS.sequencer.play();
-    }
+    if(pPS == null) return;
+
+    pPS.sequencer.next();
+    pPS.sequencer.play();
 }
 
 FireTray.playPause = function () {
-	if(pPS != null){
-			if(pPS.status.state == 2)
-                pPS.playbackControl.play();
-            else if (pPS.status.state != 1){
-				pPS.sequencer.play();
-                if (pPS.status.state != 1)
-                    Components.classes['@songbirdnest.com/Songbird/ApplicationController;1'].createInstance(Components.interfaces.sbIApplicationController).playDefault()
-			}else
-                pPS.playbackControl.pause();
-            FireTray.interface.setTrayIcon(1);
-	}
+	if(pPS == null) return;
+
+    if(pPS.status.state == 2)
+        pPS.playbackControl.play();
+    else if (pPS.status.state != 1){
+        pPS.sequencer.play();
+        if (pPS.status.state != 1)
+            Components.classes['@songbirdnest.com/Songbird/ApplicationController;1'].createInstance(Components.interfaces.sbIApplicationController).playDefault()
+    }else
+        pPS.playbackControl.pause();
+    FireTray.interface.setTrayIcon(1);	
 }
+
 FireTray.stopASong = function () {
 	if(pPS != null && pPS.status.state != 4){
 			pPS.sequencer.stop();
 	}
 }
-
-/*FireTray.raise()
-{
-
-}*/
 
 FireTray.isVisible = function() {
     var baseWindows = FireTray.getAllWindows();
@@ -558,7 +588,6 @@ FireTray.isVisible = function() {
     if(cnt>0) return true;
     return false;
 }
-
 
 FireTray.setCloseHandler = function() {
     
@@ -605,18 +634,22 @@ FireTray.setTrayIcon = function() {
   }
 
   FireTray.SetDefaultTextTooltip();
+
+  if (FireTray.isMail) FireTray.updateMailTray(true);
+
   FireTray.interface.showTray();
-
-  if (FireTray.isMail)
-    {
-	FireTray.lastnum =-1; //force mail number update (to reflect color change)
-        FireTray.updateMailTray();
-    }
-
 }
 
 FireTray.setupMenus = function() {
 
+    /*var keystr;
+   
+    keystr=FireTray.interface.getKeycodeString(161);
+
+    var str = "Hide/unkyde keycode: " + 161 + " (" + keystr + ")";
+    alert(str);*/
+
+ 
         FireTray.interface.trayActivateEvent(FireTray.trayCallback);
         FireTray.interface.trayScrollEvent(FireTray.trayScrollCallback);
         FireTray.interface.trayKeyEvent(FireTray.trayKeyCallback);
@@ -851,7 +884,7 @@ FireTray.init = function() {
             }, 0);
 
     FireTray.updatePreferences();
-   /* if(!FireTray.isBrowser) */ FireTray.setCloseHandler();
+    FireTray.setCloseHandler();
 
     
  
@@ -861,7 +894,7 @@ FireTray.init = function() {
     var nsec=5;
     timer.initWithCallback( timerEvent, nsec * 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 
-
+    
   // FireTray.hideToTray();
 }
 
