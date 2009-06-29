@@ -25,3 +25,5 @@
 - Clicking the tray icon with the middle mouse button fetches new messages (would be best with the icon changing to something else to indicate that the process is in progress). 
 
 - Ability to exclude spam folder(s) from the unread messages control.
+
+- Enable the user to close any of firefox windows individually
