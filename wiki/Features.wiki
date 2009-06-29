@@ -12,10 +12,13 @@
 
 - Custom tray icon
 
+- Hotkey for Hide/Unhide
+
+- Multimedia keys grabbing to allow playback control in songbird
+
 
 *Wishes / planned features
 
-- Hotkey for Hide/Unhide
 
 - Enable the user to close all firefox windows while still keeping firefox in the tray and add a menu item to the tray icon "open new window
 
