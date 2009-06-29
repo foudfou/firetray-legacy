@@ -5,5 +5,6 @@ overlay chrome://messenger/content/messenger.xul chrome://firetray/content/mailO
 overlay chrome://songbird/content/xul/mainScriptsOverlay.xul  chrome://firetray/content/songOverlay.xul
 overlay chrome://calendar/content/calendar.xul			chrome://firetray/content/mailOverlay.xul	
 overlay chrome://navigator/content/navigator.xul chrome://firetray/content/navigatorOverlay.xul	
+
 locale	firetray	en-US	jar:chrome/firetray.jar!/locale/en-US/
 locale	firetray	it-IT	jar:chrome/firetray.jar!/locale/it-IT/

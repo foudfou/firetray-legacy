@@ -74,10 +74,12 @@ interface nsITray : nsISupports
     boolean getFocusState(in nsIBaseWindow aBaseWindow); 
     void setWindowHandler(in nsIBaseWindow aBaseWindow);
 
-    // MULTIMEDIA KEYS HANDLING
 
+    // MULTIMEDIA KEYS HANDLING
     boolean addHandledKey(in string key_string);
     boolean addHandledKeyCode(in PRUint64 key_code);
+
+    string getKeycodeString(in PRUint64 key_code);
 
 
     attribute boolean appStarted; 

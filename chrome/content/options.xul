@@ -41,16 +41,16 @@
  	</groupbox>
 
 	<groupbox>
-		<caption label="Scroll Events"/>
+		<caption label="&firetray.mouse_wheel_options;"/>
 
 			 <vbox>			
-				<checkbox id="check_scroll_hide" preference="scroll_to_hide" label="Enable mouse scroll on tray icon" oncommand="config_enabled_controls()" />
+				<checkbox id="check_scroll_hide" preference="scroll_to_hide" label="&firetray.enable_mouse_scroll;" accesskey="&firetray.enable_mouse_scroll_accesskey;" oncommand="config_enabled_controls()" />
 				<radiogroup id="radiogroup_scroll">
 
-					<radio id="radio_scroll1" label="UP to Hide, DOWN to UnHide" oncommand="update_radio_preferences()" />
-					<radio id="radio_scroll2" label="DOWN to Hide, UP to UnHide"  oncommand="update_radio_preferences()" />
-					<radio id="radio_scroll3" label="UP=Volume up, DOWN=Volume down"  oncommand="update_radio_preferences()" />
-					<radio id="radio_scroll4" label="UP=next track, DOWN=previous track"  oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll1" label="&firetray.up;=&firetray.hide;, &firetray.down;=&firetray.restore;" oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll2" label="&firetray.down;=&firetray.hide;, &firetray.up;=&firetray.restore;"  oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll3" label="&firetray.up;=&firetray.volume;+, &firetray.down;=&firetray.volume;-"  oncommand="update_radio_preferences()" />
+					<radio id="radio_scroll4" label="&firetray.up;=&firetray.next_track;, &firetray.down;=&firetray.prev_track;"  oncommand="update_radio_preferences()" />
 				
 				</radiogroup>
 
@@ -58,10 +58,11 @@
 	</groupbox>
 
 	<groupbox>
-		<caption label="Multimedia keys"/>
+		<caption label="&firetray.multimedia_keys;"/>
 			 <vbox>			
-				<checkbox id="check_grab_mmkeys" preference="grab_multimedia_keys" label="Grab multimedia keys (needs restart to apply)" />
-			 </vbox>
+				<checkbox id="check_grab_mmkeys" preference="grab_multimedia_keys" label="&firetray.grab_multimedia_keys; (&firetray.restart_to_apply;)" accesskey="&firetray.grab_multimedia_keys_accesskey;"/>
+				<label id="label_mmkeys" value="" />  
+			  </vbox>
 	</groupbox>
 
         <groupbox>
@@ -116,7 +117,7 @@
 
 					<hbox align="center">
 	            		    		<textbox id="special_icon_filename" preference="custom_special_icon" />
-						<button id="select_special_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey;" oncommand="choose_special_icon_file();"/>					
+						<button id="select_special_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey2;" oncommand="choose_special_icon_file();"/>					
 					</hbox>
    	    	 
 

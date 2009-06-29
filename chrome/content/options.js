@@ -146,38 +146,25 @@ function config_options_window() {
 	radio_scroll3.hidden=!(appType & MUSIC);
 	radio_scroll4.hidden=!(appType & MUSIC);
 
-	config_enabled_controls();
+    config_enabled_controls();
 
-        var pref=prefManager.getIntPref("extensions.firetray.scroll_action");
+    var pref=prefManager.getIntPref("extensions.firetray.scroll_action");
 
-        radiogroup.selectedIndex=pref;
-        /*switch(pref)
-	{
-           case 0:
-		radio_scroll1.selected=true;
-		break;
-	   case 1:
-		radio_scroll2.selected=true;
-		break;
-           case 2: 
-		radio_scroll3.selected=true;
-		break;
-        }
-*/
+    radiogroup.selectedIndex=pref;
 
 
-//	var check_user_normal_icon = document.getElementById("check_user_normal_icon");
-//	var radio_default_normal_icon = document.getElementById("radio_default_normal_icon");
-//	var radio_user_normal_icon = document.getElementById("radio_user_normal_icon");
+    var label_mmkeys = document.getElementById("label_mmkeys");
+    var keycode=prefManager.getIntPref("extensions.firetray.hide_show_mm_key");
 
+/*    var keystr;
+    firetray_interface = Components.classes["@mozilla.org/FireTray;1"].getService(Components.interfaces.nsITray);
+    
+    keystr=firetray_interface.getKeycodeString(keycode);
 
-        //if(check_user_normal_icon.checked) check_user_normal_icon.selected=true;
-	//else radio_default_normal_icon.selected=true;
-	
+    var str = "Hide/unkyde keycode: " + keycode + " (" + keystr + ")";*/
+    if(appType & MUSIC)
+    label_mmkeys.value="Enabling key grabbing allows to control playback using multimedia keys." ;
 
-//	var check_user_special_icon = document.getElementById("check_user_special_icon");
-//	var radio_default_special_icon = document.getElementById("radio_default_special_icon");
-//	var radio_user_special_icon = document.getElementById("radio_user_special_icon");
 
 }
  

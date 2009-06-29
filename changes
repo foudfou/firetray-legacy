@@ -3,35 +3,46 @@
        Cleaning interface code
        Applied fix to the repeated mail count (Issue 43)
        Begin support for seamonkey 2 alpha (not complete, mail issues)
-       Added scroll support 
+       Added scroll support (with songbird volume control)
        Multimedia keys grabbing support	
+       Fixed songbird "duplicate menu items" issue
        
 0.2.2  Added menu images from gtk stock
 
-0.2.1  Save windows position (Issue 33)
+0.2.1  Save windows position (Issue 33) 
 
 0.2.0  Support for custom icons (Issue 17)
 
 
 
 TODO:
-
-  - windows position bug when using XRDC 
-
   
-  - fix FF3.5 and TB3 icon problems
-  - save windows z-order
-
   - fix close to tray on songbird
+  - windows position bug when using XRDC 
+  - missing close confirmation request in some situations (issue 44)
+
+  - fix FF3.5 and TB3 icon problems
+
   - minimize windows to tray 
   - close single window menu element (Issue 32)
   
   - songbird alternative icon configuration
-  - songbird volume control
-  - songbird "duplicate menu items" issue 
   - enable seamonkey mail icon
   
   - handle system shutdown event ???
   - handle songbird theme change (reset all handlers to new window)
+  - save windows z-order
 
-  - Honor thunderbird option mail.check_all_imap_folders_for_new (Issue 41)
+
+WISHES (from wiki)
+
+- Enable the user to close all firefox windows while still keeping firefox in the tray and add a menu item to the tray icon "open new window
+
+- Clicking the tray icon with the middle mouse button fetches new messages (would be best with the icon changing to something else to indicate that the process is in progress).
+
+- Ability to exclude spam folder(s) from the unread messages control.
+
+- Enable the user to close any of firefox windows individually
+
+- Close button only closes to tray when there is only one window up 
+

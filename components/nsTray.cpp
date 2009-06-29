@@ -29,41 +29,16 @@
   #include <X11/XF86keysym.h>
 #endif
 //// REMOVE NOTIFY #include <libnotify/notify.h>
-#include <iostream>
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
 
+#include "debug.h"
 
-using namespace std;
-
-#define DO_DEBUG 1
-
-#ifdef DO_DEBUG
- #define DEBUGSTR(str) {cerr << str << endl; cerr.flush();}
-#else
- #define DEBUGSTR(str) {}
-#endif
-
-//#define DO_DEBUG_FILTER 1
-
-#ifdef DO_DEBUG_FILTER
- #define FDEBUGSTR(str) {cerr << str << endl; cerr.flush();}
-#else
- #define FDEBUGSTR(str) {}
-#endif
-
-
-#define DO_DEBUG_CALLS 1
-
-#ifdef DO_DEBUG_CALLS
- #define DEBUG_CALL(str) {cerr << str << endl; cerr.flush();}
-#else
- #define DEBUG_CALL(str) {}
-#endif
-
-
+#define CAPTURE_ERRORS()  gdk_error_trap_push ();
+#define RELEASE_CAPTURE(msg)       { gdk_flush (); if (gdk_error_trap_pop ()) ERRORMSG(msg); }
+#define RELEASE_CAPTURE_RETURN(msg,val)       { gdk_flush (); if (gdk_error_trap_pop ()) { ERRORMSG(msg); return val; } }      
 
 
 // Returns the lenght of a NULL-terminated UTF16 PRUnichar * string 
@@ -264,39 +239,65 @@ NS_IMETHODIMP nsTray::TrayKeyEvent(nsIKeySymCallback *aCallback) {
 
 int GetParent(Window win, Window *parent)
 {
-    DEBUG_CALL("getParent")
+   DEBUG_CALL("getParent")
 
    if(parent==NULL)return 0;
+
+   CAPTURE_ERRORS()
+
    Window root;
    Window *children;
    unsigned int nchildren;
    if(!XQueryTree(GDK_DISPLAY(), win, &root, parent, &children, &nchildren)) return 0;
             
    if(children) XFree(children);
+
+   RELEASE_CAPTURE_RETURN("Error getting window parent",0)
+
    return 1;
 }
 
 
+
 void EchoWinAttribs(Window win)
 {
+   CAPTURE_ERRORS()
+
    XWindowAttributes attrib;
    if( XGetWindowAttributes(GDK_DISPLAY(), win, &attrib) )
     {
        DEBUGSTR( "WIN: "<< win <<" POS: ("<< attrib.x << ","<< attrib.y << ") - SIZE: " << attrib.width << "x" << attrib.height) 
    }
 
+   RELEASE_CAPTURE("Error getting window information")
+}
+
+void ExploreTree(Window xwin)
+{
+  int ok=1;
+  while(ok)
+   {
+     EchoWinAttribs(xwin);
+     Window parent;
+     ok=GetParent(xwin, &parent);
+     xwin=parent;
+   }
 }
 
 /* void hideWindow (in nsIBaseWindow aBaseWindow); */
 NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
      DEBUG_CALL("hideWindow")
-   nsresult rv;
-
+ 
+    nsresult rv;
+ 
     NS_ENSURE_ARG_POINTER(aBaseWindow);
 
     nativeWindow aNativeWindow;
     rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
     NS_ENSURE_SUCCESS(rv, rv);
+
+
+    CAPTURE_ERRORS()
 
     GdkWindow *win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
     Window xwin=GDK_WINDOW_XID(win);
@@ -327,6 +328,8 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
       }
  
     gdk_window_hide(win);
+
+    RELEASE_CAPTURE("Error hiding window")
 
     return NS_OK;
 }
@@ -363,6 +366,8 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
     rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
     NS_ENSURE_SUCCESS(rv, rv);
 
+    CAPTURE_ERRORS()
+ 
     GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*)aNativeWindow);
 
     gdk_window_show(toplevel);
@@ -388,6 +393,9 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
 
     if(s & GDK_WINDOW_STATE_ICONIFIED) 
        gdk_window_deiconify(toplevel);
+
+
+    RELEASE_CAPTURE("Error restoring window")
 
     return NS_OK;
 }
@@ -952,7 +960,7 @@ GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer dat
    nsTray *tray = (nsTray *)data;   
    PRBool ret = TRUE;
 
-   DEBUGSTR("KEYPRESS EVENT!!! KEY="<<kev->keycode) 
+   DEBUGSTR("KEYPRESS EVENT: KEY="<<kev->keycode) 
 
    KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), kev->keycode,0);
    if(ks==NoSymbol) return GDK_FILTER_CONTINUE;
@@ -993,6 +1001,11 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
       case ClientMessage: 
 //       if(e->xany.type==ClientMessage)
        {
+
+/*      char *str=XGetAtomName(GDK_DISPLAY(), e->xclient.data.l[0]);
+      DEBUGSTR("ATOM: "<<str)*/
+     
+
             if(e->xclient.data.l && tray) 
             {
              if(e->xclient.data.l[0]==delete_window)
@@ -1010,7 +1023,7 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
                }
              }
              else 
-               FDEBUGSTR("ClientMessage-NOTIFY");
+               FDEBUGSTR("ClientMessage-NOTIFY "<<e->xclient.data.l[0]);
             }
        }
              break;
@@ -1040,6 +1053,14 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
    return GDK_FILTER_CONTINUE;
 }
 
+
+/*static gboolean delete_event( GtkWidget *widget,
+                              GdkEvent  *event,
+                              gpointer   data )
+{
+  DEBUGSTR("DELETE EVENT")
+}
+
 /* void setWindowHandler(in nsIBaseWindow aBaseWindow); */
 NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow) 
 {
@@ -1053,13 +1074,26 @@ NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow)
       rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
       NS_ENSURE_SUCCESS(rv, rv);
 
+      CAPTURE_ERRORS()
+
       GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
 
-      DEBUGSTR("ADDING HANDLER")
-
-      //filter close event
       Window xwin=GDK_WINDOW_XID(gdk_win);
-    
+
+/*      PRInt32 x,y;
+      aBaseWindow->GetPosition(&x, &y);
+      DEBUGSTR("X: "<<x << " Y: "<<y)
+      aBaseWindow->GetSize(&x, &y);
+      DEBUGSTR("SizeX: "<<x << " SizeY: "<<y)
+
+      
+      DEBUGSTR("ADDING HANDLER")
+      DEBUGSTR("GDK_WIN: "<< gdk_win << " XWIN: "<<xwin)
+      ExploreTree(GDK_WINDOW_XID((GdkWindow*) aNativeWindow));
+  
+      g_signal_connect(G_OBJECT(gdk_win), "delete-event", G_CALLBACK(delete_event), this);     
+      g_signal_connect(G_OBJECT(gdk_win), "destroy", G_CALLBACK(delete_event), this);     
+  */  
       if(handled_windows.count(xwin)>0) FDEBUGSTR(">>ALREADY HANDLED")
       else {
         GdkEventMask m=(GdkEventMask)( /*  |*/ /*(GdkEventMask)*/GDK_VISIBILITY_NOTIFY_MASK | (long) gdk_window_get_events (gdk_win)) ;
@@ -1072,16 +1106,19 @@ NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow)
         handled_windows[xwin]=ws;
         gdk_window_add_filter (gdk_win, filter_func, this);
       }
+
+      RELEASE_CAPTURE("Error setting window handler")
+
       return NS_OK;
 }
+
 
 
 /* boolean addHandledKeyCode (in PRUint64 key_code); */
 NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
 #ifdef _KEYSYMS_
 
-      gdk_error_trap_push ();
-
+      CAPTURE_ERRORS()
 
       KeyCode key=(KeyCode) key_code;
 
@@ -1098,15 +1135,11 @@ NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
          DEBUGSTR("ADDED KEY FILTER FOR KEY " << key_code)
       }      
 
-      gdk_flush ();
-      if (gdk_error_trap_pop ())
-      {
-         DEBUGSTR("COULDN'T GET GRAB ON KEY "<< key_code);
-      }
-
-
+      RELEASE_CAPTURE("Error grabbing key "<< key_code)
 
 #endif
+
+ return NS_OK;
 }
 
 /* boolean addHandledKey (in string key_string); */
@@ -1116,35 +1149,51 @@ NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
 #ifdef _KEYSYMS_
       if(!key_string) return NS_OK;
 
-      gdk_error_trap_push ();
+      CAPTURE_ERRORS();
 
       DEBUGSTR("KEY STRING: "<< key_string)  
 
       KeySym ksym=getKeySymFromString(key_string); //XStringToKeysym
       DEBUGSTR(ksym);
 
-      if(ksym==NoSymbol) { DEBUGSTR("NO_SYMBOL") return NS_OK; }
+      if(ksym==NoSymbol) RELEASE_CAPTURE_RETURN("NO_SYMBOL", NS_OK) 
 
       KeyCode key=XKeysymToKeycode(GDK_DISPLAY(), ksym);
      
-      int kk=XKeysymToKeycode (GDK_DISPLAY (), XF86XK_AudioPlay);
-      DEBUGSTR("KEYCODEDEF: "<<kk)
-
-      if(!key) { DEBUGSTR("NOKEY_CODE"); return NS_OK; }
+      if(!key) RELEASE_CAPTURE_RETURN("NOKEY_CODE",NS_OK)
       
       PRBool ret=true; 
 
-      gdk_flush ();
-      if (gdk_error_trap_pop ())
-      {
-         DEBUGSTR("COULDN'T GET GRAB ON KEY "<< key_string);
-      }
+      RELEASE_CAPTURE("Couldn't get grab on key "<< key_string)
 
-
-      AddHandledKeyCode( (PRUint64)kk ,&ret);
+      AddHandledKeyCode( (PRUint64)key ,&ret);
 #endif
 
       return NS_OK;
+}
+
+/* string getKeycodeString (in PRUint64 key_code); */
+NS_IMETHODIMP nsTray::GetKeycodeString(PRUint64 key_code, char **_retval) 
+{
+    DEBUG_CALL("getKeyCodeString")
+
+    DEBUGSTR("KEY: " << key_code)
+    
+    char *key_string=NULL;
+    KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), key_code,0);
+    if(ks==NoSymbol) key_string="unknown";
+    key_string=XKeysymToString(ks);
+
+    DEBUGSTR("KEY: " << key_string)
+
+    if(!_retval) return NS_ERROR_NULL_POINTER;
+
+//    *_retval = (char*) nsMemory::Clone(key_string, sizeof(char)*(strlen(key_string)+1));
+
+    char *tmp = (char*) nsMemory::Alloc(4);//nsMemory::Clone("pippo", 5);
+    if(!tmp) DEBUGSTR("CLONE FAILED!!!")
+
+    return *_retval ? NS_OK : NS_ERROR_OUT_OF_MEMORY;
 }
 
 
@@ -1164,6 +1213,8 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
       nativeWindow aNativeWindow;
       rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
       NS_ENSURE_SUCCESS(rv, rv);
+
+      CAPTURE_ERRORS()
 
       GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
 
@@ -1185,7 +1236,9 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
       
 
       DEBUGSTR("MAP-STATE "<<res.map_state)
-      
+  
+
+      RELEASE_CAPTURE("Error getting window focus state")    
 /*
 
       GtkWidget *w=(GtkWidget *)get_gtkwindow_from_gdkwindow(gdk_win);
@@ -1203,12 +1256,20 @@ NS_IMETHODIMP nsTray::GetAppStarted(PRBool *aAppStarted)
 {
     DEBUG_CALL("getAppStarted")
    if(aAppStarted)*aAppStarted=appStarted;
+   else DEBUGSTR("ERROR on boolean value")
+
+   if(appStarted)DEBUGSTR("APP_STARTED=TRUE")
+   else DEBUGSTR("APP_STARTED=FALSE")
+
    return NS_OK;
 }
 
 NS_IMETHODIMP nsTray::SetAppStarted(PRBool aAppStarted) 
 {
     DEBUG_CALL("setAppStarted")
+
+   if(appStarted)DEBUGSTR("APP_STARTED=TRUE")
+   else DEBUGSTR("APP_STARTED=FALSE")
 
    appStarted=aAppStarted;
    return NS_OK;
@@ -1222,7 +1283,9 @@ NS_IMETHODIMP nsTray::GetMenuCreated(PRBool *aMenuCreated)
 {
     DEBUG_CALL("getMenuCreated")
 
-  if(*aMenuCreated)*aMenuCreated=menuCreated;
+  if(aMenuCreated)*aMenuCreated=menuCreated;
+   else DEBUGSTR("ERROR on boolean value")
+
    if(menuCreated)DEBUGSTR("MENU_CREATED=TRUE")
    else DEBUGSTR("MENU_CREATED=FALSE")
   return NS_OK;
@@ -1233,6 +1296,7 @@ NS_IMETHODIMP nsTray::SetMenuCreated(PRBool aMenuCreated)
    DEBUG_CALL("setMenuCreated")
 
    menuCreated=aMenuCreated;
+
    if(menuCreated)DEBUGSTR("MENU_CREATED=TRUE")
    else DEBUGSTR("MENU_CREATED=FALSE")
    return NS_OK;
