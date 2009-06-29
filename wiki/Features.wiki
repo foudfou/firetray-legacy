@@ -27,3 +27,5 @@
 - Ability to exclude spam folder(s) from the unread messages control.
 
 - Enable the user to close any of firefox windows individually
+
+- Close button only closes to tray when there is only one window up 
