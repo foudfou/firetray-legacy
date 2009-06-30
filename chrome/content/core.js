@@ -20,6 +20,8 @@ var firetray_unknown = mystrings.GetStringFromName("firetray_unknown");
 var firetray_artist = mystrings.GetStringFromName("firetray_artist");
 var firetray_album = mystrings.GetStringFromName("firetray_album");
 var firetray_title = mystrings.GetStringFromName("firetray_title");
+var firetray_junk_message = mystrings.GetStringFromName("firetray_junk_message");
+var firetray_junk_messages = mystrings.GetStringFromName("firetray_junk_messages");
 
 var minimizeComponent = Components.classes['@mozilla.org/Minimize;1'].getService(Components.interfaces.nsIMinimize);
 var pPS=null;
@@ -163,7 +165,6 @@ FireTray.restoreCallback = function() {
 FireTray.updatePreferences=function(){
 
     FireTray.setTrayIcon();
-    if(FireTray.isMail) FireTray.updateMailTray(true);  
     
     //set windows close command blocking 
     FireTray.interface.setCloseBlocking(FireTray.prefManager.getBoolPref("extensions.firetray.close_to_tray"));	
@@ -386,7 +387,7 @@ FireTray.getMozillaAppCode = function() {
 
      case SEAMONKEY_ID:
         FireTray.isBrowser=true; 
-        //FireTray.isMail=true;   <<   Before enabling fix mail issues
+        FireTray.isMail=true;  
         return 10;  //Seamonkey
         break;
 
@@ -403,80 +404,89 @@ FireTray.getMozillaAppCode = function() {
 }
 
 
-FireTray.updateMailTray = function (force_update) {
+function getSpamFolder(spamFolderURI, folders) {
+  for(var i=0; i<folders.length; i++)
+  {
+     var spamfolder=folders[i].getChildWithURI(spamFolderURI, true, false);
+     if(spamfolder!=null) return spamfolder;          
+  }
+}
 
-  var show_num_mail=false;
+FireTray.getMailCount = function() {
+
+
+    var folders = [FireTray.localfolders];
+    var spamFolderURIs = [];
+    var allServers = FireTray.accountManager.allServers;
+
+    var msgs = folders[0].getNumUnread(true);
+    var spam_msgs = 0;
+
+    for(var i=0; i< allServers.Count(); i++)     // Gets all folders we need to check and all spam folders
+    {
+        var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+        var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);   
+        var spamsettings = server.spamSettings.QueryInterface(Components.interfaces.nsISpamSettings);        
+        
+        var spamFolderURI=spamsettings.spamFolderURI;
+
+        if(spamFolderURI!=null && spamFolderURIs.indexOf(spamFolderURI)<0 )
+        { spamFolderURIs.push(spamFolderURI); }
+
+        if(folders.indexOf(folder)<0) //avoid considering folders multiple times
+        {
+          folders.push(folder);
+          msgs += folder.getNumUnread(true);
+        }
+    }
+
+    for(var i=0; i<spamFolderURIs.length; i++) //get spam mail count
+    {
+      var spamfolder=getSpamFolder(spamFolderURIs[i], folders);   
+      if(spamfolder!=null) 
+       spam_msgs +=spamfolder.getNumUnread(true);      
+    }
+
+    FireTray.numMail = msgs;
+    FireTray.numSpam = spam_msgs;
+}
+
+
+FireTray.updateMailTray = function (force_update) {
 
   if(force_update) FireTray.lastnum=-1; //force updating icon
 
   if( FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread") && 
-	 !(FireTray.prefManager.getBoolPref("extensions.firetray.show_unread_only_minimized") && !FireTray.isHidden() )  )
-    {
-        show_num_mail = true;
-
-	var folders = [FireTray.localfolders];
-	var allServers = accountManager.allServers;
-
-        var res = folders[0].getNumUnread(true);
-
-	for(var i=0; i< allServers.Count(); i++)     // TO ADD: AVOID CONSIDERING SPAM...
-	{
-	    var folder = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer).rootMsgFolder;
-	    
-            var found = false;
-	    for(var j = 0; j < folders.length; j++)
-	    {
-		if(folder == folders[j])
-		{
-			found = true;
-			break;
-		}
-	    }
-
-	    if(!found)
-	    {
-		folders.push(folder);
-		res += folder.getNumUnread(true);
-	    }
-
-	}
-      /*  if(rootfolder)
-	{
-		var text="["+rootfolder.name+"] ";
-
-		var folder;
-
-		if(rootfolder.subFolders)
-		while(rootfolder.subFolders.hasMoreElements())
-                {
-                   folder=rootfolder.subFolders.getNext();
-
-                   if(folder) { text=text + "-" + folder.name;  }			
-                    text=text+ " - ";
-		}
-
-		alert(text + " [ " + rootfolder.numSubFolders + " subs. ]");
-	}/**/
-
- 
-  
-  }
-  else res=0;
-
-  if(!show_num_mail) 
+      !(FireTray.prefManager.getBoolPref("extensions.firetray.show_unread_only_minimized") && !FireTray.isHidden() )  )
+   {
+     FireTray.getMailCount(); 
+   }
+  else
   {
      FireTray.interface.setIconText("", "#000000");
      FireTray.SetDefaultTextTooltip();
      return;
   }
 
+  var res=FireTray.numMail;
+  var spam_tooltip="";
+ 
+  if(FireTray.prefManager.getBoolPref("extensions.firetray.dont_count_spam") && FireTray.numSpam>0)
+  {
+     res-=FireTray.numSpam;
+     if(res<0) res=0;
+     if(FireTray.numSpam>1) spam_tooltip=" ("+FireTray.numSpam+" "+firetray_junk_messages+ ")"; 
+     else spam_tooltip=" ("+FireTray.numSpam+" "+firetray_junk_message+ ")"; 
+  }
+
   if(FireTray.lastnum==res) return; //update the icon only if something has changed
   FireTray.lastnum=res;
+
   var tooltip="";
   var num=""+res;
-  if(res==0) { num=""; tooltip=firetray_no_unread_messages; }
-  else if(res==1)  tooltip=res + " " + firetray_unread_message; 
-       else tooltip = res + " " + firetray_unread_messages;
+  if(res==0) { num=""; tooltip=firetray_no_unread_messages + spam_tooltip; }
+  else if(res==1)  tooltip=res + " " + firetray_unread_message + spam_tooltip; 
+       else tooltip = res + " " + firetray_unread_messages + spam_tooltip;
 
   var color="#000000";
 
@@ -635,9 +645,10 @@ FireTray.setTrayIcon = function() {
 
   FireTray.SetDefaultTextTooltip();
 
+  FireTray.interface.showTray();
+
   if (FireTray.isMail) FireTray.updateMailTray(true);
 
-  FireTray.interface.showTray();
 }
 
 FireTray.setupMenus = function() {
@@ -680,8 +691,8 @@ FireTray.setupMenus = function() {
             var item_s_two = FireTray.interface.separatorMenuItemNew();
             FireTray.interface.menuAppend(tray_menu, item_s_two, null);
 
-            if(FireTray.isMail) { 
-		//thunderbird special menu entries
+            if(FireTray.isMail) {       //thunderbird special menu entries
+
                 var mail_check = FireTray.interface.menuItemNew(firetray_check_mail,"");
                 FireTray.interface.menuAppend(tray_menu, mail_check, FireTray.checkMail);
 
@@ -768,9 +779,9 @@ FireTray.setupMenus = function() {
 }
 
 FireTray.mailSettings = function() {
-      var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+      FireTray.accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
 
-      FireTray.localfolders = accountManager.localFoldersServer.rootFolder;
+      FireTray.localfolders = FireTray.accountManager.localFoldersServer.rootFolder;
       FireTray.subscribeToMailEvents();
 }
 
@@ -883,12 +894,10 @@ FireTray.init = function() {
                 window.onclose = FireTray.closeEventHandler;
             }, 0);
 
-    FireTray.updatePreferences();
     FireTray.setCloseHandler();
-
-    
+    FireTray.updatePreferences();
  
- 
+    //minimize at start "hack" to wait for all windows to be restored
     var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
  
     var nsec=5;

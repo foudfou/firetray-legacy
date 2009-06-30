@@ -1,6 +1,6 @@
 <!ENTITY firetray.prefwindow "Opzioni di FireTray">
 <!ENTITY firetray.prefpane_options "Opzioni">
-<!ENTITY firetray.close_to_tray "Riduci a icona nella tray alla chiusura">
+<!ENTITY firetray.close_to_tray "Riduci a icona nell&apos;area di notifica alla chiusura">
 <!ENTITY firetray.close_to_tray_accesskey "R">
 <!ENTITY firetray.start_min "Avvia il programma ridotto a icona">
 <!ENTITY firetray.start_min_accesskey "A">
@@ -21,27 +21,33 @@
 <!ENTITY firetray.choose "Scegli">
 <!ENTITY firetray.choose_accesskey "S">
 <!ENTITY firetray.choose_accesskey2 "e">
-<!ENTITY firetray.msg_font_color "Colore del numero di messaggi da leggere" >
-<!ENTITY firetray.newmail_settings "Impostazioni icona nuovi messaggi" >
-<!ENTITY firetray.show_only_hidden "Mostra solo se nascosto nella tray" >
-<!ENTITY firetray.show_only_hidden_accesskey "o" >
+<!ENTITY firetray.msg_font_color "Colore del numero di messaggi da leggere">
+<!ENTITY firetray.newmail_settings "Impostazioni icona nuovi messaggi">
+<!ENTITY firetray.show_only_hidden "Mostra solo se nascosto nell&apos;area di notifica">
+<!ENTITY firetray.show_only_hidden_accesskey "o">
 
-<!ENTITY firetray.mouse_wheel_options "Opzioni rotella del mouse" >
-<!ENTITY firetray.enable_mouse_scroll "Gestisci scorrimento della rotella del mouse" >
+<!ENTITY firetray.general_options "General settings">
+<!ENTITY firetray.input_options "Input settings" >
+<!ENTITY firetray.mail_options "Mail settings">
+
+<!ENTITY firetray.mouse_wheel_options "Opzioni rotella del mouse">
+<!ENTITY firetray.enable_mouse_scroll "Gestione scorrimento della rotella del mouse sull&apos;icona">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "G">
-<!ENTITY firetray.up "ALTO" >
-<!ENTITY firetray.down "BASSO" >
-<!ENTITY firetray.hide "nascondi" >
-<!ENTITY firetray.restore "ripristina" >
-<!ENTITY firetray.volume "volume" >
-<!ENTITY firetray.next_track "traccia successiva" >
-<!ENTITY firetray.prev_track "traccia precedente" >
+<!ENTITY firetray.up "Su">
+<!ENTITY firetray.down "Giù">
+<!ENTITY firetray.hide "Nascondi">
+<!ENTITY firetray.restore "Ripristina">
+<!ENTITY firetray.volume "Volume">
+<!ENTITY firetray.next_track "Traccia successiva">
+<!ENTITY firetray.prev_track "Traccia precedente">
+<!ENTITY firetray.multimedia_keys "Tasti multimediali">
+<!ENTITY firetray.grab_multimedia_keys "Cattura tasti multimediali">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "t">
+<!ENTITY firetray.restart_to_apply "Riavviare per modifiche">
+<!ENTITY firetray.key_code "Codice del tasto">
+<!ENTITY firetray.dont_consider_spam_folders "Do not include junk mails">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "t">
 
-<!ENTITY firetray.multimedia_keys "Tasti multimediali" >
-<!ENTITY firetray.grab_multimedia_keys "Cattura tasti multimediali" >
-<!ENTITY firetray.grab_multimedia_keys_accesskey "t" >
-<!ENTITY firetray.restart_to_apply "Riavviare per applicare" >
-
-<!ENTITY firetray.dont_consider_spam "Non includere i nuovi messaggi dalle seguenti cartelle:" >
-<!ENTITY firetray.dont_consider_spam_accesskey "N" >
-<!ENTITY firetray.dont_consider_spam_indications "Indicare i nomi delle cartelle separati dal carattere punto e virgola (;)" >
+<!ENTITY firetray.dont_consider_spam "Non includere i nuovi messaggi per le seguenti cartelle:">
+<!ENTITY firetray.dont_consider_spam_accesskey "N">
+<!ENTITY firetray.dont_consider_spam_indications "Separare i nomi delle cartelle utilizzando il punto e virgola (;)">

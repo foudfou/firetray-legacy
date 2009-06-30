@@ -26,6 +26,10 @@
 <!ENTITY firetray.show_only_hidden "Show only when hidden on tray" >
 <!ENTITY firetray.show_only_hidden_accesskey "w" >
 
+<!ENTITY firetray.general_options "General settings">
+<!ENTITY firetray.input_options "Input settings" >
+<!ENTITY firetray.mail_options "Mail settings">
+
 <!ENTITY firetray.mouse_wheel_options "Mouse wheel options" >
 <!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon" >
 <!ENTITY firetray.enable_mouse_scroll_accesskey "l">
@@ -43,6 +47,8 @@
 <!ENTITY firetray.restart_to_apply "restart to apply" >
 <!ENTITY firetray.key_code "keycode" >
 
+<!ENTITY firetray.dont_consider_spam_folders "Do not include junk mails">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "t">
 <!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:" >
-<!ENTITY firetray.dont_consider_spam_accesskey "t" >
+<!ENTITY firetray.dont_consider_spam_accesskey "i" >
 <!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character" >

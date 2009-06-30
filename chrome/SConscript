@@ -7,7 +7,7 @@ content = 'core.js browserOverlay.xul mailOverlay.xul songOverlay.xul navigatorO
 for c in content.split(' '):
     contents.append('content' + os.sep + c)
 
-locales = 'en-US it-IT' #bb bg-BG ca-AD cs-CZ de-DE es-AR es-ES fr-FR ja-JP mk-MK pl-PL pt-BR ru-RU sk-SK sl-SI tr-TR uk-UA zh-CN'
+locales = 'en-US it-IT bg-BG ca-AD cs-CZ de-DE es-AR es-ES fr-FR ja-JP mk-MK nl-NL pl-PL pt-BR ru-RU sk-SK sl-SI tr-TR uk-UA zh-CN'
 
 locale_files = 'browserOverlay.dtd core.properties mailOverlay.dtd options.dtd'
  

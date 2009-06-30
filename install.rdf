@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.3</em:version>
+    <em:version>0.2.4 dev</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -15,7 +15,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>2.0</em:minVersion>
-	<em:maxVersion>3.6</em:maxVersion>
+	<em:maxVersion>3.6a1pre</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -24,7 +24,7 @@
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <em:minVersion>1.0+</em:minVersion>
-        <em:maxVersion>3.0</em:maxVersion>
+        <em:maxVersion>3.1a1pre</em:maxVersion>
       </Description>
     </em:targetApplication>
     
@@ -42,7 +42,7 @@
       <Description>  
         <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>  
         <em:minVersion>2.0a1</em:minVersion>  
-        <em:maxVersion>2.0</em:maxVersion>  
+        <em:maxVersion>2.0b1</em:maxVersion>  
       </Description>  
     </em:targetApplication>  
     
@@ -51,7 +51,7 @@
       <Description>
 	      <em:id>{718e30fb-e89b-41dd-9da7-e25a45638b28}</em:id> 
 	<em:minVersion>0.5</em:minVersion>
-	<em:maxVersion>0.9</em:maxVersion>
+	<em:maxVersion>1.0pre</em:maxVersion>
       </Description>
     </em:targetApplication>
     
@@ -68,6 +68,7 @@
     <em:contributor>Dave Bartlett</em:contributor>
     <em:contributor>Bertolotti Pierre</em:contributor>
     <em:contributor>Ziyuan Yao</em:contributor>
+    <em:contributor>+Hard -Soft</em:contributor>
     <em:contributor>SparkyBluefang</em:contributor>
 
     <em:translator>Lachezar [bg-BG]</em:translator>

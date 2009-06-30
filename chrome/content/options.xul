@@ -11,7 +11,7 @@
 	<script src="chrome://firetray/content/options.js" />
  <!--<script src="/Temp/FireTray/CLEAN/firetray/chrome/content/options.js" />-->
 
-	<preferences>
+     <preferences>
 	    <preference id="close_to_tray" name="extensions.firetray.close_to_tray" type="bool" />
 	    <preference id="start_minimized" name="extensions.firetray.start_minimized" type="bool" />
 	    <preference id="confirm_exit" name="extensions.firetray.confirm_exit" type="bool" />
@@ -24,115 +24,128 @@
 	    <preference id="custom_special_icon" name="extensions.firetray.custom_special_icon" type="string" />
 	    <preference id="text_color" name="extensions.firetray.text_color" type="string" />
 	    <preference id="scroll_to_hide" name="extensions.firetray.scroll_to_hide" type="bool" />
-	    <preference id="grab_multimedia_keys" name="extensions.firetray.grab_multimedia_keys" type="bool" /> 
-	</preferences>
-     
-	<groupbox>
-		<caption label="&firetray.behaviour_group;"/>
-		
-			<vbox>
-				<checkbox id="check1" preference="close_to_tray" label="&firetray.close_to_tray;" accesskey="&firetray.close_to_tray_accesskey;" />
-			
-				<checkbox id="check2" preference="start_minimized" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
-				
-				<checkbox id="check3" preference="confirm_exit" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
-			</vbox>    
-			
- 	</groupbox>
+	    <preference id="grab_multimedia_keys" name="extensions.firetray.grab_multimedia_keys" type="bool" />
+        <preference id="dont_count_spam" name="extensions.firetray.dont_count_spam" type="bool" /> 
+    </preferences>
+ 
+<tabbox>
+  <tabs>
+    <tab label="&firetray.general_options;"/>
+    <tab label="&firetray.input_options;"/>
+    <tab label="&firetray.mail_options;" id="special_icon_tab" />
+  </tabs>
+  <tabpanels>
 
-	<groupbox>
-		<caption label="&firetray.mouse_wheel_options;"/>
-
-			 <vbox>			
-				<checkbox id="check_scroll_hide" preference="scroll_to_hide" label="&firetray.enable_mouse_scroll;" accesskey="&firetray.enable_mouse_scroll_accesskey;" oncommand="config_enabled_controls()" />
-				<radiogroup id="radiogroup_scroll">
-
-					<radio id="radio_scroll1" label="&firetray.up;=&firetray.hide;, &firetray.down;=&firetray.restore;" oncommand="update_radio_preferences()" />
-					<radio id="radio_scroll2" label="&firetray.down;=&firetray.hide;, &firetray.up;=&firetray.restore;"  oncommand="update_radio_preferences()" />
-					<radio id="radio_scroll3" label="&firetray.up;=&firetray.volume;+, &firetray.down;=&firetray.volume;-"  oncommand="update_radio_preferences()" />
-					<radio id="radio_scroll4" label="&firetray.up;=&firetray.next_track;, &firetray.down;=&firetray.prev_track;"  oncommand="update_radio_preferences()" />
-				
-				</radiogroup>
-
-			 </vbox>
-	</groupbox>
-
-	<groupbox>
-		<caption label="&firetray.multimedia_keys;"/>
-			 <vbox>			
-				<checkbox id="check_grab_mmkeys" preference="grab_multimedia_keys" label="&firetray.grab_multimedia_keys; (&firetray.restart_to_apply;)" accesskey="&firetray.grab_multimedia_keys_accesskey;"/>
-				<label id="label_mmkeys" value="" />  
-			  </vbox>
-	</groupbox>
-
+    <tabpanel id="general_tabpanel">          
+     <hbox flex="1">
+      <vbox flex="1">
         <groupbox>
-		<caption label="&firetray.tray_icon_group;" />
-			
-			<radiogroup>
-				<!--<radio label="&firetray.use_app_icon;" preference="pref5" accesskey="&firetray.use_app_icon_accesskey;" disabled="true" />-->
-				<!---<radio id="radio_default_normal_icon" label="&firetray.use_default_icon;" accesskey="&firetray.use_default_icon_accesskey;" oncommand="config_enabled_controls()" />
-				<radio id="radio_user_normal_icon" preference="use_custom_normal_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;" oncommand="config_enabled_controls()" />-->
-				<checkbox id="check_user_normal_icon" preference="use_custom_normal_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;" oncommand="config_enabled_controls()"  />
-			</radiogroup>
+          <caption label="&firetray.behaviour_group;" />
+              <checkbox id="check1" preference="close_to_tray" label="&firetray.close_to_tray;" accesskey="&firetray.close_to_tray_accesskey;" />
+              <checkbox id="check2" preference="start_minimized" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
+              <checkbox id="check3" preference="confirm_exit" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
+        </groupbox>
+        <groupbox>
+          <caption label="&firetray.tray_icon_group;" />
+          
+                    <checkbox id="check_user_normal_icon" preference="use_custom_normal_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;" oncommand="config_enabled_controls()"  />
+                
+                    <hbox align="center">   
+
+                        <hbox align="center" flex="1" >
+                            <textbox id="normal_icon_filename" preference="custom_normal_icon" hidden="FALSE" flex="1" />
+                            <button id="select_normal_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey;" oncommand="choose_normal_icon_file()  "/> 
+                        </hbox>
+                
+
+                    </hbox>
+          
+          
+        </groupbox>
+      </vbox>
+     </hbox>
+    </tabpanel>
+    
+    <tabpanel id="input_tabpanel">
+     <hbox flex="1">
+      <vbox flex="1">         
+      <groupbox>
+       <caption label="&firetray.mouse_wheel_options;" />
+                <checkbox id="check_scroll_hide" preference="scroll_to_hide" label="&firetray.enable_mouse_scroll;" accesskey="&firetray.enable_mouse_scroll_accesskey;" oncommand="config_enabled_controls()" />
+                <radiogroup id="radiogroup_scroll">
+
+                    <radio id="radio_scroll1" label="&firetray.up;=&firetray.hide;, &firetray.down;=&firetray.restore;" oncommand="update_radio_preferences()" />
+                    <radio id="radio_scroll2" label="&firetray.down;=&firetray.hide;, &firetray.up;=&firetray.restore;"  oncommand="update_radio_preferences()" />
+                    <radio id="radio_scroll3" label="&firetray.up;=&firetray.volume;+, &firetray.down;=&firetray.volume;-"  oncommand="update_radio_preferences()" />
+                    <radio id="radio_scroll4" label="&firetray.up;=&firetray.next_track;, &firetray.down;=&firetray.prev_track;"  oncommand="update_radio_preferences()" />
+                
+                </radiogroup>
+      </groupbox>
+      <groupbox>
+       <caption label="&firetray.multimedia_keys;" />
+                <checkbox id="check_grab_mmkeys" preference="grab_multimedia_keys" label="&firetray.grab_multimedia_keys; (&firetray.restart_to_apply;)" accesskey="&firetray.grab_multimedia_keys_accesskey;"/>
+                <label id="label_mmkeys" value="" />  
+      </groupbox>
+     </vbox>
+     </hbox>
+    </tabpanel>
+    
+    <tabpanel id="special_icon_tabpanel">
+            
+    <hbox flex="1">               
+     <vbox flex="1">               
+
+      <groupbox id="special_icon_group">
+        <caption label="&firetray.newmail_settings;" />
+          <vbox>
+              
+              <checkbox id="check_restore_next_unread" preference="restore_to_next_unread" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />
+
+              <checkbox label="&firetray.dont_consider_spam_folders;" accesskey="&firetray.dont_consider_spam_folders_accesskey;" preference="dont_count_spam" />
+
+              <checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="show_num_unread" />
+
+              <!--<checkbox id="check_dont_consider_spam" label="&firetray.dont_consider_spam;" accesskey="&firetray.dont_consider_spam_accesskey;" />
+              <textbox id="textbox_spam_folders" value="Spam;Trash" tooltiptext="&firetray.dont_consider_spam_indications;" />      -->
+      
+      
+              <checkbox label="&firetray.show_only_hidden;" accesskey="&firetray.show_only_hidden_accesskey;" preference="show_unread_only_minimized" />
+
+      
+              <radiogroup>
+  <!--                <radio id="radio_default_special_icon" label="&firetray.use_default_icon;" accesskey="&firetray.use_default_icon_accesskey;" oncommand="config_enabled_controls()" />
+                  <radio id="radio_user_special_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;"  oncommand="config_enabled_controls()" />-->
+                  <checkbox id="check_user_special_icon" preference="use_custom_special_icon" label="&firetray.use_user_icon;"    oncommand="config_enabled_controls()" /> <!-- accesskey="&firetray.use_user_icon_accesskey;"-->
+              </radiogroup>
+
+              <vbox>
+                  <hbox align="center">   
+
+                      <hbox align="center">
+                                      <textbox id="special_icon_filename" preference="custom_special_icon" />
+                          <button id="select_special_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey2;" oncommand="choose_special_icon_file();"/>                   
+                      </hbox>
+              
+
+                  </hbox>
+
+                  <hbox align="center">           
+                      <label value="&firetray.msg_font_color;" />
+                      <colorpicker type="button" preference="text_color" />
+                  </hbox>
+      
+              </vbox>
 
 
-			<vbox>
-				<hbox align="center">	
-
-					<hbox align="center">
-	            		    		<textbox id="normal_icon_filename" preference="custom_normal_icon" hidden="FALSE" />
-						<button id="select_normal_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey;" oncommand="choose_normal_icon_file()	"/>	
-					</hbox>
-   	    	 
-
-				</hbox>
-	
-			</vbox>
-
-	</groupbox>
-
-
-	
-	 <groupbox id="special_icon_group">
-		<caption label="&firetray.newmail_settings;" />
-		<vbox>
-			
-			<checkbox id="check_restore_next_unread" preference="restore_to_next_unread" label="&firetray.show_next_unread;" accesskey="&firetray.show_next_unread_accesskey;" />
-
-			<checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="show_num_unread" />
-			<!--<checkbox id="check_dont_consider_spam" label="&firetray.dont_consider_spam;" accesskey="&firetray.dont_consider_spam_accesskey;" />
-			<textbox id="textbox_spam_folders" value="Spam;Trash" tooltiptext="&firetray.dont_consider_spam_indications;" />  	  -->
-	
-			<checkbox label="&firetray.show_only_hidden;" accesskey="&firetray.show_only_hidden_accesskey;" preference="show_unread_only_minimized" />
-
-	
-			<radiogroup>
-<!--				<radio id="radio_default_special_icon" label="&firetray.use_default_icon;" accesskey="&firetray.use_default_icon_accesskey;" oncommand="config_enabled_controls()" />
-				<radio id="radio_user_special_icon" label="&firetray.use_user_icon;"  accesskey="&firetray.use_user_icon_accesskey;"  oncommand="config_enabled_controls()" />-->
-				<checkbox id="check_user_special_icon" preference="use_custom_special_icon" label="&firetray.use_user_icon;"    oncommand="config_enabled_controls()" /> <!-- accesskey="&firetray.use_user_icon_accesskey;"-->
-			</radiogroup>
-
-			<vbox>
-				<hbox align="center">	
-
-					<hbox align="center">
-	            		    		<textbox id="special_icon_filename" preference="custom_special_icon" />
-						<button id="select_special_icon" label="&firetray.choose;" accesskey="&firetray.choose_accesskey2;" oncommand="choose_special_icon_file();"/>					
-					</hbox>
-   	    	 
-
-				</hbox>
-
-				<hbox align="center">			
-					<label value="&firetray.msg_font_color;" />
-					<colorpicker type="button" preference="text_color" />
-				</hbox>
-	
-			</vbox>
-
-
-		</vbox>
-	</groupbox>
+          </vbox>
+        </groupbox>
+      </vbox>
+     </hbox>
+    </tabpanel>
+    
+    
+  </tabpanels>
+</tabbox>
 
 
 </prefpane>

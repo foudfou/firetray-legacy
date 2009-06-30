@@ -6,7 +6,7 @@
 
 
     #define ENABLE_ERROR_MSG 1       //enable error messages
-    //#define DO_DEBUG 1             //enable generic debug messages	
+    #define DO_DEBUG 1             //enable generic debug messages	
     //#define DO_DEBUG_FILTER 1      //enable window events filter debug messages
     //#define DO_DEBUG_CALLS 1       //enable function calls debug messages
 
