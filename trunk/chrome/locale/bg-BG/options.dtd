@@ -1,13 +1,13 @@
 <!ENTITY firetray.prefwindow "Настройки на FireTray">
 <!ENTITY firetray.prefpane_options "Настройки">
 <!ENTITY firetray.close_to_tray "Бутонът за затваряне затваря към системния поднос">
-<!ENTITY firetray.close_to_tray_accesskey "п">
+<!ENTITY firetray.close_to_tray_accesskey "з">
 <!ENTITY firetray.start_min "Стартиране минимизирана в системния поднос">
 <!ENTITY firetray.start_min_accesskey "м">
 <!ENTITY firetray.confirm_exit "Потвърждаване за изход">
 <!ENTITY firetray.confirm_exit_accesskey "и">
 <!ENTITY firetray.show_next_unread "При възстановяване покажи следващото непрочетено съобщение">
-<!ENTITY firetray.show_next_unread_accesskey "П">
+<!ENTITY firetray.show_next_unread_accesskey "в">
 <!ENTITY firetray.use_app_icon "Използвай иконата на приложението">
 <!ENTITY firetray.use_app_icon_accesskey "ж">
 <!ENTITY firetray.use_default_icon "Използвай иконата по подразбиране">
@@ -15,6 +15,31 @@
 <!ENTITY firetray.use_user_icon "Използвай потребителска икона">
 <!ENTITY firetray.use_user_icon_accesskey "т">
 <!ENTITY firetray.show_unread_number "Показвай броя непрочетени съобщения">
-<!ENTITY firetray.show_unread_number_accesskey "б">
+<!ENTITY firetray.show_unread_number_accesskey "н">
 <!ENTITY firetray.behaviour_group "Настройки за поведението на прозорците">
 <!ENTITY firetray.tray_icon_group "Настройки за иконата">
+<!ENTITY firetray.choose "Преглед">
+<!ENTITY firetray.choose_accesskey "г">
+<!ENTITY firetray.choose_accesskey2 "л">
+<!ENTITY firetray.msg_font_color "Цвят за броя непрочетени съобщения">
+<!ENTITY firetray.newmail_settings "Настойки за иконата за нови съобщения">
+<!ENTITY firetray.show_only_hidden "Показвай само когато е скрито в подноса">
+<!ENTITY firetray.show_only_hidden_accesskey "к">
+<!ENTITY firetray.mouse_wheel_options "Настройки за колелцето на мишката">
+<!ENTITY firetray.enable_mouse_scroll "Следене на скрол с колелцето върху иконата">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "С">
+<!ENTITY firetray.up "Скрол НАГОРЕ">
+<!ENTITY firetray.down "Скрол НАДОЛУ">
+<!ENTITY firetray.hide "Скриване">
+<!ENTITY firetray.restore "Показване">
+<!ENTITY firetray.volume "сила на звука">
+<!ENTITY firetray.next_track "следваща песен">
+<!ENTITY firetray.prev_track "предишна песен">
+<!ENTITY firetray.multimedia_keys "Мултимедийни клавиши">
+<!ENTITY firetray.grab_multimedia_keys "Прихващане на мултимедийните клавиши">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "х">
+<!ENTITY firetray.restart_to_apply "включване след рестарт">
+<!ENTITY firetray.key_code "код">
+<!ENTITY firetray.dont_consider_spam "Не вземай предвид съобщенията в следните папки:">
+<!ENTITY firetray.dont_consider_spam_accesskey "р">
+<!ENTITY firetray.dont_consider_spam_indications "Показвай папките разделени с тозка и запетая (;)">

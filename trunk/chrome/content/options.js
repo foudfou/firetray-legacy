@@ -47,7 +47,7 @@ function getAppType()
         break;
 
      case SEAMONKEY_ID:
-        return BROWSER;
+        return BROWSER | MAIL;
         break;
 
      case FIREFOX_ID:
@@ -130,7 +130,7 @@ function config_options_window() {
 
 	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 
-	var mail_group = document.getElementById("special_icon_group");
+	var mail_group = document.getElementById("special_icon_tab");
 	var filepath = document.getElementById("normal_icon_filename");	
 	var filelabel = document.getElementById("normal_icon_label");	
 	var check_restore_next_unread = document.getElementById("check_restore_next_unread");	

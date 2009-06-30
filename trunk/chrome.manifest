@@ -6,5 +6,23 @@ overlay chrome://songbird/content/xul/mainScriptsOverlay.xul  chrome://firetray/
 overlay chrome://calendar/content/calendar.xul			chrome://firetray/content/mailOverlay.xul	
 overlay chrome://navigator/content/navigator.xul chrome://firetray/content/navigatorOverlay.xul	
 
-locale	firetray	en-US	jar:chrome/firetray.jar!/locale/en-US/
-locale	firetray	it-IT	jar:chrome/firetray.jar!/locale/it-IT/
+locale  firetray    en-US   jar:chrome/firetray.jar!/locale/en-US/
+locale  firetray    it-IT   jar:chrome/firetray.jar!/locale/it-IT/
+locale  firetray    bg-BG   jar:chrome/firetray.jar!/locale/bg-BG/
+locale  firetray    ca-AD   jar:chrome/firetray.jar!/locale/ca-AD/
+locale  firetray    cs-CZ   jar:chrome/firetray.jar!/locale/cs-CZ/
+locale  firetray    de-DE   jar:chrome/firetray.jar!/locale/de-DE/
+locale  firetray    es-AR   jar:chrome/firetray.jar!/locale/es-AR/
+locale  firetray    es-ES   jar:chrome/firetray.jar!/locale/es-ES/
+locale  firetray    fr-FR   jar:chrome/firetray.jar!/locale/fr-FR/
+locale  firetray    ja-JP   jar:chrome/firetray.jar!/locale/ja-JP/
+locale  firetray    mk-MK   jar:chrome/firetray.jar!/locale/mk-MK/
+locale  firetray    nl-NL   jar:chrome/firetray.jar!/locale/nl-NL/
+locale  firetray    pl-PL   jar:chrome/firetray.jar!/locale/pl-PL/
+locale  firetray    pt-BR   jar:chrome/firetray.jar!/locale/pt-BR/
+locale  firetray    ru-RU   jar:chrome/firetray.jar!/locale/ru-RU/
+locale  firetray    sk-SK   jar:chrome/firetray.jar!/locale/sk-SK/
+locale  firetray    sl-SI   jar:chrome/firetray.jar!/locale/sl-SI/
+locale  firetray    tr-TR   jar:chrome/firetray.jar!/locale/tr-TR/
+locale  firetray    uk-UA   jar:chrome/firetray.jar!/locale/uk-UA/
+locale  firetray    zh-CN   jar:chrome/firetray.jar!/locale/zh-CN/

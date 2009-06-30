@@ -18,3 +18,28 @@
 <!ENTITY firetray.show_unread_number_accesskey "M">
 <!ENTITY firetray.behaviour_group "Opciones del comportamiento de la ventana">
 <!ENTITY firetray.tray_icon_group "Opciones del icono">
+<!ENTITY firetray.choose "Elegir">
+<!ENTITY firetray.choose_accesskey "e">
+<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.msg_font_color "Color del número de mensajes no leídos">
+<!ENTITY firetray.newmail_settings "Opciones del icono de nuevo mensaje">
+<!ENTITY firetray.show_only_hidden "Mostrar sólo si está oculto en la bandeja">
+<!ENTITY firetray.show_only_hidden_accesskey "s">
+<!ENTITY firetray.mouse_wheel_options "Opciones de la rueda del ratón">
+<!ENTITY firetray.enable_mouse_scroll "Capturar el movimiento del scroll en el icono de la bandeja">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "C">
+<!ENTITY firetray.up "ARRIBA">
+<!ENTITY firetray.down "ABAJO">
+<!ENTITY firetray.hide "ocultar">
+<!ENTITY firetray.restore "restaurar">
+<!ENTITY firetray.volume "volumen">
+<!ENTITY firetray.next_track "pista siguiente">
+<!ENTITY firetray.prev_track "pista anterior">
+<!ENTITY firetray.multimedia_keys "Teclas multimedia">
+<!ENTITY firetray.grab_multimedia_keys "Usar teclas multimedia">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "U">
+<!ENTITY firetray.restart_to_apply "reiniciar para aplicar">
+<!ENTITY firetray.key_code "código de tecla">
+<!ENTITY firetray.dont_consider_spam "No incluir los nuevos mensajes de las siguientes carpetas:">
+<!ENTITY firetray.dont_consider_spam_accesskey "t">
+<!ENTITY firetray.dont_consider_spam_indications "Indique los nombres de carpetas separados por punto y coma (;)">

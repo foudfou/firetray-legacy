@@ -1,3 +1,6 @@
+0.2.4  Fixed Seamonkey2 mail count icon
+       Split option windows into separate tabs
+       Added option to exclude spam messages from new mail count
 
 0.2.3  Fixed "new window hides all" (Issue 27)
        Cleaning interface code
@@ -16,6 +19,8 @@
 
 
 TODO:
+
+  - split options panel into tabs
   
   - fix close to tray on songbird
   - windows position bug when using XRDC 

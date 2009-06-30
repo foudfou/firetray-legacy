@@ -18,3 +18,28 @@
 <!ENTITY firetray.show_unread_number_accesskey "h">
 <!ENTITY firetray.behaviour_group "Windows behaviour options">
 <!ENTITY firetray.tray_icon_group "Icon settings">
+<!ENTITY firetray.choose "Choose">
+<!ENTITY firetray.choose_accesskey "e">
+<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.msg_font_color "Color of unread messages number">
+<!ENTITY firetray.newmail_settings "New mail icon settings">
+<!ENTITY firetray.show_only_hidden "Show only when hidden on tray">
+<!ENTITY firetray.show_only_hidden_accesskey "w">
+<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
+<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
+<!ENTITY firetray.up "UP">
+<!ENTITY firetray.down "DOWN">
+<!ENTITY firetray.hide "hide">
+<!ENTITY firetray.restore "restore">
+<!ENTITY firetray.volume "volume">
+<!ENTITY firetray.next_track "next track">
+<!ENTITY firetray.prev_track "previous track">
+<!ENTITY firetray.multimedia_keys "Multimedia keys">
+<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
+<!ENTITY firetray.restart_to_apply "restart to apply">
+<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:">
+<!ENTITY firetray.dont_consider_spam_accesskey "t">
+<!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character">

@@ -28,6 +28,8 @@ r = env.Install('dist', 'chrome.manifest')
 objs.append(r)
 r = env.Install('dist', 'install.rdf')
 objs.append(r)
+r = env.Install('dist', 'License.txt')
+objs.append(r)
 
 r = env.Install('dist/defaults/preferences', 'defaults/preferences/prefs.js')
 objs.append(r)
