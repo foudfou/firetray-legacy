@@ -25,6 +25,9 @@
 <!ENTITY firetray.newmail_settings "新邮件图标设置">
 <!ENTITY firetray.show_only_hidden "只在缩小到托盘时显示">
 <!ENTITY firetray.show_only_hidden_accesskey "w">
+<!ENTITY firetray.general_options "一般选项">
+<!ENTITY firetray.input_options "输入选项">
+<!ENTITY firetray.mail_options "邮件选项">
 <!ENTITY firetray.mouse_wheel_options "鼠标滚轮选项">
 <!ENTITY firetray.enable_mouse_scroll "托盘图标启用鼠标滚轮支持">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "I">
@@ -40,6 +43,8 @@
 <!ENTITY firetray.grab_multimedia_keys_accesskey "G">
 <!ENTITY firetray.restart_to_apply "重启以便生效">
 <!ENTITY firetray.key_code "键码值">
+<!ENTITY firetray.dont_consider_spam_folders "不包括垃圾消息">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "t">
 <!ENTITY firetray.dont_consider_spam "不包括来自以下文件夹的新邮件">
 <!ENTITY firetray.dont_consider_spam_accesskey "t">
 <!ENTITY firetray.dont_consider_spam_indications "使用分号(;)来区别独立的文件夹">

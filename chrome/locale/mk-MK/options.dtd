@@ -20,26 +20,31 @@
 <!ENTITY firetray.tray_icon_group "Поставувања на иконата">
 <!ENTITY firetray.choose "Избери">
 <!ENTITY firetray.choose_accesskey "и">
-<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.choose_accesskey2 "з">
 <!ENTITY firetray.msg_font_color "Боја на бројот на непрочитани пораки">
 <!ENTITY firetray.newmail_settings "Поставувања на иконата за нова пошта">
 <!ENTITY firetray.show_only_hidden "Покажи само кога е скриено во системската лента">
 <!ENTITY firetray.show_only_hidden_accesskey "к">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
-<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.general_options "Општи поставувања">
+<!ENTITY firetray.input_options "Влезни поставувања">
+<!ENTITY firetray.mail_options "ПОставувања на поштата">
+<!ENTITY firetray.mouse_wheel_options "Опции на тркалцето на глушецот">
+<!ENTITY firetray.enable_mouse_scroll "Ракувај со движењето на глушецот на иконата на системската лента">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "о">
+<!ENTITY firetray.up "Нагоре">
+<!ENTITY firetray.down "Надолу">
+<!ENTITY firetray.hide "скриј">
+<!ENTITY firetray.restore "обнови">
+<!ENTITY firetray.volume "јачина на звукот">
+<!ENTITY firetray.next_track "следна песна">
+<!ENTITY firetray.prev_track "предходна песна">
+<!ENTITY firetray.multimedia_keys "Мултимедијални клучеви">
+<!ENTITY firetray.grab_multimedia_keys "Земи мултимедијални клучеви">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "З">
+<!ENTITY firetray.restart_to_apply "рестартирај за да се примени">
+<!ENTITY firetray.key_code "знак">
+<!ENTITY firetray.dont_consider_spam_folders "Не ја вклучувај непотребната пошта">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "в">
 <!ENTITY firetray.dont_consider_spam "Не ја вклучувај новата пошта од следните папки:">
 <!ENTITY firetray.dont_consider_spam_accesskey "а">
 <!ENTITY firetray.dont_consider_spam_indications "Означи ги имињата на папките разделени со знакот &quot;точка и запирка&quot; (;)">

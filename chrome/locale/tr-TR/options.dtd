@@ -25,21 +25,26 @@
 <!ENTITY firetray.newmail_settings "Yeni eposta simgesi ayarları">
 <!ENTITY firetray.show_only_hidden "Yanlızca tepside gizliyken göster">
 <!ENTITY firetray.show_only_hidden_accesskey "w">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
+<!ENTITY firetray.general_options "Genel ayarlar">
+<!ENTITY firetray.input_options "Girdi ayarları">
+<!ENTITY firetray.mail_options "Posta ayarları">
+<!ENTITY firetray.mouse_wheel_options "Fare tekerleği ayarları">
+<!ENTITY firetray.enable_mouse_scroll "Simge üzerinde fare kaydırmasını yakala">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
+<!ENTITY firetray.up "YUKARI">
+<!ENTITY firetray.down "AŞAĞI">
+<!ENTITY firetray.hide "gizle">
+<!ENTITY firetray.restore "düzenle">
+<!ENTITY firetray.volume "ses">
+<!ENTITY firetray.next_track "sonraki parça">
+<!ENTITY firetray.prev_track "önceki parça">
+<!ENTITY firetray.multimedia_keys "Çoklu ortam tuşları">
+<!ENTITY firetray.grab_multimedia_keys "Çoklu ortam tuşları ata">
 <!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.restart_to_apply "uygulanması için baştan başlat">
+<!ENTITY firetray.key_code "anahtar kodu">
+<!ENTITY firetray.dont_consider_spam_folders "İstenmeyen postalar olmasın">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "t">
 <!ENTITY firetray.dont_consider_spam "Şu klasörde bulunan yeni epostaları içerme:">
 <!ENTITY firetray.dont_consider_spam_accesskey "t">
 <!ENTITY firetray.dont_consider_spam_indications "Noktalı virgül (;) ile ayrılan klasör isimlerini belirt">

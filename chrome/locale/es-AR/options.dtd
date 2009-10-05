@@ -20,26 +20,31 @@
 <!ENTITY firetray.tray_icon_group "Opciones de Icono">
 <!ENTITY firetray.choose "Seleccionar">
 <!ENTITY firetray.choose_accesskey "e">
-<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.choose_accesskey2 "c">
 <!ENTITY firetray.msg_font_color "Color del número de mensajes sin leer">
 <!ENTITY firetray.newmail_settings "Opciones de ícono de correo nuevo">
 <!ENTITY firetray.show_only_hidden "Mostrar solo cuando se oculte en la bandeja">
-<!ENTITY firetray.show_only_hidden_accesskey "w">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
-<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
+<!ENTITY firetray.show_only_hidden_accesskey "t">
+<!ENTITY firetray.general_options "Opciones generales">
+<!ENTITY firetray.input_options "Opciones de entrada">
+<!ENTITY firetray.mail_options "Opciones de Correo">
+<!ENTITY firetray.mouse_wheel_options "Opciones de la rueda de desplazamiento del ratón">
+<!ENTITY firetray.enable_mouse_scroll "Manejo del scroll del ratón sobre el ícono de la bandeja">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "r">
+<!ENTITY firetray.up "ARRIBA">
+<!ENTITY firetray.down "ABAJO">
+<!ENTITY firetray.hide "ocultar">
+<!ENTITY firetray.restore "restaurar">
+<!ENTITY firetray.volume "volumen">
+<!ENTITY firetray.next_track "pista siguiente">
+<!ENTITY firetray.prev_track "pista anterior">
+<!ENTITY firetray.multimedia_keys "teclas multimedia">
+<!ENTITY firetray.grab_multimedia_keys "Capturar teclas multimedia">
 <!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.restart_to_apply "reiniciar para aplicar">
+<!ENTITY firetray.key_code "código de tecla">
+<!ENTITY firetray.dont_consider_spam_folders "No incluir correos basura">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "b">
 <!ENTITY firetray.dont_consider_spam "No incluir nuevo correo de las siguientes carpetas:">
-<!ENTITY firetray.dont_consider_spam_accesskey "t">
+<!ENTITY firetray.dont_consider_spam_accesskey "N">
 <!ENTITY firetray.dont_consider_spam_indications "Indicar el nombre de las carpetas separados por punto y coma (;)">

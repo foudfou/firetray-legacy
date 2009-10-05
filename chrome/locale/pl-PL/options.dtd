@@ -13,7 +13,7 @@
 <!ENTITY firetray.use_default_icon "Używaj domyślnej ikony rozszerzenia">
 <!ENTITY firetray.use_default_icon_accesskey "d">
 <!ENTITY firetray.use_user_icon "Używaj ikony zdefiniowanej przez użytkownika">
-<!ENTITY firetray.use_user_icon_accesskey "z">
+<!ENTITY firetray.use_user_icon_accesskey "y">
 <!ENTITY firetray.show_unread_number "Pokazuj liczbę nieprzeczytanych wiadomości">
 <!ENTITY firetray.show_unread_number_accesskey "k">
 <!ENTITY firetray.behaviour_group "Opcje zachowania okien">
@@ -25,21 +25,26 @@
 <!ENTITY firetray.newmail_settings "Ustawienia ikony nowej poczty">
 <!ENTITY firetray.show_only_hidden "Wyświetlaj tylko po minimalizacji do obszaru powiadomień">
 <!ENTITY firetray.show_only_hidden_accesskey "W">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
-<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.general_options "Ogólne ustawienia">
+<!ENTITY firetray.input_options "Ustawienia wejścia">
+<!ENTITY firetray.mail_options "Ustawienia poczty">
+<!ENTITY firetray.mouse_wheel_options "Opcje kółka myszy">
+<!ENTITY firetray.enable_mouse_scroll "Reaguj na użycie kółka myszy na ikonie w obszarze powiadamiania">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "R">
+<!ENTITY firetray.up "W GÓRĘ">
+<!ENTITY firetray.down "W DÓŁ">
+<!ENTITY firetray.hide "ukryj">
+<!ENTITY firetray.restore "przywróć">
+<!ENTITY firetray.volume "głośność">
+<!ENTITY firetray.next_track "następny utwór">
+<!ENTITY firetray.prev_track "poprzedni utwór">
+<!ENTITY firetray.multimedia_keys "Klawisze multimedialne">
+<!ENTITY firetray.grab_multimedia_keys "Przechwytuj wciśnięcia klawiszy multimedialnych">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "P">
+<!ENTITY firetray.restart_to_apply "uruchom ponownie, aby zmiany odniosły skutek">
+<!ENTITY firetray.key_code "kod klawisza">
+<!ENTITY firetray.dont_consider_spam_folders "Nie informuj o niechcianych wiadomościach">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "n">
 <!ENTITY firetray.dont_consider_spam "Nie informuj o poczcie przychodzącej do następujących folderów:">
 <!ENTITY firetray.dont_consider_spam_accesskey "N">
 <!ENTITY firetray.dont_consider_spam_indications "Oznaczaj nazwy folderów oddzielone średnikami (;)">
