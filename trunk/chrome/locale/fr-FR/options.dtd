@@ -4,42 +4,47 @@
 <!ENTITY firetray.close_to_tray_accesskey "L">
 <!ENTITY firetray.start_min "Au démarrage, placer le programme dans la zone de notification">
 <!ENTITY firetray.start_min_accesskey "A">
-<!ENTITY firetray.confirm_exit "Confirmation avant de quitter l&apos;application">
+<!ENTITY firetray.confirm_exit "Confirmation avant de quitter l'application">
 <!ENTITY firetray.confirm_exit_accesskey "C">
 <!ENTITY firetray.show_next_unread "Afficher le message non lu suivant à la restauration">
 <!ENTITY firetray.show_next_unread_accesskey "m">
-<!ENTITY firetray.use_app_icon "Utiliser l&apos;icône du logiciel">
+<!ENTITY firetray.use_app_icon "Utiliser l'icône du logiciel">
 <!ENTITY firetray.use_app_icon_accesskey "l">
-<!ENTITY firetray.use_default_icon "Utiliser l&apos;icône par défaut">
+<!ENTITY firetray.use_default_icon "Utiliser l'icône par défaut">
 <!ENTITY firetray.use_default_icon_accesskey "t">
 <!ENTITY firetray.use_user_icon "Utiliser une icône personnalisée">
 <!ENTITY firetray.use_user_icon_accesskey "U">
 <!ENTITY firetray.show_unread_number "Afficher le nombre de messages non lus">
-<!ENTITY firetray.show_unread_number_accesskey "f">
+<!ENTITY firetray.show_unread_number_accesskey "A">
 <!ENTITY firetray.behaviour_group "Options du comportement des fenêtres">
-<!ENTITY firetray.tray_icon_group "Paramètres de l&apos;icône">
+<!ENTITY firetray.tray_icon_group "Paramètres de l'icône">
 <!ENTITY firetray.choose "Choisir">
-<!ENTITY firetray.choose_accesskey "h">
-<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.choose_accesskey "C">
+<!ENTITY firetray.choose_accesskey2 "s">
 <!ENTITY firetray.msg_font_color "Couleur du nombre de messages non lus">
-<!ENTITY firetray.newmail_settings "Paramètres de l&apos;icône pour nouveau message">
-<!ENTITY firetray.show_only_hidden "N&apos;afficher que si masqué dans la zone de notification">
-<!ENTITY firetray.show_only_hidden_accesskey "q">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
-<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
+<!ENTITY firetray.newmail_settings "Paramètres de l'icône pour nouveau message">
+<!ENTITY firetray.show_only_hidden "N'afficher que si masqué dans la zone de notification">
+<!ENTITY firetray.show_only_hidden_accesskey "f">
+<!ENTITY firetray.general_options "Paramètres généraux">
+<!ENTITY firetray.input_options "Paramètres d'entrées">
+<!ENTITY firetray.mail_options "Paramètres de courriel">
+<!ENTITY firetray.mouse_wheel_options "Options de la roulette de souris">
+<!ENTITY firetray.enable_mouse_scroll "Contrôler l'icône de la zone de notification avec la roulette de la souris">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "C">
+<!ENTITY firetray.up "vers le haut">
+<!ENTITY firetray.down "vers le bas">
+<!ENTITY firetray.hide "cacher">
+<!ENTITY firetray.restore "rétablir">
 <!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.next_track "piste suivante">
+<!ENTITY firetray.prev_track "piste précédente">
+<!ENTITY firetray.multimedia_keys "Touches multimédia">
+<!ENTITY firetray.grab_multimedia_keys "Rechercher les touches multimédias">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "R">
+<!ENTITY firetray.restart_to_apply "redémarrer pour appliquer">
+<!ENTITY firetray.key_code "Code de la touche">
+<!ENTITY firetray.dont_consider_spam_folders "Ne pas prendre en compte les messages indésirables">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "N">
 <!ENTITY firetray.dont_consider_spam "Ne pas prendre en compte les nouveaux messages des dossiers suivants :">
 <!ENTITY firetray.dont_consider_spam_accesskey "m">
-<!ENTITY firetray.dont_consider_spam_indications "Indiquer le nom des dossiers en les séparant d&apos;un point-virgule">
+<!ENTITY firetray.dont_consider_spam_indications "Indiquer le nom des dossiers en les séparant d'un point-virgule">

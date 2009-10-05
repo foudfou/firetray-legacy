@@ -20,26 +20,31 @@
 <!ENTITY firetray.tray_icon_group "Nastavitve ikone">
 <!ENTITY firetray.choose "Izberite">
 <!ENTITY firetray.choose_accesskey "e">
-<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.choose_accesskey2 "b">
 <!ENTITY firetray.msg_font_color "Barva števila neprebranih sporočil">
 <!ENTITY firetray.newmail_settings "Nastavitve ikone nove pošte">
 <!ENTITY firetray.show_only_hidden "Pokaži le, ko je skrito v pladnju">
 <!ENTITY firetray.show_only_hidden_accesskey "ž">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
-<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.general_options "Splošne nastavitve">
+<!ENTITY firetray.input_options "Nastavitve vhoda">
+<!ENTITY firetray.mail_options "Poštne nastavitve">
+<!ENTITY firetray.mouse_wheel_options "Možnosti miškinega koleščka">
+<!ENTITY firetray.enable_mouse_scroll "Upoštevaj miškin kolešček na pladenjski ikoni">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "I">
+<!ENTITY firetray.up "Navzgor">
+<!ENTITY firetray.down "Navzdol">
+<!ENTITY firetray.hide "Skrij">
+<!ENTITY firetray.restore "Obnovi">
+<!ENTITY firetray.volume "Glasnost">
+<!ENTITY firetray.next_track "Naslednji">
+<!ENTITY firetray.prev_track "Prejšnji">
+<!ENTITY firetray.multimedia_keys "Tipke za večpredstavnost">
+<!ENTITY firetray.grab_multimedia_keys "Prevzemi tipke za večpredstavnost">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "t">
+<!ENTITY firetray.restart_to_apply "Ponovno zaženi za uveljavitev">
+<!ENTITY firetray.key_code "Koda tipke">
+<!ENTITY firetray.dont_consider_spam_folders "Ne vključi neželene pošte">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "n">
 <!ENTITY firetray.dont_consider_spam "Ne upoštevaj nove pošte iz naslednjih map:">
 <!ENTITY firetray.dont_consider_spam_accesskey "u">
 <!ENTITY firetray.dont_consider_spam_indications "Navedite imena map, ločena s podpičjem (;)">

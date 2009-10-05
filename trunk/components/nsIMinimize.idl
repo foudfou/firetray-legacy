@@ -4,5 +4,5 @@
 interface nsIMinimize : nsISupports
 {
     attribute PRBool all_hidden;
-    attribute PRUint32 menu_window_list;
+    attribute PRUint64 menu_window_list;
 };  

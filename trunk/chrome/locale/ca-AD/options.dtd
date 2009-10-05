@@ -4,42 +4,47 @@
 <!ENTITY firetray.close_to_tray_accesskey "S">
 <!ENTITY firetray.start_min "Obre el programa minimitzat">
 <!ENTITY firetray.start_min_accesskey "O">
-<!ENTITY firetray.confirm_exit "Confirma en sortir de l&apos;aplicació">
+<!ENTITY firetray.confirm_exit "Confirma en sortir de l'aplicació">
 <!ENTITY firetray.confirm_exit_accesskey "C">
 <!ENTITY firetray.show_next_unread "En restaurar mostra el següent missatge no llegit">
 <!ENTITY firetray.show_next_unread_accesskey "s">
-<!ENTITY firetray.use_app_icon "Utilitza la icona de l&apos;aplicació">
+<!ENTITY firetray.use_app_icon "Utilitza la icona de l'aplicació">
 <!ENTITY firetray.use_app_icon_accesskey "a">
 <!ENTITY firetray.use_default_icon "Utilitza la icona per defecte">
 <!ENTITY firetray.use_default_icon_accesskey "d">
-<!ENTITY firetray.use_user_icon "Icona definida per l&apos;usuari">
+<!ENTITY firetray.use_user_icon "Icona definida per l'usuari">
 <!ENTITY firetray.use_user_icon_accesskey "u">
 <!ENTITY firetray.show_unread_number "Mostra el número de correus no llegits">
 <!ENTITY firetray.show_unread_number_accesskey "n">
 <!ENTITY firetray.behaviour_group "Opcions del comportament de les finestres">
 <!ENTITY firetray.tray_icon_group "Configuració de la icona">
-<!ENTITY firetray.choose "Choose">
+<!ENTITY firetray.choose "Esculliu">
 <!ENTITY firetray.choose_accesskey "e">
 <!ENTITY firetray.choose_accesskey2 "o">
-<!ENTITY firetray.msg_font_color "Color of unread messages number">
-<!ENTITY firetray.newmail_settings "New mail icon settings">
-<!ENTITY firetray.show_only_hidden "Show only when hidden on tray">
+<!ENTITY firetray.msg_font_color "Color del número de missatges no llegits">
+<!ENTITY firetray.newmail_settings "Opcions de la icona de correu nou">
+<!ENTITY firetray.show_only_hidden "Mostra-ho només quan s'amagui a la safata">
 <!ENTITY firetray.show_only_hidden_accesskey "w">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
+<!ENTITY firetray.general_options "Opcions generals">
+<!ENTITY firetray.input_options "Opcions d'entrada">
+<!ENTITY firetray.mail_options "Opcions de correu">
+<!ENTITY firetray.mouse_wheel_options "Opcions de la roda del ratolí">
 <!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
+<!ENTITY firetray.up "A DALT">
+<!ENTITY firetray.down "A SOTA">
+<!ENTITY firetray.hide "amaga">
+<!ENTITY firetray.restore "restaura">
+<!ENTITY firetray.volume "volum">
+<!ENTITY firetray.next_track "peça següent">
+<!ENTITY firetray.prev_track "peça anterior">
+<!ENTITY firetray.multimedia_keys "Tecles multimèdia">
+<!ENTITY firetray.grab_multimedia_keys "Gestiona les tecles multimèdia">
 <!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
-<!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:">
-<!ENTITY firetray.dont_consider_spam_accesskey "t">
-<!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character">
+<!ENTITY firetray.restart_to_apply "reinicieu per a aplicar-ho">
+<!ENTITY firetray.key_code "codi de tecles">
+<!ENTITY firetray.dont_consider_spam_folders "No incloguis els correus brossa">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "t">
+<!ENTITY firetray.dont_consider_spam "No incloguis nous correus de les següents carpetes:">
+<!ENTITY firetray.dont_consider_spam_accesskey "i">
+<!ENTITY firetray.dont_consider_spam_indications "Indiqueu el nom de les carpetes separades per un punt i coma (;)">

@@ -145,12 +145,12 @@ void nsTray::menu_remove_all_callback(GtkWidget *widget, gpointer user_data) {
     DEBUG_CALL("menu_remove_all_callback")
     nsTray *data = static_cast<nsTray*>(user_data);
 
-    gtk_widget_destroy(widget);
-    data->item_callback_list.erase((PRUint64)widget);
-
     if (GTK_IS_CONTAINER(widget)) {
         gtk_container_foreach(GTK_CONTAINER(widget), (GtkCallback)(nsTray::menu_remove_all_callback), user_data);
     }
+    
+    gtk_widget_destroy(widget);
+    data->item_callback_list.erase((PRUint64)widget);
 }
 
 /* Implementation file */

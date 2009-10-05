@@ -25,6 +25,9 @@
 <!ENTITY firetray.newmail_settings "Opciones del icono de nuevo mensaje">
 <!ENTITY firetray.show_only_hidden "Mostrar sólo si está oculto en la bandeja">
 <!ENTITY firetray.show_only_hidden_accesskey "s">
+<!ENTITY firetray.general_options "Opciones generales">
+<!ENTITY firetray.input_options "Opciones de entrada">
+<!ENTITY firetray.mail_options "Opciones de correo">
 <!ENTITY firetray.mouse_wheel_options "Opciones de la rueda del ratón">
 <!ENTITY firetray.enable_mouse_scroll "Capturar el movimiento del scroll en el icono de la bandeja">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "C">
@@ -40,6 +43,8 @@
 <!ENTITY firetray.grab_multimedia_keys_accesskey "U">
 <!ENTITY firetray.restart_to_apply "reiniciar para aplicar">
 <!ENTITY firetray.key_code "código de tecla">
+<!ENTITY firetray.dont_consider_spam_folders "No incluir el correo basura">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "i">
 <!ENTITY firetray.dont_consider_spam "No incluir los nuevos mensajes de las siguientes carpetas:">
 <!ENTITY firetray.dont_consider_spam_accesskey "t">
 <!ENTITY firetray.dont_consider_spam_indications "Indique los nombres de carpetas separados por punto y coma (;)">

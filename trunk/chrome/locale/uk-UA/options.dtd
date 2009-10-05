@@ -18,28 +18,33 @@
 <!ENTITY firetray.show_unread_number_accesskey "л">
 <!ENTITY firetray.behaviour_group "Параметри поведінки вікон">
 <!ENTITY firetray.tray_icon_group "Налаштування піктограм">
-<!ENTITY firetray.choose "Choose">
-<!ENTITY firetray.choose_accesskey "e">
-<!ENTITY firetray.choose_accesskey2 "o">
-<!ENTITY firetray.msg_font_color "Color of unread messages number">
-<!ENTITY firetray.newmail_settings "New mail icon settings">
-<!ENTITY firetray.show_only_hidden "Show only when hidden on tray">
-<!ENTITY firetray.show_only_hidden_accesskey "w">
-<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
-<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
-<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
-<!ENTITY firetray.up "UP">
-<!ENTITY firetray.down "DOWN">
-<!ENTITY firetray.hide "hide">
-<!ENTITY firetray.restore "restore">
-<!ENTITY firetray.volume "volume">
-<!ENTITY firetray.next_track "next track">
-<!ENTITY firetray.prev_track "previous track">
-<!ENTITY firetray.multimedia_keys "Multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
-<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
-<!ENTITY firetray.restart_to_apply "restart to apply">
-<!ENTITY firetray.key_code "keycode">
-<!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:">
-<!ENTITY firetray.dont_consider_spam_accesskey "t">
-<!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character">
+<!ENTITY firetray.choose "Вибрати">
+<!ENTITY firetray.choose_accesskey "В">
+<!ENTITY firetray.choose_accesskey2 "б">
+<!ENTITY firetray.msg_font_color "Колір числа непрочитаних повідомлень">
+<!ENTITY firetray.newmail_settings "Налаштування значка нової пошти">
+<!ENTITY firetray.show_only_hidden "Показувати тільки при згортанні до трею">
+<!ENTITY firetray.show_only_hidden_accesskey "т">
+<!ENTITY firetray.general_options "Загальні налаштування">
+<!ENTITY firetray.input_options "Налаштування входу">
+<!ENTITY firetray.mail_options "Налаштування пошти">
+<!ENTITY firetray.mouse_wheel_options "Параметри колеса миші">
+<!ENTITY firetray.enable_mouse_scroll "Можливість прокрутки коліщата миші у панелі задач">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "п">
+<!ENTITY firetray.up "ВГОРУ">
+<!ENTITY firetray.down "ВНИЗ">
+<!ENTITY firetray.hide "сховати">
+<!ENTITY firetray.restore "оновити">
+<!ENTITY firetray.volume "гучність">
+<!ENTITY firetray.next_track "наступна доріжка">
+<!ENTITY firetray.prev_track "попередня доріжка">
+<!ENTITY firetray.multimedia_keys "Мультимедійні клавіші">
+<!ENTITY firetray.grab_multimedia_keys "Захоплення мультимедійних клавіш">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "З">
+<!ENTITY firetray.restart_to_apply "Перезапусти для застосування">
+<!ENTITY firetray.key_code "ключ">
+<!ENTITY firetray.dont_consider_spam_folders "Не включати небажаної пошти">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "н">
+<!ENTITY firetray.dont_consider_spam "Не включати нову пошту з наступних папок:">
+<!ENTITY firetray.dont_consider_spam_accesskey "в">
+<!ENTITY firetray.dont_consider_spam_indications "Визначати назви папок, розділених крапкою з комою (;)">
