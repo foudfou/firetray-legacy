@@ -67,7 +67,7 @@ FireTray.trayCallback = function() {
    if ( FireTray.isHidden() ) {
     
        if(FireTray.isMail && FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
-              MsgNextUnreadMessage();
+              GoNextMessage(nsMsgNavigationType.nextUnreadMessage,true);
 
        FireTray.restoreFromTray(); 	  
 

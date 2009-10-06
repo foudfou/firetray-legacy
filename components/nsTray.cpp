@@ -24,6 +24,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkx.h>
 
+//#define _REMEMBER_POSITION_
 #define _KEYSYMS_
 
 #ifdef _KEYSYMS_
@@ -299,13 +300,16 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
     rv = aBaseWindow->GetParentNativeWindow(&aNativeWindow);
     NS_ENSURE_SUCCESS(rv, rv);
 
-
     CAPTURE_ERRORS()
 
     GdkWindow *win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
-    Window xwin=GDK_WINDOW_XID(win);
 
     DEBUGSTR("HIDING") 
+
+ #ifdef _REMEMBER_POSITION_
+ 
+    Window xwin=GDK_WINDOW_XID(win);
+
     DEBUGSTR("HANDLER LIST COUNT " << handled_windows.size()) 
 
     if(handled_windows.count(xwin)>0) 
@@ -329,6 +333,7 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
 	        }            
          } 
       }
+ #endif
  
     gdk_window_hide(win);
 
@@ -374,7 +379,8 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
     GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*)aNativeWindow);
 
     gdk_window_show(toplevel);
-    
+
+  #ifdef _REMEMBER_POSITION_
    //if possible restore window position
     Window xwin=GDK_WINDOW_XID(toplevel);
     if(handled_windows.count(xwin)>0) 
@@ -389,7 +395,8 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
          } 
    
       }
-   
+  #endif
+  
     gdk_window_focus (toplevel, gtk_get_current_event_time ());
 
     GdkWindowState s=gdk_window_get_state(toplevel);
