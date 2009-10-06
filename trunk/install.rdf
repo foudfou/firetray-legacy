@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.4 dev</em:version>
+    <em:version>0.2.5 dev</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -70,6 +70,7 @@
     <em:contributor>Ziyuan Yao</em:contributor>
     <em:contributor>+Hard -Soft</em:contributor>
     <em:contributor>SparkyBluefang</em:contributor>
+    <em:contributor>Corossig</em:contributor>
 
     <em:translator>Lachezar [bg-BG]</em:translator>   
     <em:translator>SoftcatalàAljullu [ca-AD]</em:translator>

@@ -1,3 +1,7 @@
+0.2.5  Fixed bug on 64bit systems (Issues 52,55,61)
+       Temporarily disabled saving windows position (causes Issue 49)
+       Fixed restore problem in thunderbird when "restore to next unread message" is enabled (Issue 53, patch from corossig)
+
 0.2.4  Fixed Seamonkey2 mail count icon
        Split option windows into separate tabs
        Added option to exclude spam messages from new mail count

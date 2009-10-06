@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VER=1.9.0.11
+VER=1.9.0.14
 
 export GECKO_SDK=/usr/lib/xulrunner-devel-$VER/
 export GECKO_SDK_BIN=/usr/lib/xulrunner-devel-$VER/bin/
