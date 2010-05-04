@@ -16,6 +16,8 @@ try:
     gecko_lib = os.environ['GECKO_SDK_LIB'];
     if gecko_lib[-1] != os.sep: gecko_lib += os.sep
 
+    lib_arch = os.environ['LIB_ARCH'];
+
 except:
     try:
         geckosdk = os.environ['GECKO_SDK']
@@ -25,6 +27,7 @@ except:
         gecko_include = geckosdk + 'include'
         gecko_idl = geckosdk + 'idl'
         gecko_lib = geckosdk + 'lib'
+	lib_arch = ''
     except:
         print "Please set environment variable GECKO_SDK first (or in alternative the variables GECKO_SDK_BIN, GECKO_SDK_INCLUDE, GECKO_SDK_IDL, GECKO_SDK_LIB)."
         sys.exit(1)
@@ -42,14 +45,14 @@ bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + gecko_idl + ' -e 
 env = Environment(
     CPPPATH = [gecko_include, '/usr/include/nspr' ],
     LIBPATH = [gecko_lib],
-    LIBS = ['xpcomglue', 'nspr4', 'plds4', 'xpcomglue_s.a' ],
+    LIBS = ['xpcomglue', 'xpcomglue_s.a' ],
     ENV = os.environ)
 env.AppendENVPath('PATH', gecko_bin)
 env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
 
 # Add additional param for different platforms
 if platform == 'linux2':
-    env.ParseConfig('pkg-config --libs --cflags gtk+-2.0') # libnotify
+    env.ParseConfig('pkg-config --static --cflags gtk+-2.0') # libnotify
     env.AppendUnique(
         CXXFLAGS = ['-include', 'xpcom-config.h', '-Wall', '-O2',
                     '-fno-rtti', '-fno-exceptions',
@@ -73,7 +76,10 @@ parts = []
 if platform == 'linux2':
     parts.extend(['nsTray.cpp', 'nsTrayModue.cpp'])
 
-nptray = env.SharedLibrary('nptray', parts)
+nptray_name = 'nptray' + lib_arch
+print "NPTRAY: " + nptray_name
+
+nptray = env.SharedLibrary(nptray_name, parts)
 
 r = env.Install('#dist/components', [nptray, xpts, 'nsMinimize.js']) 
 
