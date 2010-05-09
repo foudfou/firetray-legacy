@@ -54,10 +54,16 @@ public:
     static void item_event(GtkWidget *, gpointer);
     static void menu_remove_all_callback(GtkWidget *, gpointer);
 
+    void minimizeEvent(); 
+    bool closeEvent();    
+
 private:
+  
     ~nsTray();
 
     bool block_close;
+    bool block_minimize;
+ 
     bool appStarted;
     bool menuCreated;
 

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-export GECKO_SDK=/usr/lib/xulrunner-devel-1.9.0.19/
-export GECKO_SDK_BIN=/usr/lib/xulrunner-devel-1.9.0.19/bin/
-export GECKO_SDK_INCLUDE=/usr/lib/xulrunner-devel-1.9.0.19/include/
-export GECKO_SDK_IDL=/usr/lib/xulrunner-devel-1.9.0.19/idl/
-export GECKO_SDK_LIB=/usr/lib/xulrunner-devel-1.9.0.19/lib/
+export GECKO_SDK=$(pkg-config libxul --variable=sdkdir)
+export GECKO_SDK_BIN=$GECKO_SDK/bin/
+export GECKO_SDK_INCLUDE=$GECKO_SDK/include/
+export GECKO_SDK_IDL=$GECKO_SDK/idl/
+export GECKO_SDK_LIB=$GECKO_SDK/lib/
 
 export LIB_ARCH=_`uname -m`
 

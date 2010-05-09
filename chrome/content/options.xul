@@ -12,7 +12,8 @@
  <!--<script src="/Temp/FireTray/CLEAN/firetray/chrome/content/options.js" />-->
 
      <preferences>
-	    <preference id="close_to_tray" name="extensions.firetray.close_to_tray" type="bool" />
+        <preference id="close_to_tray" name="extensions.firetray.close_to_tray" type="bool" />
+        <preference id="minimize_to_tray" name="extensions.firetray.minimize_to_tray" type="bool" />
 	    <preference id="start_minimized" name="extensions.firetray.start_minimized" type="bool" />
 	    <preference id="confirm_exit" name="extensions.firetray.confirm_exit" type="bool" />
 	    <preference id="restore_to_next_unread" name="extensions.firetray.restore_to_next_unread" type="bool" />   
@@ -42,8 +43,9 @@
         <groupbox>
           <caption label="&firetray.behaviour_group;" />
               <checkbox id="check1" preference="close_to_tray" label="&firetray.close_to_tray;" accesskey="&firetray.close_to_tray_accesskey;" />
-              <checkbox id="check2" preference="start_minimized" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
-              <checkbox id="check3" preference="confirm_exit" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
+              <checkbox id="check2" preference="minimize_to_tray" label="Hide to tray on window Minimize" accesskey="W" />
+              <checkbox id="check3" preference="start_minimized" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
+              <checkbox id="check4" preference="confirm_exit" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
         </groupbox>
         <groupbox>
           <caption label="&firetray.tray_icon_group;" />

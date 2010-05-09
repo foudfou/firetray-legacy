@@ -1,3 +1,8 @@
+0.2.7  Added ability to hide to tray on window minimize
+       Changes to build script to detect Gecko-sdk folders using pkg-config
+
+0.2.6  Modified linking options to reduce library dependencies (Issue 58)
+
 0.2.5  Fixed bug on 64bit systems (Issues 52,55,61)
        Temporarily disabled saving windows position (causes Issue 49)
        Fixed restore problem in thunderbird when "restore to next unread message" is enabled (Issue 53, patch from corossig)
@@ -23,24 +28,15 @@
 
 
 TODO:
-
-  - split options panel into tabs
-  
-  - fix close to tray on songbird
+ 
   - windows position bug when using XRDC 
   - missing close confirmation request in some situations (issue 44)
 
-  - fix FF3.5 and TB3 icon problems
+  - fix FF3.5+ and TB3+ icon problems with some images
 
-  - minimize windows to tray 
   - close single window menu element (Issue 32)
-  
-  - songbird alternative icon configuration
-  - enable seamonkey mail icon
-  
-  - handle system shutdown event ???
-  - handle songbird theme change (reset all handlers to new window)
-  - save windows z-order
+   
+  - save windows z-order 
 
 
 WISHES (from wiki)
@@ -48,8 +44,6 @@ WISHES (from wiki)
 - Enable the user to close all firefox windows while still keeping firefox in the tray and add a menu item to the tray icon "open new window
 
 - Clicking the tray icon with the middle mouse button fetches new messages (would be best with the icon changing to something else to indicate that the process is in progress).
-
-- Ability to exclude spam folder(s) from the unread messages control.
 
 - Enable the user to close any of firefox windows individually
 

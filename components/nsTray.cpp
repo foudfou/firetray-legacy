@@ -24,7 +24,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkx.h>
 
-//#define _REMEMBER_POSITION_
+// //#define _REMEMBER_POSITION_
 #define _KEYSYMS_
 
 #ifdef _KEYSYMS_
@@ -44,6 +44,7 @@
 #define RELEASE_CAPTURE(msg)       { gdk_flush (); if (gdk_error_trap_pop ()) ERRORMSG(msg); }
 #define RELEASE_CAPTURE_RETURN(msg,val)       { gdk_flush (); if (gdk_error_trap_pop ()) { ERRORMSG(msg); return val; } }      
 
+Atom delete_window = XInternAtom (GDK_DISPLAY(), "WM_DELETE_WINDOW", False);
 
 // Returns the lenght of a NULL-terminated UTF16 PRUnichar * string 
 PRUint32 PRUstrlen(const PRUnichar *text) {
@@ -83,7 +84,7 @@ gboolean nsTray::scroll(GtkStatusIcon  *status_icon, GdkEventScroll *event, gpoi
     PRBool ret = TRUE;
     nsTray *data = static_cast<nsTray*>(user_data);
 
-    PRUint32 dir=-1;
+    PRUint32 dir=0;
 
     switch(event->direction)
     {    
@@ -164,6 +165,7 @@ nsTray::nsTray() {
     appStarted=false;
     menuCreated=false;
     block_close=false;
+    block_minimize=false;
 
     systray_icon = NULL;
     icon = NULL;
@@ -353,6 +355,8 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
     PRUint32 i;
 
     DEBUGSTR("RESTORING WINDOWS");
+    
+    DEBUGSTR("Appstarted: "<<appStarted);
 
     NS_ENSURE_ARG(aCount);
     NS_ENSURE_ARG_POINTER(aBaseWindows);
@@ -875,6 +879,23 @@ NS_IMETHODIMP nsTray::GetCloseBlocking(PRBool *val)
     return NS_OK;
 }
 
+/* void setMinimizeBlocking (in boolean val); */
+NS_IMETHODIMP nsTray::SetMinimizeBlocking(PRBool val)
+{
+    DEBUG_CALL("SetMinimizeBlocking")
+    block_minimize=val;
+    return NS_OK;
+}
+
+/* void getMinimizeBlocking (out boolean val); */
+NS_IMETHODIMP nsTray::GetMinimizeBlocking(PRBool *val NS_OUTPARAM)
+{
+    DEBUG_CALL("GetMinimizeBlocking")
+    if(val)*val=this->block_minimize;
+    return NS_OK;
+}
+
+
 
 /* void initNotification(in string appname); */
 NS_IMETHODIMP nsTray::InitNotification(const gchar * appName) {
@@ -953,7 +974,63 @@ GtkWindow * get_gtkwindow_from_gdkwindow(GdkWindow *win)
 }
 
 
-Atom delete_window = XInternAtom (GDK_DISPLAY(), "WM_DELETE_WINDOW", False);
+
+void DebugATOM(char *msg, Atom atom)
+{
+  #ifdef DO_DEBUG
+  
+   CAPTURE_ERRORS()
+          
+   char *str=XGetAtomName(GDK_DISPLAY(), atom);
+   if(str)
+     DEBUGSTR(msg << " "<<str)
+      
+   RELEASE_CAPTURE("BAD ATOM!") 
+  
+  #endif
+}
+
+
+#define WM_STATE_ELEMENTS 1
+
+unsigned long getWMState (Window w)
+{
+  DEBUG_CALL("getWMState")
+  
+  unsigned long state=0; 
+  
+  Display *display=GDK_DISPLAY();
+  Atom property=XInternAtom(display, "WM_STATE", False);
+  Atom actual_type;
+  int actual_format;
+  unsigned long nitems;
+  unsigned long bytes_after;
+  unsigned char *prop_value;
+  
+  int res=XGetWindowProperty(display, w, property, 0L, WM_STATE_ELEMENTS, false, property, 
+                        &actual_type, &actual_format, &nitems, &bytes_after, 
+                        &prop_value);
+  
+  if( (res==Success) && (actual_type==property) && (nitems==WM_STATE_ELEMENTS) )
+  {
+     if(prop_value) state=*prop_value;    
+  }
+  
+  if (prop_value)
+  {
+    XFree ((char *)prop_value);
+    prop_value = NULL;
+  }
+
+  return state;
+} 
+
+bool isIconified(Window w)
+{
+  DEBUG_CALL("isIconified")
+  return (getWMState(w) == IconicState);
+}
+
 
 GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
 {
@@ -981,9 +1058,10 @@ GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer dat
    return GDK_FILTER_CONTINUE;
 }
 
+
 GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
 {
-  if(!data || !xevent) return GDK_FILTER_CONTINUE;
+   if(!data || !xevent) return GDK_FILTER_CONTINUE;
 
    XEvent *e=(XEvent *)xevent;
    nsTray *tray = (nsTray *)data;
@@ -991,84 +1069,89 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
    Window xwin=e->xany.window;
    window_state *ws;
    
-   PRBool ret = TRUE;
-   //if(e->type==KeyPress) DEBUGSTR("KEYPRESS EVENT!!!") 
-
    switch(e->xany.type)  
     {
-      case DestroyNotify: 
-             FDEBUGSTR("DESTROY-NOTIFY!!!") 
-             break;
-      case ConfigureNotify: 
-             FDEBUGSTR("CONFIGURE-NOTIFY")
-             break;
-      case MapNotify: 
-             FDEBUGSTR("MapNotify-NOTIFY")
-             break;
       case UnmapNotify: 
-             FDEBUGSTR("UnmapNotify-NOTIFY")
-             break;
-      case ClientMessage: 
-//       if(e->xany.type==ClientMessage)
-       {
+           if(isIconified(xwin)) 
+            {
+              FDEBUGSTR("Minimize-Event")
+              if(tray) tray->minimizeEvent();                               
+            }
+           else
+              FDEBUGSTR("Unmap-Notify")
+           break;   
 
-/*      char *str=XGetAtomName(GDK_DISPLAY(), e->xclient.data.l[0]);
-      DEBUGSTR("ATOM: "<<str)*/
-     
+      case ClientMessage: 
 
             if(e->xclient.data.l && tray) 
             {
              if(e->xclient.data.l[0]==delete_window)
              {
-              FDEBUGSTR("CLOSING WINDOW") 
-              PRBool block=FALSE;
-              tray->GetCloseBlocking(&block);
-              if(block) 
-               { 
-                 FDEBUGSTR("CLOSE BLOCKING")
-
-                 if(tray->tray_callback)tray->tray_callback->Call(&ret);
-                 else  FDEBUGSTR("NOT CALLBACK")
-                 return GDK_FILTER_REMOVE; 
-               }
+                if(tray->closeEvent())
+                  return GDK_FILTER_REMOVE; 
              }
-             else 
-               FDEBUGSTR("ClientMessage-NOTIFY "<<e->xclient.data.l[0]);
             }
-       }
-             break;
 
-      case VisibilityNotify: 
-             FDEBUGSTR("VisibilityNotify-NOTIFY")
+            break;
+            
+     case VisibilityNotify: 
+             //FDEBUGSTR("VisibilityNotify-NOTIFY")
              
              //update window visibility state 
              if(tray->handled_windows.count(xwin)>0) 
              {
                 ws=tray->handled_windows[xwin]; 
                 ws->visibility=e->xvisibility.state; 
-		GdkWindow *win=gdk_window_lookup (xwin);
-		//if(win) gdk_window_get_position(win, &(ws->pos_x), &(ws->pos_y));
+                GdkWindow *win=gdk_window_lookup (xwin);
+                //if(win) gdk_window_get_position(win, &(ws->pos_x), &(ws->pos_y));
                   
-	        FDEBUGSTR(" UPDATING WS_STATE:"<<e->xvisibility.state)
+            //FDEBUGSTR(" UPDATING WS_STATE:"<<e->xvisibility.state)
              }
 
-             break;	
-
-      default:
-             FDEBUGSTR("FILTER_FUNC - UNKNOWN")
+             break; 
+             
+      default:       
              break;
 
     }
-//**/
+
    return GDK_FILTER_CONTINUE;
 }
 
 
-/*static gboolean delete_event( GtkWidget *widget,
-                              GdkEvent  *event,
-                              gpointer   data )
+
+
+void nsTray::minimizeEvent()
 {
-  DEBUGSTR("DELETE EVENT")
+   DEBUG_CALL("minimizeEvent") 
+
+   PRBool ret = TRUE;    
+   if(block_minimize) 
+    { 
+       FDEBUGSTR("MINIMIZING TO TRAY")
+
+       if(tray_callback) tray_callback->Call(&ret);
+       else  FDEBUGSTR("CALLBACK NOT DEFINED")
+    }    
+}
+  
+
+bool nsTray::closeEvent()
+{    
+   DEBUG_CALL("closeEvent")       
+   
+   PRBool ret = TRUE;
+   if(block_close) 
+    { 
+       FDEBUGSTR("CLOSE BLOCKING")
+
+       if(tray_callback) tray_callback->Call(&ret);
+       else  FDEBUGSTR("CALLBACK NOT DEFINED")
+       
+       return true;      
+    }
+    
+    return false; //do not block closing
 }
 
 /* void setWindowHandler(in nsIBaseWindow aBaseWindow); */
@@ -1126,7 +1209,7 @@ NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow)
 
 /* boolean addHandledKeyCode (in PRUint64 key_code); */
 NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
-#ifdef _KEYSYMS_
+  #ifdef _KEYSYMS_
 
       CAPTURE_ERRORS()
 
@@ -1145,9 +1228,9 @@ NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
          DEBUGSTR("ADDED KEY FILTER FOR KEY " << key_code)
       }      
 
-      RELEASE_CAPTURE("Error grabbing key "<< key_code)
+      RELEASE_CAPTURE("Unable to grab key "<< key_code)
 
-#endif
+  #endif
 
  return NS_OK;
 }
