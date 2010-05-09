@@ -166,9 +166,9 @@ FireTray.updatePreferences=function(){
 
     FireTray.setTrayIcon();
     
-    //set windows close command blocking 
+    //set windows close and minimize command blocking 
     FireTray.interface.setCloseBlocking(FireTray.prefManager.getBoolPref("extensions.firetray.close_to_tray"));	
-
+    FireTray.interface.setMinimizeBlocking(FireTray.prefManager.getBoolPref("extensions.firetray.minimize_to_tray")); 
 }
 
 /*
@@ -250,8 +250,8 @@ FireTray.hideToTray = function() {
     minimized = true;
     for(var i=0; i<baseWindows.length; i++) {
         var basewindow = baseWindows[i];
-        FireTray.windowsListAdd(basewindow);
         FireTray.interface.hideWindow(basewindow);
+        FireTray.windowsListAdd(basewindow);
     }
 
    if(FireTray.isMail) FireTray.updateMailTray(true);  

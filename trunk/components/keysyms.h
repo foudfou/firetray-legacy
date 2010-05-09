@@ -1,4 +1,3 @@
-
 #ifndef KEYSYM_TOOLS
 #define KEYSYM_TOOLS
 

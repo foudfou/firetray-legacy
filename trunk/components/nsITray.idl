@@ -68,6 +68,9 @@ interface nsITray : nsISupports
     void setCloseBlocking(in boolean val); //determine if we have to block window closing
     void getCloseBlocking(out boolean val); 
 
+    void setMinimizeBlocking(in boolean val); //determine if we have to hide to tray on window minimize 
+    void getMinimizeBlocking(out boolean val); 
+
     void initNotification(in string appname); //init the notification system 
     void showANotification(in wstring title, in wstring info,in string image); //show a notification 
 
