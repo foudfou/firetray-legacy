@@ -56,7 +56,7 @@ public:
 
     void minimizeEvent(); 
     bool closeEvent();    
-
+    
 private:
   
     ~nsTray();

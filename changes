@@ -1,5 +1,6 @@
-0.2.7  Added ability to hide to tray on window minimize
-       Changes to build script to detect Gecko-sdk folders using pkg-config
+0.2.7  Added ability to hide to tray on window minimize (Issue 77)
+       Added command line options to the build script and ability to detect Gecko-sdk folders using pkg-config (Issue 109)
+       Updated some icons
 
 0.2.6  Modified linking options to reduce library dependencies (Issue 58)
 
