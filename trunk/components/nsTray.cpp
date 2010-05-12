@@ -24,7 +24,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk/gdkx.h>
 
-// //#define _REMEMBER_POSITION_
+#define _REMEMBER_POSITION_
 #define _KEYSYMS_
 
 #ifdef _KEYSYMS_
@@ -351,7 +351,6 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
 NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
     DEBUG_CALL("restore")
 
-    nsresult rv;
     PRUint32 i;
 
     DEBUGSTR("RESTORING WINDOWS");
@@ -1038,9 +1037,6 @@ GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer dat
 
    XEvent *e=(XEvent *)xevent;
    
-   Window xwin=e->xany.window;
-   window_state *ws;
- 
    if(e->xany.type!=KeyPress) return GDK_FILTER_CONTINUE;
 
    XKeyEvent *kev=(XKeyEvent *)e;
@@ -1085,7 +1081,7 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
 
             if(e->xclient.data.l && tray) 
             {
-             if(e->xclient.data.l[0]==delete_window)
+             if((Atom)e->xclient.data.l[0]==delete_window)
              {
                 if(tray->closeEvent())
                   return GDK_FILTER_REMOVE; 
@@ -1102,7 +1098,7 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
              {
                 ws=tray->handled_windows[xwin]; 
                 ws->visibility=e->xvisibility.state; 
-                GdkWindow *win=gdk_window_lookup (xwin);
+                //GdkWindow *win=gdk_window_lookup (xwin);
                 //if(win) gdk_window_get_position(win, &(ws->pos_x), &(ws->pos_y));
                   
             //FDEBUGSTR(" UPDATING WS_STATE:"<<e->xvisibility.state)
@@ -1311,7 +1307,7 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
 
       GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
 
-      XWindowAttributes res;
+      //XWindowAttributes res;
    
       Window xwin=GDK_WINDOW_XID(gdk_win);
 
