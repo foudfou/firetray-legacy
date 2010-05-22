@@ -1,10 +1,10 @@
 
-const BROWSER=0;
-const MAIL=1;
-const MUSIC=2;
-const CALENDAR=4;
+const Firetray_BROWSER=0;
+const Firetray_MAIL=1;
+const Firetray_MUSIC=2;
+const Firetray_CALENDAR=4;
 
-function getAppType()  
+function Firetray_getAppType()  
 {
 
   /* RETURN VALUE
@@ -35,24 +35,24 @@ function getAppType()
   switch(appInfo.ID) {
 
      case THUNDERBIRD_ID:
-        return MAIL;  
+        return Firetray_MAIL;  
         break;
 
      case SONGBIRD_ID:
-        return MUSIC;
+        return Firetray_MUSIC;
         break;
 
      case SUNBIRD_ID:
-        return CALENDAR; 
+        return Firetray_CALENDAR; 
         break;
 
      case SEAMONKEY_ID:
-        return BROWSER | MAIL;
+        return Firetray_BROWSER | Firetray_MAIL;
         break;
 
      case FIREFOX_ID:
      default:
-        return BROWSER;
+        return Firetray_BROWSER;
         break;
   }
 
@@ -64,7 +64,7 @@ function getAppType()
 }
 
 
-function config_enabled_controls()
+function Firetray_config_enabled_controls()
 {
   var prefpane= document.getElementById("optionsPane");	
 
@@ -110,7 +110,7 @@ function config_enabled_controls()
 
 }
 
-function update_radio_preferences() {
+function Firetray_update_radio_preferences() {
    var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 
    var radiogroup = document.getElementById("radiogroup_scroll"); 
@@ -124,9 +124,9 @@ function update_radio_preferences() {
 
 }
 
-function config_options_window() {
+function Firetray_config_options_window() {
 
-	var appType=getAppType();
+	var appType=Firetray_getAppType();
 
 	var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
 
@@ -135,18 +135,18 @@ function config_options_window() {
 	var filelabel = document.getElementById("normal_icon_label");	
 	var check_restore_next_unread = document.getElementById("check_restore_next_unread");	
 
-	mail_group.hidden=!(appType & MAIL);
-	check_restore_next_unread.hidden=!(appType & MAIL);
+	mail_group.hidden=!(appType & Firetray_MAIL);
+	check_restore_next_unread.hidden=!(appType & Firetray_MAIL);
 
         var check_scroll_hide = document.getElementById("check_scroll_hide");
 
         var radiogroup = document.getElementById("radiogroup_scroll"); 
 	var radio_scroll3 = document.getElementById("radio_scroll3");
 	var radio_scroll4 = document.getElementById("radio_scroll4");
-	radio_scroll3.hidden=!(appType & MUSIC);
-	radio_scroll4.hidden=!(appType & MUSIC);
+	radio_scroll3.hidden=!(appType & Firetray_MUSIC);
+	radio_scroll4.hidden=!(appType & Firetray_MUSIC);
 
-    config_enabled_controls();
+    Firetray_config_enabled_controls();
 
     var pref=prefManager.getIntPref("extensions.firetray.scroll_action");
 
@@ -162,13 +162,13 @@ function config_options_window() {
     keystr=firetray_interface.getKeycodeString(keycode);
 
     var str = "Hide/unkyde keycode: " + keycode + " (" + keystr + ")";*/
-    if(appType & MUSIC)
+    if(appType & Firetray_MUSIC)
     label_mmkeys.value="Enabling key grabbing allows to control playback using multimedia keys." ;
 
 
 }
  
-function choose_file(icon_filename)
+function Firetray_choose_file(icon_filename)
 {
 	const nsIFilePicker = Components.interfaces.nsIFilePicker;
 	//this.netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect'); 
@@ -187,15 +187,15 @@ function choose_file(icon_filename)
 }
 
 
-function choose_normal_icon_file()
+function Firetray_choose_normal_icon_file()
 {
   var filepath = document.getElementById("normal_icon_filename");	
-  choose_file(filepath);  	
+  Firetray_choose_file(filepath);  	
 }
 
 
-function choose_special_icon_file()
+function Firetray_choose_special_icon_file()
 {
   var filepath = document.getElementById("special_icon_filename");	
-  choose_file(filepath);  	
+  Firetray_choose_file(filepath);  	
 }
