@@ -887,7 +887,7 @@ NS_IMETHODIMP nsTray::SetMinimizeBlocking(PRBool val)
 }
 
 /* void getMinimizeBlocking (out boolean val); */
-NS_IMETHODIMP nsTray::GetMinimizeBlocking(PRBool *val NS_OUTPARAM)
+NS_IMETHODIMP nsTray::GetMinimizeBlocking(PRBool *val)
 {
     DEBUG_CALL("GetMinimizeBlocking")
     if(val)*val=this->block_minimize;
