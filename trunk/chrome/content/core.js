@@ -458,7 +458,7 @@ FireTray.updateMailTray = function (force_update) {
   if(force_update) FireTray.lastnum=-1; //force updating icon
 
   if( FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread") && 
-      !(FireTray.prefManager.getBoolPref("extensions.firetray.show_unread_only_minimized") && !FireTray.isHidden() )  )
+      !(FireTray.prefManager.getBoolPref("extensions.firetray.show_unread_only_minimized") && !FireTray.isHidden() ) && FireTray.localfolders  )
    {
      FireTray.getMailCount(); 
    }
@@ -782,7 +782,11 @@ FireTray.setupMenus = function() {
 FireTray.mailSettings = function() {
       FireTray.accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
 
-      FireTray.localfolders = FireTray.accountManager.localFoldersServer.rootFolder;
+	  try
+	  {
+        FireTray.localfolders = FireTray.accountManager.localFoldersServer.rootFolder;
+	  }
+	  catch(error) {}
       FireTray.subscribeToMailEvents();
 }
 

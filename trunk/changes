@@ -1,7 +1,13 @@
+0.2.8  Modified sunbird chrome path (Issue 116)
+       Disabled multimedia keys by default (Issue 117)
+       Update Thunderbird, Firefox and Seamonkey versions
+       Fixed uncaught exception when no local folders are found in seamonkey and thunderbird (Issue 115)
+       
+
 0.2.7  Added ability to hide to tray on window minimize (Issue 77)
        Added command line options to the build script and ability to detect Gecko-sdk folders using pkg-config (Issue 109)
        Updated some icons
-	   Corrected javascript code to follow AMO indications.
+       Corrected javascript code to follow AMO indications.
 
 0.2.6  Modified linking options to reduce library dependencies (Issue 58)
 
