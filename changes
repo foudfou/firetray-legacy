@@ -1,3 +1,5 @@
+0.2.9  Fixed problems with icons transparency (Issue 56)
+
 0.2.8  Modified sunbird chrome path (Issue 116)
        Disabled multimedia keys by default (Issue 117)
        Update Thunderbird, Firefox and Seamonkey versions

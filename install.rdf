@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.8</em:version>
+    <em:version>0.2.9-dev</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -15,7 +15,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>3.0</em:minVersion>
-	<em:maxVersion>3.6.*</em:maxVersion>
+	<em:maxVersion>4.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -24,7 +24,7 @@
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <em:minVersion>2.0</em:minVersion>
-        <em:maxVersion>3.1.*</em:maxVersion>
+        <em:maxVersion>3.2.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     
@@ -58,8 +58,8 @@
     <!-- Front End MetaData -->
     <em:name>FireTray</em:name>
     <em:description>A system tray extension for linux</em:description>
-    <em:creator>Hua Luo</em:creator>
-    <em:developer>Francesco S.</em:developer>
+    <em:creator>Hua Luo, Francesco Solero</em:creator>
+    
     <em:developer>Jared Forsyth</em:developer>
     <em:developer>Glen Winters</em:developer>
 
