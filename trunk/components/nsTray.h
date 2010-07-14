@@ -59,6 +59,7 @@ public:
     
 private:
   
+    bool SetIcon(const char *filename, GdkPixbuf *& icon);
     ~nsTray();
 
     bool block_close;

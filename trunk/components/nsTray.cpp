@@ -649,32 +649,38 @@ NS_IMETHODIMP nsTray::SetDefaultXpmIcon(PRUint32 app)
 }
 
 
+bool nsTray::SetIcon(const char *filename, GdkPixbuf *& icon)
+{
+   DEBUG_CALL("setIcon")
+   DEBUGSTR(filename);
+   
+
+   GError * error = NULL;   
+   GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
+   if(new_icon) 
+    {
+      DEBUGSTR("OK!")
+
+      if(icon) { 
+           g_object_unref(icon); 
+      }
+      icon=new_icon;   
+    }
+   else 
+    {
+       DEBUGSTR("ERROR!")
+       return false;
+    }
+    return true;
+}
+
 
   /* boolean setDefaultIcon (in string filename); */
 NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, PRBool *_retval)
 {
     DEBUG_CALL("setDefaultIcon")
 
-    *_retval=true;   
-
-   DEBUGSTR(filename);
-
-    GError * error = NULL;
-    GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
-    if(new_icon) 
-     {
-       DEBUGSTR("OK!")
-
-       if(this->default_icon) { 
-           g_object_unref(this->default_icon); 
-        }
-        this->default_icon=new_icon;
-      }
-    else 
-	{
-		DEBUGSTR("ERROR!")
-               *_retval=false;
-	}
+    *_retval=SetIcon(filename,this->default_icon);
     
     return NS_OK;   
 }
@@ -682,27 +688,9 @@ NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, PRBool *_retval)
   /* boolean setSpecialIcon (in string filename); */
 NS_IMETHODIMP nsTray::SetSpecialIcon(const char *filename, PRBool *_retval) 
 {
-   DEBUG_CALL("setSpecialIcon")
-   *_retval=true;   
+    DEBUG_CALL("setSpecialIcon")
 
-   DEBUGSTR(filename);
-
-    GError * error = NULL;
-    GdkPixbuf *new_icon=gdk_pixbuf_new_from_file(filename, &error);
-    if(new_icon) 
-     {
-       DEBUGSTR("OK!")
-
-       if(this->special_icon) { 
-           g_object_unref(this->special_icon); 
-        }
-        this->special_icon=new_icon;
-      }
-    else 
-	{
-		DEBUGSTR("ERROR!")
-               *_retval=false;
-	}
+    *_retval=SetIcon(filename,this->special_icon);
     
     return NS_OK;   
 }
@@ -710,34 +698,34 @@ NS_IMETHODIMP nsTray::SetSpecialIcon(const char *filename, PRBool *_retval)
 
 #define MIN_FONT_SIZE 4
 
-GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
-{ 
-  if(!base || !text) return NULL;
- 
-  int w=gdk_pixbuf_get_width(base);  
-  int h=gdk_pixbuf_get_height(base);
-  
-  GdkPixmap *pm = gdk_pixmap_new (NULL, w, h, 24);
-    
-  GdkGC *gc = gdk_gc_new (pm);
-  
-  GdkColor fore; // = { 0xFFFF, 255, 255, 0x00 };
+GdkPixbuf *renderTextWithAlpha(int w, int h, gchar *text, const gchar *colorstr)
+{
+   GdkColormap* cmap=gdk_rgb_get_colormap();
+  int screen_depth=24;
+  if(cmap) screen_depth=cmap->visual->depth;
+   
+  GdkColor fore; 
+  GdkColor alpha  = { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF};
 
   if(  gdk_color_parse  (colorstr, &fore) ) DEBUGSTR("COLOR OK")
-  else DEBUGSTR("COLOR ERROR")
+  else {
+	fore = {0,0,0,0};
+	DEBUGSTR("COLOR ERROR")
+  }
+	
+  if(fore.red==alpha.red && fore.green==alpha.green && fore.blue==alpha.blue)
+	alpha.red=0; //make sure alpha is different from fore
+    
+  gdk_colormap_alloc_color (cmap, &fore,true,true);
+  gdk_colormap_alloc_color (cmap, &alpha,true,true);
 
-//  GdkColormap * colormap=gdk_gc_get_colormap (gc);
-//  if(colormap) 
-   {
-     DEBUGSTR("COLORMAP NOT NULL")
-     gboolean res=gdk_colormap_alloc_color (gdk_rgb_get_cmap (), &fore,true,true);
+  
+  GdkPixmap *pm = gdk_pixmap_new (NULL, w, h, screen_depth);
+ 
+  GdkGC *gc = gdk_gc_new (pm);
 
-     if(res) DEBUGSTR("RES=TRUE")
-    else DEBUGSTR("RES=FALSE")
-
-   }
-
-  gdk_draw_pixbuf (pm, gc, base, 0, 0, 0, 0, w, h, GDK_RGB_DITHER_NONE, 0, 0);
+  gdk_gc_set_foreground(gc,&alpha);  
+  gdk_draw_rectangle(pm,gc,true, 0, 0, w ,h );
 
   GtkWidget *scratch = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_realize (scratch);
@@ -784,12 +772,40 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
 
   //paints the text
   gdk_draw_layout_with_colors (pm, gc, px, py, layout, &fore,NULL);
-  g_object_unref (layout);   
   
-  GdkPixbuf *ret = gdk_pixbuf_get_from_drawable (NULL, pm, NULL, 0, 0, 0, 0, w, h);
-   
+  GdkPixbuf *buf = gdk_pixbuf_get_from_drawable (NULL, pm, NULL, 0, 0, 0, 0, w, h);   
+  g_object_unref (pm);   
+  
+  GdkPixbuf *alpha_buf = gdk_pixbuf_add_alpha  (buf, TRUE, alpha.red, alpha.green, alpha.blue);
+  g_object_unref (buf);   
+  
+  g_object_unref (layout);   
   pango_font_description_free (fnt);
-  return ret;
+  g_object_unref (gc);   
+
+  return alpha_buf;
+}
+
+
+GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
+{
+  if(!base || !text) return NULL;
+
+
+  GdkPixbuf *dest=gdk_pixbuf_copy(base); //copy the icon content as background
+
+  int w=gdk_pixbuf_get_width(base);  
+  int h=gdk_pixbuf_get_height(base); 
+  
+  //get the text rendered on a new pixbuf with alpha channel
+  GdkPixbuf *textbuf=renderTextWithAlpha(w, h, text, colorstr); 
+   
+  //merge the rendered text on top
+  gdk_pixbuf_composite (textbuf,dest,0,0,w,h,0,0,1,1,GDK_INTERP_NEAREST,255);
+  
+  g_object_unref(textbuf);
+
+  return dest;
 }
 
 
@@ -1324,7 +1340,7 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
 //      XGetWindowAttributes(GDK_DISPLAY(), xwin, &res);
       
 
-      DEBUGSTR("MAP-STATE "<<res.map_state)
+      //DEBUGSTR("MAP-STATE "<<res.map_state)
   
 
       RELEASE_CAPTURE("Error getting window focus state")    
