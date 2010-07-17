@@ -236,6 +236,52 @@ NS_IMETHODIMP nsTray::TrayKeyEvent(nsIKeySymCallback *aCallback) {
 }
 
 
+#ifdef DO_DEBUG
+  #define DEBUG_WINDOW(a,b) show_window_info(a,b);
+#else 
+  #define DEBUG_WINDOW(a,b) ;
+#endif
+
+void show_window_info(char *desc,Window win)
+{
+  
+   DEBUGSTR(_SEPARATOR_)
+   DEBUGSTR( "WIN: "<<desc<<" ("<< win<<")") 
+ 
+   CAPTURE_ERRORS()
+
+   XWindowAttributes a;
+   if( XGetWindowAttributes(GDK_DISPLAY(), win, &a) )
+    {
+       
+       DEBUGSTR( "  X: "<<a.x<<" Y: "<<a.y) 
+       DEBUGSTR( "  Width: "<<a.width<<" Height: "<<a.height)
+       DEBUGSTR( "  border_width: "<<a.border_width)
+       DEBUGSTR( "  depth: "<< a.depth)
+//     DEBUGSTR( "  "Visual *visual;            /* the associated visual structure */
+       DEBUGSTR( "  root: "<<a.root)
+
+       DEBUGSTR( "  bit_gravity: "<<a.bit_gravity)
+       DEBUGSTR( "  win_gravity: "<<a.win_gravity)
+       DEBUGSTR( "  backing_store: "<<a.backing_store)
+//       DEBUGSTR( "  "unsigned long backing_planes;    /* planes to be preserved if possible */
+ //      DEBUGSTR( "  "unsigned long backing_pixel; /* value to be used when restoring planes */
+       DEBUGSTR( "  save_under: "<<a.save_under)
+//       DEBUGSTR( "  "Colormap colormap;       /* color map to be associated with window */
+       DEBUGSTR( "  map_installed: "<<a.map_installed)
+       DEBUGSTR( "  map_state: "<<a.map_state)
+       DEBUGSTR( "  all_event_masks: "<<a.all_event_masks)
+       DEBUGSTR( "  your_event_mask: "<<a.your_event_mask)
+       DEBUGSTR( "  do_not_propagate_mask: "<<a.do_not_propagate_mask)
+       DEBUGSTR( "  override_redirect: "<<a.override_redirect)
+       DEBUGSTR( "  screen: "<<a.screen)
+
+       
+   }
+
+   RELEASE_CAPTURE("Error getting window information")
+   DEBUGSTR(_SEPARATOR_)
+}
 
 int GetParent(Window win, Window *parent)
 {
@@ -288,10 +334,12 @@ int GetToplevel(Window win, Window *res)
    
    Window current=win;
    Window parent=win;
-   
+   int i=0;
    while(parent!=root)
    {
-	 current=parent;
+     i++;
+     current=parent;
+     DEBUG_WINDOW("CURRENT",current);
 	 if(!GetParent(current, &parent))
 	 {
 	   DEBUGSTR("Error getting parent for window "<<current)
@@ -305,52 +353,6 @@ int GetToplevel(Window win, Window *res)
 }
 
 
-#ifdef DO_DEBUG
-  #define DEBUG_WINDOW(a,b) show_window_info(a,b);
-#else 
-  #define DEBUG_WINDOW(a,b) ;
-#endif
-
-void show_window_info(char *desc,Window win)
-{
-  
-   DEBUGSTR(_SEPARATOR_)
-   DEBUGSTR( "WIN: "<<desc<<" ("<< win<<")") 
- 
-   CAPTURE_ERRORS()
-
-   XWindowAttributes a;
-   if( XGetWindowAttributes(GDK_DISPLAY(), win, &a) )
-    {
-       
-       DEBUGSTR( "  X: "<<a.x<<" Y: "<<a.y) 
-       DEBUGSTR( "  Width: "<<a.width<<" Height: "<<a.height)
-	   DEBUGSTR( "  border_width: "<<a.border_width)
-       DEBUGSTR( "  depth: "<< a.depth)
-//     DEBUGSTR( "  "Visual *visual;			/* the associated visual structure */
-       DEBUGSTR( "  root: "<<a.root)
-
-	   DEBUGSTR( "  bit_gravity: "<<a.bit_gravity)
-       DEBUGSTR( "  win_gravity: "<<a.win_gravity)
-       DEBUGSTR( "  backing_store: "<<a.backing_store)
-//       DEBUGSTR( "  "unsigned long backing_planes;	/* planes to be preserved if possible */
- //      DEBUGSTR( "  "unsigned long backing_pixel;	/* value to be used when restoring planes */
-       DEBUGSTR( "  save_under: "<<a.save_under)
-//       DEBUGSTR( "  "Colormap colormap;		/* color map to be associated with window */
-       DEBUGSTR( "  map_installed: "<<a.map_installed)
-       DEBUGSTR( "  map_state: "<<a.map_state)
-       DEBUGSTR( "  all_event_masks: "<<a.all_event_masks)
-       DEBUGSTR( "  your_event_mask: "<<a.your_event_mask)
-       DEBUGSTR( "  do_not_propagate_mask: "<<a.do_not_propagate_mask)
-       DEBUGSTR( "  override_redirect: "<<a.override_redirect)
-       DEBUGSTR( "  screen: "<<a.screen)
-
-       
-   }
-
-   RELEASE_CAPTURE("Error getting window information")
-   DEBUGSTR(_SEPARATOR_)
-}
 
 void EchoWinAttribs(Window win)
 {
@@ -407,22 +409,10 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
   
          if(ws) {
         
-            Window toplevel; //the real toplevel window (for reparenting WMs)
-            
-            if(GetToplevel(xwin, &toplevel))
-            {
-              DEBUG_WINDOW("TOPLEVEL",toplevel);
-              XWindowAttributes attrib;
-              if( XGetWindowAttributes(GDK_DISPLAY(), toplevel, &attrib) )
-              {
-                ws->pos_x=attrib.x;
-                ws->pos_y=attrib.y;
-                ws->valid=true;
-                DEBUGSTR( "SAVING POSITION X: "<< ws->pos_x << " Y: "<< ws->pos_y )
-              }
-            }
-            else DEBUGSTR("ERROR GETTING TOPLEVEL")              
-         }           
+              gdk_window_get_root_origin(gdk_win, &ws->pos_x, &ws->pos_y);
+              ws->valid=true;
+              DEBUGSTR( "SAVING POSITION X: "<< ws->pos_x << " Y: "<< ws->pos_y )
+         }
       }
  #endif
  
