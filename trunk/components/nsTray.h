@@ -13,7 +13,6 @@
 
 #include "nsITray.h"
 #include "nsCOMPtr.h"
-#include "nsStringAPI.h"
 
 #define NS_ITRAY_CONTRACTID "@mozilla.org/FireTray;1"
 #define NS_ITRAY_CLASSNAME "System Tray for Firefox"
@@ -24,12 +23,22 @@
 
 struct window_state //keeps needed window information ... 
 {
+  
+  bool valid; 
+  
   int visibility; // VisibilityUnobscured, VisibilityPartiallyObscured, or VisibilityFullyObscured.
   
- // GdkWindow *win; //pointer to gdkwindow structure
-
   int pos_x;	//save the position of the window 
   int pos_y;
+  
+  int width;
+  int height;
+
+  window_state()
+  {
+    valid=false;
+  }
+  
 };
 
 /* Header file */

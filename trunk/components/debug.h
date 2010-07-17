@@ -3,12 +3,8 @@
 
     #include <iostream>
     using namespace std;
-
-
-    #define ENABLE_ERROR_MSG 1       //enable error messages
-    //#define DO_DEBUG 1             //enable generic debug messages	
-    //#define DO_DEBUG_FILTER 1      //enable window events filter debug messages
-    //#define DO_DEBUG_CALLS 1       //enable function calls debug messages
+    
+    #define _SEPARATOR_ " ********************************************************************* "
 
     #ifdef ENABLE_ERROR_MSG
     #define ERRORMSG(str) {cerr << str << endl; cerr.flush();}
@@ -36,7 +32,8 @@
     #define DEBUG_CALL(str) {}
     #endif
 
-
-
+    #define CAPTURE_ERRORS()  gdk_error_trap_push ();
+    #define RELEASE_CAPTURE(msg)       { gdk_flush (); if (gdk_error_trap_pop ()) ERRORMSG(msg); }
+    #define RELEASE_CAPTURE_RETURN(msg,val)       { gdk_flush (); if (gdk_error_trap_pop ()) { ERRORMSG(msg); return val; } }      
 
 #endif

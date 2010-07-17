@@ -1,4 +1,7 @@
 0.2.9  Fixed problems with icons transparency (Issue 56)
+       Fixed code to save window position and re-enabled it by default (Issue 33)
+       Removed harcoded nspr path from build script (Issue 128)        
+       Added new build options and applied corrections to disable warnings (Issue 114)
 
 0.2.8  Modified sunbird chrome path (Issue 116)
        Disabled multimedia keys by default (Issue 117)
