@@ -61,7 +61,7 @@ bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + gecko_idl + ' -e 
 
 # Create environment object for build
 env = Environment(
-    CPPPATH = [gecko_include, '/usr/include/nspr' ],
+    CPPPATH = [gecko_include],
     LIBPATH = [gecko_lib],
     LIBS = ['xpcomglue', 'xpcomglue_s.a' ],
     ENV = os.environ)
@@ -71,6 +71,7 @@ env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
 # Add additional param for different platforms
 if platform == 'linux2':
     env.ParseConfig('pkg-config ' + linking_options + ' --cflags gtk+-2.0') # libnotify
+    env.ParseConfig('pkg-config --cflags nspr')
     env.Append( CXXFLAGS = FLAGS )
  
 

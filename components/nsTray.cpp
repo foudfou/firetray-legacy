@@ -1,7 +1,6 @@
-
-
-
 #include "nsTray.h"
+#include "options.h"
+#include "debug.h"
 
 //BUILT IN PIXMAPS 
 #include "pixmaps/firefox.xpm"
@@ -17,15 +16,13 @@
 
 #include "nsMemory.h"
 #include "nsIBaseWindow.h"
+
 #include <pango/pangoft2.h>
 #include <pango/pango-layout.h>
-
 #include <gdk/gdk.h>
 #include <gtk/gtksignal.h>
 #include <gdk/gdkx.h>
 
-#define _REMEMBER_POSITION_
-#define _KEYSYMS_
 
 #ifdef _KEYSYMS_
   #include <gdk/gdkkeysyms.h>
@@ -38,11 +35,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
 
-#include "debug.h"
 
-#define CAPTURE_ERRORS()  gdk_error_trap_push ();
-#define RELEASE_CAPTURE(msg)       { gdk_flush (); if (gdk_error_trap_pop ()) ERRORMSG(msg); }
-#define RELEASE_CAPTURE_RETURN(msg,val)       { gdk_flush (); if (gdk_error_trap_pop ()) { ERRORMSG(msg); return val; } }      
 
 Atom delete_window = XInternAtom (GDK_DISPLAY(), "WM_DELETE_WINDOW", False);
 
@@ -243,6 +236,7 @@ NS_IMETHODIMP nsTray::TrayKeyEvent(nsIKeySymCallback *aCallback) {
 }
 
 
+
 int GetParent(Window win, Window *parent)
 {
    DEBUG_CALL("getParent")
@@ -263,7 +257,100 @@ int GetParent(Window win, Window *parent)
    return 1;
 }
 
+int GetRoot(Window win, Window *root)
+{
+   if(root==NULL)return 0;
+   
+   int res=0;
+   
+   CAPTURE_ERRORS()
 
+   XWindowAttributes a;
+   if( XGetWindowAttributes(GDK_DISPLAY(), win, &a) )
+   {
+       *root=a.root;
+       res=1;
+   }
+
+   RELEASE_CAPTURE_RETURN("Error getting window information", 0)
+   return res;
+}
+
+
+int GetToplevel(Window win, Window *res)
+{
+   DEBUG_CALL("getToplevel")
+
+   if(res==NULL)return 0;
+   
+   Window root;
+   if(!GetRoot(win, &root)) { DEBUGSTR("Error getting window's root"); return 0; }
+   
+   Window current=win;
+   Window parent=win;
+   
+   while(parent!=root)
+   {
+	 current=parent;
+	 if(!GetParent(current, &parent))
+	 {
+	   DEBUGSTR("Error getting parent for window "<<current)
+	   return 0;
+	 }
+	 DEBUGSTR("CURRENT: "<<current<< " - PARENT: "<< parent << " - ROOT: "<<root)
+   }
+
+   *res=current;
+   return 1;
+}
+
+
+#ifdef DO_DEBUG
+  #define DEBUG_WINDOW(a,b) show_window_info(a,b);
+#else 
+  #define DEBUG_WINDOW(a,b) ;
+#endif
+
+void show_window_info(char *desc,Window win)
+{
+  
+   DEBUGSTR(_SEPARATOR_)
+   DEBUGSTR( "WIN: "<<desc<<" ("<< win<<")") 
+ 
+   CAPTURE_ERRORS()
+
+   XWindowAttributes a;
+   if( XGetWindowAttributes(GDK_DISPLAY(), win, &a) )
+    {
+       
+       DEBUGSTR( "  X: "<<a.x<<" Y: "<<a.y) 
+       DEBUGSTR( "  Width: "<<a.width<<" Height: "<<a.height)
+	   DEBUGSTR( "  border_width: "<<a.border_width)
+       DEBUGSTR( "  depth: "<< a.depth)
+//     DEBUGSTR( "  "Visual *visual;			/* the associated visual structure */
+       DEBUGSTR( "  root: "<<a.root)
+
+	   DEBUGSTR( "  bit_gravity: "<<a.bit_gravity)
+       DEBUGSTR( "  win_gravity: "<<a.win_gravity)
+       DEBUGSTR( "  backing_store: "<<a.backing_store)
+//       DEBUGSTR( "  "unsigned long backing_planes;	/* planes to be preserved if possible */
+ //      DEBUGSTR( "  "unsigned long backing_pixel;	/* value to be used when restoring planes */
+       DEBUGSTR( "  save_under: "<<a.save_under)
+//       DEBUGSTR( "  "Colormap colormap;		/* color map to be associated with window */
+       DEBUGSTR( "  map_installed: "<<a.map_installed)
+       DEBUGSTR( "  map_state: "<<a.map_state)
+       DEBUGSTR( "  all_event_masks: "<<a.all_event_masks)
+       DEBUGSTR( "  your_event_mask: "<<a.your_event_mask)
+       DEBUGSTR( "  do_not_propagate_mask: "<<a.do_not_propagate_mask)
+       DEBUGSTR( "  override_redirect: "<<a.override_redirect)
+       DEBUGSTR( "  screen: "<<a.screen)
+
+       
+   }
+
+   RELEASE_CAPTURE("Error getting window information")
+   DEBUGSTR(_SEPARATOR_)
+}
 
 void EchoWinAttribs(Window win)
 {
@@ -304,40 +391,42 @@ NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
 
     CAPTURE_ERRORS()
 
-    GdkWindow *win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
+    GdkWindow *gdk_win=gdk_window_get_toplevel((GdkWindow*) aNativeWindow);
 
     DEBUGSTR("HIDING") 
 
  #ifdef _REMEMBER_POSITION_
  
-    Window xwin=GDK_WINDOW_XID(win);
+    Window xwin=GDK_WINDOW_XID(gdk_win);
 
     DEBUGSTR("HANDLER LIST COUNT " << handled_windows.size()) 
 
     if(handled_windows.count(xwin)>0) 
       {
-         window_state* ws=handled_windows[xwin]; 
+         window_state* ws=handled_windows[xwin];          
   
-	 if(ws) {
-
-            Window parent;
-
-            if(GetParent(xwin,&parent)) //we need to get the position of the window with the titlebar
-              if(GetParent(parent,&parent) && parent) 
-                {              
-    	          XWindowAttributes attrib;
-  	          if( XGetWindowAttributes(GDK_DISPLAY(), parent, &attrib) )
-	          {
-                    ws->pos_x=attrib.x;
-                    ws->pos_y=attrib.y;
-		    DEBUGSTR( "SAVING POSITION X: "<< ws->pos_x << " Y: "<< ws->pos_y )
-	          }
-	        }            
-         } 
+         if(ws) {
+        
+            Window toplevel; //the real toplevel window (for reparenting WMs)
+            
+            if(GetToplevel(xwin, &toplevel))
+            {
+              DEBUG_WINDOW("TOPLEVEL",toplevel);
+              XWindowAttributes attrib;
+              if( XGetWindowAttributes(GDK_DISPLAY(), toplevel, &attrib) )
+              {
+                ws->pos_x=attrib.x;
+                ws->pos_y=attrib.y;
+                ws->valid=true;
+                DEBUGSTR( "SAVING POSITION X: "<< ws->pos_x << " Y: "<< ws->pos_y )
+              }
+            }
+            else DEBUGSTR("ERROR GETTING TOPLEVEL")              
+         }           
       }
  #endif
  
-    gdk_window_hide(win);
+    gdk_window_hide(gdk_win);
 
     RELEASE_CAPTURE("Error hiding window")
 
@@ -379,33 +468,33 @@ NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
 
     CAPTURE_ERRORS()
  
-    GdkWindow * toplevel=gdk_window_get_toplevel((GdkWindow*)aNativeWindow);
+    GdkWindow * tl_gdk=gdk_window_get_toplevel((GdkWindow*)aNativeWindow);
 
-    gdk_window_show(toplevel);
+    gdk_window_show(tl_gdk);
 
   #ifdef _REMEMBER_POSITION_
    //if possible restore window position
-    Window xwin=GDK_WINDOW_XID(toplevel);
+    Window xwin=GDK_WINDOW_XID(tl_gdk);
     if(handled_windows.count(xwin)>0) 
       {
          window_state* ws=handled_windows[xwin]; 
-  
-	 if(ws) {
-
-	          XMoveWindow(GDK_DISPLAY(), xwin, ws->pos_x, ws->pos_y);
-		  //gdk_window_move (toplevel, ws->pos_x, ws->pos_y);
-		  DEBUGSTR( "RESTORING WINDOW POSITION TO X: "<< ws->pos_x << " Y: "<< ws->pos_y )
-         } 
+ 
+        if(ws && ws->valid) {        
+            XMoveWindow(GDK_DISPLAY(), xwin, ws->pos_x, ws->pos_y);
+            DEBUGSTR( "RESTORING WINDOW STATE:")
+            DEBUGSTR( "  X: "<< ws->pos_x << " Y: "<< ws->pos_y )
+            DEBUGSTR( "  VALID: "<< ws->valid )
+        } 
    
       }
   #endif
   
-    gdk_window_focus (toplevel, gtk_get_current_event_time ());
+    gdk_window_focus (tl_gdk, gtk_get_current_event_time ());
 
-    GdkWindowState s=gdk_window_get_state(toplevel);
+    GdkWindowState s=gdk_window_get_state(tl_gdk);
 
     if(s & GDK_WINDOW_STATE_ICONIFIED) 
-       gdk_window_deiconify(toplevel);
+       gdk_window_deiconify(tl_gdk);
 
 
     RELEASE_CAPTURE("Error restoring window")
@@ -521,7 +610,7 @@ NS_IMETHODIMP nsTray::MenuPrepend(PRUint64 menu, PRUint64 item, nsITrayCallback 
 /* void menuInsert (in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback); */
 NS_IMETHODIMP nsTray::MenuInsert(PRUint64 menu, PRUint64 item, PRUint64 pos, nsITrayCallback *aCallback) {
     DEBUG_CALL("menuInsert")
-    gtk_menu_shell_insert(GTK_MENU_SHELL(menu), GTK_WIDGET(item), pos);
+    gtk_menu_shell_insert(GTK_MENU_SHELL(menu), GTK_WIDGET(item), (gint)pos);
     nsCOMPtr<nsITrayCallback> item_callback = aCallback;
     this->item_callback_list[item] = item_callback;
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(nsTray::item_event), this);
@@ -704,14 +793,11 @@ GdkPixbuf *renderTextWithAlpha(int w, int h, gchar *text, const gchar *colorstr)
   int screen_depth=24;
   if(cmap) screen_depth=cmap->visual->depth;
    
-  GdkColor fore; 
+  GdkColor fore = { 0, 0, 0, 0 }; 
   GdkColor alpha  = { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF};
 
   if(  gdk_color_parse  (colorstr, &fore) ) DEBUGSTR("COLOR OK")
-  else {
-	fore = {0,0,0,0};
-	DEBUGSTR("COLOR ERROR")
-  }
+  else DEBUGSTR("COLOR ERROR")
 	
   if(fore.red==alpha.red && fore.green==alpha.green && fore.blue==alpha.blue)
 	alpha.red=0; //make sure alpha is different from fore
@@ -776,7 +862,7 @@ GdkPixbuf *renderTextWithAlpha(int w, int h, gchar *text, const gchar *colorstr)
   GdkPixbuf *buf = gdk_pixbuf_get_from_drawable (NULL, pm, NULL, 0, 0, 0, 0, w, h);   
   g_object_unref (pm);   
   
-  GdkPixbuf *alpha_buf = gdk_pixbuf_add_alpha  (buf, TRUE, alpha.red, alpha.green, alpha.blue);
+  GdkPixbuf *alpha_buf = gdk_pixbuf_add_alpha  (buf, TRUE, (guchar)alpha.red, (guchar)alpha.green, (guchar)alpha.blue);
   g_object_unref (buf);   
   
   g_object_unref (layout);   
@@ -1061,10 +1147,10 @@ GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer dat
 
    DEBUGSTR("KEYPRESS EVENT: KEY="<<kev->keycode) 
 
-   KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), kev->keycode,0);
+   KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), (KeyCode)kev->keycode,0);
    if(ks==NoSymbol) return GDK_FILTER_CONTINUE;
    char *str=XKeysymToString(ks);
-   if(!str) str="-"; 
+   if(!str) str=(char *)"-"; 
    if(tray->key_callback)tray->key_callback->Call(str, kev->keycode, &ret);
               
    return GDK_FILTER_CONTINUE;
@@ -1285,8 +1371,8 @@ NS_IMETHODIMP nsTray::GetKeycodeString(PRUint64 key_code, char **_retval)
     DEBUGSTR("KEY: " << key_code)
     
     char *key_string=NULL;
-    KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), key_code,0);
-    if(ks==NoSymbol) key_string="unknown";
+    KeySym ks=XKeycodeToKeysym (GDK_DISPLAY (), (KeyCode)key_code,0);
+    if(ks==NoSymbol) key_string=(char*)"unknown";
     key_string=XKeysymToString(ks);
 
     DEBUGSTR("KEY: " << key_string)
