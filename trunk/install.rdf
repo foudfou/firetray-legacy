@@ -5,7 +5,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.9-dev</em:version>
+    <em:version>0.2.10-dev</em:version>
     <em:type>2</em:type>
    
     <!-- Target Application this extension can install into, 
@@ -54,6 +54,15 @@
 	<em:maxVersion>1.0pre</em:maxVersion>
       </Description>
     </em:targetApplication>
+    
+    <em:targetApplication>
+      <!-- ChatZilla -->
+      <Description>
+       <em:id>{59c81df5-4b7a-477b-912d-4e0fdf64e5f2}</em:id> 
+       <em:minVersion>0.8</em:minVersion>
+       <em:maxVersion>0.9.*</em:maxVersion>
+      </Description>
+    </em:targetApplication> 
     
     <!-- Front End MetaData -->
     <em:name>FireTray</em:name>

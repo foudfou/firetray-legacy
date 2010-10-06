@@ -27,6 +27,7 @@
 	    <preference id="scroll_to_hide" name="extensions.firetray.scroll_to_hide" type="bool" />
 	    <preference id="grab_multimedia_keys" name="extensions.firetray.grab_multimedia_keys" type="bool" />
         <preference id="dont_count_spam" name="extensions.firetray.dont_count_spam" type="bool" /> 
+        <preference id="accounts_to_check" name="extensions.firetray.accounts_to_check" type="string" /> 
     </preferences>
  
 <tabbox>
@@ -107,6 +108,11 @@
 
               <checkbox label="&firetray.show_unread_number;" accesskey="&firetray.show_unread_number_accesskey;"  preference="show_num_unread" />
 
+              <groupbox id="accounts_box">
+                <caption label="&firetray.mailaccounts_settings;"/>
+                <!-- accounts  are dynamically added here with insert_accounts_name() functions, called at the bottom of this file -->
+              </groupbox>
+
               <!--<checkbox id="check_dont_consider_spam" label="&firetray.dont_consider_spam;" accesskey="&firetray.dont_consider_spam_accesskey;" />
               <textbox id="textbox_spam_folders" value="Spam;Trash" tooltiptext="&firetray.dont_consider_spam_indications;" />      -->
       
@@ -143,11 +149,16 @@
         </groupbox>
       </vbox>
      </hbox>
+     
     </tabpanel>
     
     
   </tabpanels>
 </tabbox>
+
+<script type="application/x-javascript">
+  insert_accounts_name("accounts_box");
+</script>
 
 
 </prefpane>

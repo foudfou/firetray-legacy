@@ -13,6 +13,7 @@
 #include "pixmaps/songbird.xpm"
 #include "pixmaps/songbirdegg.xpm"
 #include "pixmaps/sunbird.xpm"
+#include "pixmaps/chatzilla.xpm"
 
 #include "nsMemory.h"
 #include "nsIBaseWindow.h"
@@ -673,6 +674,11 @@ NS_IMETHODIMP nsTray::SetDefaultXpmIcon(PRUint32 app)
 
  switch(app)
  {
+   case 11: //chatzilla
+           df_icon=(char**)chatzilla_xpm;
+           sp_icon=(char**)newmail_xpm;
+           break;
+
    case 10: //seamonkey  
            df_icon=(char**)seamonkey_xpm;
            sp_icon=(char**)newmail_xpm;
@@ -1183,13 +1189,14 @@ GdkFilterReturn filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer data)
             break;
             
      case VisibilityNotify: 
-             //FDEBUGSTR("VisibilityNotify-NOTIFY")
+             FDEBUGSTR("VisibilityNotify-NOTIFY")
              
              //update window visibility state 
              if(tray->handled_windows.count(xwin)>0) 
              {
                 ws=tray->handled_windows[xwin]; 
                 ws->visibility=e->xvisibility.state; 
+                DEBUGSTR("WINDOW: "<<xwin<<" VISIBILITY CHANGED TO: " << ws->visibility);
                 //GdkWindow *win=gdk_window_lookup (xwin);
                 //if(win) gdk_window_get_position(win, &(ws->pos_x), &(ws->pos_y));
                   
@@ -1261,23 +1268,9 @@ NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow)
 
       Window xwin=GDK_WINDOW_XID(gdk_win);
 
-/*      PRInt32 x,y;
-      aBaseWindow->GetPosition(&x, &y);
-      DEBUGSTR("X: "<<x << " Y: "<<y)
-      aBaseWindow->GetSize(&x, &y);
-      DEBUGSTR("SizeX: "<<x << " SizeY: "<<y)
-
-      
-      DEBUGSTR("ADDING HANDLER")
-      DEBUGSTR("GDK_WIN: "<< gdk_win << " XWIN: "<<xwin)
-      ExploreTree(GDK_WINDOW_XID((GdkWindow*) aNativeWindow));
-  
-      g_signal_connect(G_OBJECT(gdk_win), "delete-event", G_CALLBACK(delete_event), this);     
-      g_signal_connect(G_OBJECT(gdk_win), "destroy", G_CALLBACK(delete_event), this);     
-  */  
       if(handled_windows.count(xwin)>0) FDEBUGSTR(">>ALREADY HANDLED")
       else {
-        GdkEventMask m=(GdkEventMask)( /*  |*/ /*(GdkEventMask)*/GDK_VISIBILITY_NOTIFY_MASK | (long) gdk_window_get_events (gdk_win)) ;
+        GdkEventMask m=(GdkEventMask)(GDK_VISIBILITY_NOTIFY_MASK | (long) gdk_window_get_events (gdk_win));
         
         gdk_window_set_events   (gdk_win, m);
 
@@ -1403,12 +1396,17 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
    
       Window xwin=GDK_WINDOW_XID(gdk_win);
 
+      int vst=-1;
+      
       window_state *ws=handled_windows[xwin];
       if(ws) 
-       { *_retval = ws->visibility == 0; DEBUGSTR(" GOT VIS.STATE")}
+       { vst=ws->visibility; *_retval = ws->visibility == 0; DEBUGSTR(" GOT VIS.STATE")}
       else 
         *_retval = TRUE;
-       if(*_retval)DEBUGSTR(" RETVAL: TRUE")
+
+      DEBUGSTR("GET_FOCUS_STATE: xwin="<< xwin << " vstate: "<<vst)
+
+      if(*_retval)DEBUGSTR(" RETVAL: TRUE")
        //else DEBUGSTR(" RETVAL: FALSE")
 
        

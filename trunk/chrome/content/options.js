@@ -29,6 +29,7 @@ function Firetray_getAppType()
   const SONGBIRD_ID = "songbird@songbirdnest.com";
   const SUNBIRD_ID = "{718e30fb-e89b-41dd-9da7-e25a45638b28}";
   const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
+  const CHATZILLA_ID = "{59c81df5-4b7a-477b-912d-4e0fdf64e5f2}";
   
   var appname=appInfo.name.toLowerCase()
 
@@ -50,6 +51,7 @@ function Firetray_getAppType()
         return Firetray_BROWSER | Firetray_MAIL;
         break;
 
+     case CHATZILLA_ID:
      case FIREFOX_ID:
      default:
         return Firetray_BROWSER;
@@ -199,3 +201,48 @@ function Firetray_choose_special_icon_file()
   var filepath = document.getElementById("special_icon_filename");	
   Firetray_choose_file(filepath);  	
 }
+
+
+function insert_accounts_name(parentId) {
+  var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+  var allAccounts = accountManager.allServers;
+  // the DOM parent where we do appendChild
+  var parent = document.getElementById(parentId);
+    var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+  // firetray.accounts_to_check preference is a string containing the accounts id to check, separated with a space
+  // for example "0 2 3 "
+  var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_check');
+  var accounts = new Array();
+  accounts = prefs.split(' ');
+  for(var i=0; i< allAccounts.Count(); i++) 
+   {
+    var folder = allAccounts.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer).rootMsgFolder;
+    var node = document.createElement("checkbox");
+    node.setAttribute('id', 'check_account_'+i);
+    node.setAttribute('label', folder.name);
+    node.setAttribute('checked', false);
+    node.setAttribute('oncommand', 'update_accounts_to_check()');
+    for(var j=0; j< accounts.length; j++) {
+      if ( parseInt(accounts[j]) == i ) {
+        node.setAttribute('checked', true);
+      }
+    }
+    parent.appendChild(node);
+   }
+}
+
+function update_accounts_to_check() {
+  var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+  var allAccounts = accountManager.allServers;
+  var pref = "";
+  for(var i=0; i< allAccounts.Count(); i++) 
+   {
+      var node = document.getElementById("check_account_"+i);
+      if (node.getAttribute('checked')) {
+        pref = pref + " " + i;
+      }
+   }
+  var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+  prefManager.setCharPref('extensions.firetray.accounts_to_check', pref);
+}
+
