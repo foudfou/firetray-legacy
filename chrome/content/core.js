@@ -64,7 +64,8 @@ FireTray.isHidden = function() {
 
 
 FireTray.trayCallback = function() {
-   //var vis=FireTray.isVisible () ; TOFIX: ISVISIBLE NOT WORKING
+   //var vis=FireTray.isVisible (); //TOFIX: ISVISIBLE NOT WORKING
+   //alert(vis);
    if ( FireTray.isHidden() ) {
     
        if(FireTray.isMail && FireTray.prefManager.getBoolPref("extensions.firetray.restore_to_next_unread"))
@@ -291,41 +292,46 @@ FireTray.getDefaultAppString = function(appcode)
    var text="";
    switch(appcode)
    {
-        case 10: //seamonkey
-  	   	text="Firetray (Seamonkey)";
-   	        break;
+    
+    case 11: //chatzilla
+         text="Firetray (ChatZilla)";
+         break;
+
+    case 10: //seamonkey
+  	   	 text="Firetray (Seamonkey)";
+   	     break;
 
    	case 9: //sunbird
-	   	text="Firetray (Sunbird)";
-   	        break;
+	   	 text="Firetray (Sunbird)";
+   	     break;
 
 	case 8: //songbird
-	   	text="Firetray (Songbird)";
-         	break;
+	   	 text="Firetray (Songbird)";
+         break;
 
 	case 7: //icecat
-	   	text="Firetray (Icecat)";
-           	break;
+	   	 text="Firetray (Icecat)";
+         break;
 
    	case 6: //iceweasel
-	   	text="Firetray (Iceweasel)";
-           	break;
+	   	 text="Firetray (Iceweasel)";
+         break;
   	case 5: //swiftdove
-	   	text="Firetray (Icedove)";
-           	break;
+	   	 text="Firetray (Icedove)";
+         break;
    	case 4: //swiftweasel
-	   	text="Firetray (Swifweasel)";
-           	break;
+	   	 text="Firetray (Swifweasel)";
+         break;
    	case 3: //swiftdove
-	   	text="Firetray (Swiftdove)";
-           	break;
+	   	 text="Firetray (Swiftdove)";
+         break;
    	case 2: //thunderbird
-	   	text="Firetray (Thunderbird)";
-           	break;
+	   	 text="Firetray (Thunderbird)";
+         break;
    	case 1: //firefox
    	default:
-	   	text="Firetray (Firefox)";
-           	break;
+         text="Firetray (Firefox)";
+         break;
 
   }
   
@@ -357,6 +363,7 @@ FireTray.getMozillaAppCode = function() {
   const SONGBIRD_ID = "songbird@songbirdnest.com";
   const SUNBIRD_ID = "{718e30fb-e89b-41dd-9da7-e25a45638b28}";
   const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
+  const CHATZILLA_ID = "{59c81df5-4b7a-477b-912d-4e0fdf64e5f2}";
   
   var appname=appInfo.name.toLowerCase()
 
@@ -391,6 +398,11 @@ FireTray.getMozillaAppCode = function() {
         FireTray.isMail=true;  
         return 10;  //Seamonkey
         break;
+        
+     case CHATZILLA_ID:
+        FireTray.isBrowser=true;
+        return 11;
+        break;
 
      default:
         return 0;
@@ -415,18 +427,29 @@ FireTray.getSpamFolder = function(spamFolderURI, folders) {
 
 FireTray.getMailCount = function() {
 
-
     var folders = [FireTray.localfolders];
     var spamFolderURIs = [];
     var allServers = FireTray.accountManager.allServers;
 
-    var msgs = folders[0].getNumUnread(true);
-    var spam_msgs = 0;
-
-    for(var i=0; i< allServers.Count(); i++)     // Gets all folders we need to check and all spam folders
+    var num_unread_msgs = folders[0].getNumUnread(true);
+    var num_new_msgs = folders[0].getNumNewMessages(true);
+    var num_unread_spam_msgs = 0;
+    var num_new_spam_msgs = 0;
+    
+    var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+     // Get accounts id to check in preferences
+    var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_check');
+    var accounts_to_check = new Array();
+    accounts_to_check = prefs.split(' ');
+  
+    for(var k=0; k< accounts_to_check.length; k++)
+   // for(var i=0; i< allServers.Count(); i++)     // Gets all folders we need to check and all spam folders
     {
-        var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+        var server = allServers.GetElementAt(accounts_to_check[k]).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+//        var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+
         var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);   
+        
         var spamsettings = server.spamSettings.QueryInterface(Components.interfaces.nsISpamSettings);        
         
         var spamFolderURI=spamsettings.spamFolderURI;
@@ -437,7 +460,8 @@ FireTray.getMailCount = function() {
         if(folders.indexOf(folder)<0) //avoid considering folders multiple times
         {
           folders.push(folder);
-          msgs += folder.getNumUnread(true);
+          num_unread_msgs += folder.getNumUnread(true);
+          num_new_msgs += folder.getNumNewMessages(true);
         }
     }
 
@@ -445,16 +469,29 @@ FireTray.getMailCount = function() {
     {
       var spamfolder=FireTray.getSpamFolder(spamFolderURIs[i], folders);   
       if(spamfolder!=null) 
-       spam_msgs +=spamfolder.getNumUnread(true);      
+      {
+        num_unread_spam_msgs +=spamfolder.getNumUnread(true);   
+        num_new_spam_msgs += spamfolder.getNumNewMessages(true);
+      }
     }
 
-    FireTray.numMail = msgs;
-    FireTray.numSpam = spam_msgs;
+    
+    FireTray.numUnreadMail = num_unread_msgs;
+    FireTray.numNewMail = num_new_msgs; 
+    FireTray.numUnreadSpam = num_unread_spam_msgs;
+    FireTray.numNewSpam = num_new_spam_msgs; 
 }
 
 
 FireTray.updateMailTray = function (force_update) {
 
+  //get preferences
+
+  //TODO ADD OPTION TO SHOW UNREAD VS NEW MAIL COUNT
+  var show_num_new = true;
+  var show_num_unread = false; 
+  
+  
   if(force_update) FireTray.lastnum=-1; //force updating icon
 
   if( FireTray.prefManager.getBoolPref("extensions.firetray.show_num_unread") && 
@@ -469,15 +506,14 @@ FireTray.updateMailTray = function (force_update) {
      return;
   }
 
-  var res=FireTray.numMail;
+  var res=FireTray.numUnreadMail;
   var spam_tooltip="";
  
-  if(FireTray.prefManager.getBoolPref("extensions.firetray.dont_count_spam") && FireTray.numSpam>0)
-  {
-     res-=FireTray.numSpam;
+  if(FireTray.prefManager.getBoolPref("extensions.firetray.dont_count_spam") && FireTray.numUnreadSpam>0)  {
+     res-=FireTray.numUnreadSpam;
      if(res<0) res=0;
-     if(FireTray.numSpam>1) spam_tooltip=" ("+FireTray.numSpam+" "+FireTray.string_junk_messages+ ")"; 
-     else spam_tooltip=" ("+FireTray.numSpam+" "+FireTray.string_junk_message+ ")"; 
+     if(FireTray.numUnreadSpam>1) spam_tooltip=" ("+FireTray.numUnreadSpam+" "+FireTray.string_junk_messages+ ")"; 
+     else spam_tooltip=" ("+FireTray.numUnreadSpam+" "+FireTray.string_junk_message+ ")"; 
   }
 
   if(FireTray.lastnum==res) return; //update the icon only if something has changed
@@ -495,6 +531,7 @@ FireTray.updateMailTray = function (force_update) {
    color=FireTray.prefManager.getCharPref("extensions.firetray.text_color")
   }  catch (err) {  }
 
+  //num = FireTray.numNewMail + "/" + num;
   FireTray.interface.setIconText(num, color);
   FireTray.interface.setTrayTooltip(tooltip);
 }
@@ -866,7 +903,13 @@ FireTray.timerEvent = { notify: function(timer) { FireTray.appStarted(); } }
 
 FireTray.init = function() {
 
-    if(FireTray.interface.menuCreated) return;
+    if(FireTray.interface.menuCreated) {
+      //If the tray is already loaded this is a new window.
+      //We just have to set the close handler for all the 
+      //windows not handled jet.
+      FireTray.setCloseHandler();
+      return;
+    }
     else FireTray.interface.menuCreated=true;
 
     FireTray.isMail=false;
@@ -879,6 +922,7 @@ FireTray.init = function() {
     //register an observer for getting prefs changes 
     FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
                                 .getService(Components.interfaces.nsIPrefBranch);
+                                
     FireTray.prefObserver.register();
 
     var app=FireTray.getMozillaAppCode();
@@ -913,7 +957,13 @@ FireTray.init = function() {
 }
 
 
+Firetray.testEvent = function() {
+  alert("TEST!");  
+}
 
+
+
+window.addEventListener("load", FireTray.init, true);
 
 
 window.addEventListener("load", FireTray.init, true);

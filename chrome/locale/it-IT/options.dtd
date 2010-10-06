@@ -48,3 +48,4 @@
 <!ENTITY firetray.dont_consider_spam "Non considerare i nuovi messaggi per le seguenti cartelle:">
 <!ENTITY firetray.dont_consider_spam_accesskey "c">
 <!ENTITY firetray.dont_consider_spam_indications "Separare i nomi delle cartelle utilizzando il punto e virgola (;)">
+<!ENTITY firetray.mailaccounts_settings "Mail accounts to check" >

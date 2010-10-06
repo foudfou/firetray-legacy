@@ -68,11 +68,9 @@ env = Environment(
 env.AppendENVPath('PATH', gecko_bin)
 env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
 
-# Add additional param for different platforms
-if platform == 'linux2':
-    env.ParseConfig('pkg-config ' + linking_options + ' --cflags gtk+-2.0') # libnotify
-    env.ParseConfig('pkg-config --cflags nspr')
-    env.Append( CXXFLAGS = FLAGS )
+env.ParseConfig('pkg-config ' + linking_options + ' --cflags gtk+-2.0') # libnotify
+env.ParseConfig('pkg-config --cflags nspr')
+env.Append( CXXFLAGS = FLAGS )
  
 
 # Create headers and xpt files from idl
@@ -80,8 +78,7 @@ xpts = [env.MozXPT('nsITray'), env.MozXPT('nsIMinimize')]
 headers = [env.MozHeader('nsITray')]
 
 parts = []
-if platform == 'linux2':
-    parts.extend(['nsTray.cpp', 'nsTrayModue.cpp'])
+parts.extend(['nsTray.cpp', 'nsTrayModue.cpp'])
 
 nptray_name = 'nptray' + lib_arch
 print "NPTRAY: " + nptray_name
