@@ -957,13 +957,12 @@ FireTray.init = function() {
 }
 
 
-Firetray.testEvent = function() {
+/*Firetray.testEvent = function() {
   alert("TEST!");  
-}
+}*/
 
 
 
-window.addEventListener("load", FireTray.init, true);
 
 
 window.addEventListener("load", FireTray.init, true);
