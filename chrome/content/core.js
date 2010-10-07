@@ -6,6 +6,7 @@ FireTray.strings = FireTray.gfiretrayBundle.createBundle("chrome://firetray/loca
 FireTray.string_closerequest = FireTray.strings.GetStringFromName("firetray_closerequest");
 FireTray.string_exitrequest = FireTray.strings.GetStringFromName("firetray_exitrequest");
 FireTray.string_restoreall = FireTray.strings.GetStringFromName("firetray_restoreall");
+//FireTray.string_hideall = "Hide all windows";//FireTray.strings.GetStringFromName("firetray_hideall");
 FireTray.string_exit = FireTray.strings.GetStringFromName("firetray_exit");
 FireTray.string_windowslist = FireTray.strings.GetStringFromName("firetray_windowslist");
 FireTray.string_no_unread_messages = FireTray.strings.GetStringFromName("firetray_no_unread_messages");
@@ -438,15 +439,15 @@ FireTray.getMailCount = function() {
     
     var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
      // Get accounts id to check in preferences
-    var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_check');
-    var accounts_to_check = new Array();
-    accounts_to_check = prefs.split(' ');
+    var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_exclude');
+    var accounts_to_exclude = new Array();
+    accounts_to_exclude = prefs.split(' ');
   
-    for(var k=0; k< accounts_to_check.length; k++)
-   // for(var i=0; i< allServers.Count(); i++)     // Gets all folders we need to check and all spam folders
+    for(var i=0; i< allServers.Count(); i++)    
     {
-        var server = allServers.GetElementAt(accounts_to_check[k]).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
-//        var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+        if(accounts_to_exclude.indexOf(String(i))>=0) continue;
+        
+        var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
 
         var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);   
         
