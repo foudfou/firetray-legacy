@@ -22,4 +22,4 @@ pref("extensions.firetray.scroll_action",0);
 pref("extensions.firetray.grab_multimedia_keys", false);
 pref("extensions.firetray.hide_show_mm_key",161);
 
-pref("extensions.firetray.accounts_to_check", "");
+pref("extensions.firetray.accounts_to_exclude", "");

@@ -209,9 +209,9 @@ function insert_accounts_name(parentId) {
   // the DOM parent where we do appendChild
   var parent = document.getElementById(parentId);
     var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-  // firetray.accounts_to_check preference is a string containing the accounts id to check, separated with a space
+  // firetray.accounts_to_exclude preference is a string containing the accounts id to exclude, separated with a space
   // for example "0 2 3 "
-  var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_check');
+  var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_exclude');
   var accounts = new Array();
   accounts = prefs.split(' ');
   for(var i=0; i< allAccounts.Count(); i++) 
@@ -221,7 +221,7 @@ function insert_accounts_name(parentId) {
     node.setAttribute('id', 'check_account_'+i);
     node.setAttribute('label', folder.name);
     node.setAttribute('checked', false);
-    node.setAttribute('oncommand', 'update_accounts_to_check()');
+    node.setAttribute('oncommand', 'update_accounts_to_exclude()');
     for(var j=0; j< accounts.length; j++) {
       if ( parseInt(accounts[j]) == i ) {
         node.setAttribute('checked', true);
@@ -231,7 +231,7 @@ function insert_accounts_name(parentId) {
    }
 }
 
-function update_accounts_to_check() {
+function update_accounts_to_exclude() {
   var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
   var allAccounts = accountManager.allServers;
   var pref = "";
@@ -240,9 +240,10 @@ function update_accounts_to_check() {
       var node = document.getElementById("check_account_"+i);
       if (node.getAttribute('checked')) {
         pref = pref + " " + i;
+        //alert(allAccounts.GetElementAt(i).key);
       }
    }
   var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-  prefManager.setCharPref('extensions.firetray.accounts_to_check', pref);
+  prefManager.setCharPref('extensions.firetray.accounts_to_exclude', pref);
 }
 

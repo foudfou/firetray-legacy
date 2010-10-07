@@ -52,4 +52,4 @@
 <!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:" >
 <!ENTITY firetray.dont_consider_spam_accesskey "i" >
 <!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character" >
-<!ENTITY firetray.mailaccounts_settings "Mail accounts to check" >
+<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude" >
