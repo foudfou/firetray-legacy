@@ -281,7 +281,7 @@ FireTray.closeEventHandler = function() {
 FireTray.resizeEventHandler = function() {
    if(!FireTray.interface.appStarted){	
 	if(FireTray.prefManager.getBoolPref("extensions.firetray.start_minimized")){	
-        if(FireTray.isMail)FireTray.appStarted();
+        //if(FireTray.isMail)FireTray.appStarted();
 		FireTray.hideToTray();		        
 	}
    }
@@ -743,7 +743,7 @@ FireTray.setupMenus = function() {
 	    }
 
             if(FireTray.isBrowser) { 
-		//thunderbird special menu entries
+              
               /*  var newwin = FireTray.interface.menuItemNew("Open new window");
                 FireTray.interface.menuAppend(tray_menu, newwin, FireTray.new_window);
 
@@ -771,27 +771,6 @@ FireTray.setupMenus = function() {
 	  
 	       FireTray.interface.menuInsert(tray_menu,
 	       FireTray.interface.menuItemNew(FireTray.string_next_track,"gtk-media-next"), 3, FireTray.nextTrack);
-
-	       /*var volume_menu = FireTray.interface.menuNew();
-
-	       FireTray.interface.menuInsert(volume_menu,
-	       FireTray.interface.menuItemNew("100%",""), 0, FireTray.nextTrack);
-	       FireTray.interface.menuInsert(volume_menu,
-	       FireTray.interface.menuItemNew("90%",""), 0, FireTray.nextTrack);
-	       FireTray.interface.menuInsert(volume_menu,
-	       FireTray.interface.menuItemNew("80%",""), 0, FireTray.nextTrack);
-	       FireTray.interface.menuInsert(volume_menu,
-	       FireTray.interface.menuItemNew("50%",""), 0, FireTray.nextTrack);
-	       FireTray.interface.menuInsert(volume_menu,
-	       FireTray.interface.menuItemNew("25%",""), 0, FireTray.nextTrack);
-	       FireTray.interface.menuInsert(volume_menu,
-	       FireTray.interface.menuItemNew("0%",""), 0, FireTray.nextTrack);
-
-	       var item_volume=FireTray.interface.menuItemNew("Volume","");
-	       FireTray.interface.menuInsert(tray_menu,item_volume, 4, null);
-	       
-
-  	       FireTray.interface.menuSub(item_volume, volume_menu);*/
 
 	    }
 
@@ -834,18 +813,7 @@ FireTray.songSettings = function() {
 	      FireTray.pPS = Components.classes["@songbirdnest.com/Songbird/Mediacore/Manager;1"]
 		      .getService(Components.interfaces.sbIMediacoreManager);
       Components.utils.import("resource://app/jsmodules/sbProperties.jsm");
-	      /* Song controls */
-
-
-	      
-	      
-	      /*var item_s_six = FireTray.interface.separatorMenuItemNew();
-	      FireTray.interface.menuInsert(tray_menu, item_s_six, 0, null);
-	      var item_music_ctrl = FireTray.interface.menuItemNew("Music");
-	      FireTray.interface.menuSub(item_music_ctrl, music_list);
-	      FireTray.interface.menuInsert(tray_menu, item_music_ctrl, 1, null);*/
-	      
-	      
+      
 	      var myPlaylistPlaybackServiceListener = {
 		      init: function() {
 			      FireTray.pPS.addListener(this);
@@ -904,7 +872,10 @@ FireTray.timerEvent = { notify: function(timer) { FireTray.appStarted(); } }
 
 FireTray.init = function() {
 
+    window.onresize = FireTray.resizeEventHandler;
+
     if(FireTray.interface.menuCreated) {
+           
       //If the tray is already loaded this is a new window.
       //We just have to set the close handler for all the 
       //windows not handled jet.
@@ -918,15 +889,16 @@ FireTray.init = function() {
     FireTray.isCalendar=false; 
     FireTray.lastnum=-1;
 
-    window.onresize = FireTray.resizeEventHandler;
 
     //register an observer for getting prefs changes 
     FireTray.prefManager = Components.classes["@mozilla.org/preferences-service;1"]
                                 .getService(Components.interfaces.nsIPrefBranch);
-                                
-    FireTray.prefObserver.register();
 
     var app=FireTray.getMozillaAppCode();
+
+    FireTray.prefObserver.register(); 
+    FireTray.startupObserver.register();
+
 
     if (!FireTray.minimizeComponent.menu_window_list) {
 
@@ -957,19 +929,32 @@ FireTray.init = function() {
   // FireTray.hideToTray();
 }
 
+FireTray.startupObserver =
+{
+  register: function()
+  {
+    var observerService = Components.classes["@mozilla.org/observer-service;1"]
+                          .getService(Components.interfaces.nsIObserverService);
+    observerService.addObserver(this, "mail-startup-done", false); //tb3
+  },
 
-/*Firetray.testEvent = function() {
-  alert("TEST!");  
-}*/
+  unregister: function()
+  {
+    var observerService = Components.classes["@mozilla.org/observer-service;1"]
+                            .getService(Components.interfaces.nsIObserverService);
+    observerService.removeObserver(this, "mail-startup-done");
+  },
 
-
+  observe: function(aSubject, aTopic, aData)
+  {
+    // Hide each window to the tray until the user attends    
+    FireTray.appStarted();
+  }
+}
 
 
 
 window.addEventListener("load", FireTray.init, true);
-
-//trick to know when all windows are restored by SessionSaver
-//document.addEventListener("SSTabRestored", FireTray.checkAppStarted, false);
 
 
 

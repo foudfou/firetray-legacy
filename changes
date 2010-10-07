@@ -1,7 +1,8 @@
 
 0.2.10 Merged "support for chatzilla" from Issue 135 
        "Select which servers to exclude" feature from Issue 105 
-       Removed references to linux platform from SConscript file (Issue 138)      
+       Removed references to linux platform from SConscript file (Issue 138) 
+       Applied fix for tb start minimized problem (Issue 122)
 
 0.2.9  Fixed problems with icons transparency (Issue 56)
        Fixed code to save window position and re-enabled it by default (Issues 33,49)
