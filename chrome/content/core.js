@@ -428,12 +428,12 @@ FireTray.getSpamFolder = function(spamFolderURI, folders) {
 
 FireTray.getMailCount = function() {
 
-    var folders = [FireTray.localfolders];
+    var folders = [];
     var spamFolderURIs = [];
     var allServers = FireTray.accountManager.allServers;
 
-    var num_unread_msgs = folders[0].getNumUnread(true);
-    var num_new_msgs = folders[0].getNumNewMessages(true);
+    var num_unread_msgs = 0;
+    var num_new_msgs = 0;
     var num_unread_spam_msgs = 0;
     var num_new_spam_msgs = 0;
     
@@ -443,16 +443,17 @@ FireTray.getMailCount = function() {
     var accounts_to_exclude = new Array();
     accounts_to_exclude = prefs.split(' ');
   
+    var msg="";
+    
     for(var i=0; i< allServers.Count(); i++)    
     {
-        if(accounts_to_exclude.indexOf(String(i))>=0) continue;
-        
         var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
-
-        var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);   
+        var id=String(server.key);
         
-        var spamsettings = server.spamSettings.QueryInterface(Components.interfaces.nsISpamSettings);        
+        if(accounts_to_exclude.indexOf(id)>=0) continue;
         
+        var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);           
+        var spamsettings = server.spamSettings.QueryInterface(Components.interfaces.nsISpamSettings);                
         var spamFolderURI=spamsettings.spamFolderURI;
 
         if(spamFolderURI!=null && spamFolderURIs.indexOf(spamFolderURI)<0 )
@@ -475,7 +476,6 @@ FireTray.getMailCount = function() {
         num_new_spam_msgs += spamfolder.getNumNewMessages(true);
       }
     }
-
     
     FireTray.numUnreadMail = num_unread_msgs;
     FireTray.numNewMail = num_new_msgs; 
