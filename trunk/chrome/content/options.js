@@ -208,41 +208,44 @@ function insert_accounts_name(parentId) {
   var allAccounts = accountManager.allServers;
   // the DOM parent where we do appendChild
   var parent = document.getElementById(parentId);
-    var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-  // firetray.accounts_to_exclude preference is a string containing the accounts id to exclude, separated with a space
-  // for example "0 2 3 "
+  var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+  // firetray.accounts_to_exclude preference is a string containing the keys of the accounts to exclude, separated with a space
+  // for example "server1 server2 server3"
   var prefs = prefManager.getCharPref('extensions.firetray.accounts_to_exclude');
   var accounts = new Array();
   accounts = prefs.split(' ');
   for(var i=0; i< allAccounts.Count(); i++) 
    {
-    var folder = allAccounts.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer).rootMsgFolder;
     var node = document.createElement("checkbox");
-    node.setAttribute('id', 'check_account_'+i);
+    var server = allAccounts.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+    var folder = server.rootMsgFolder;
+    var id=String(server.key);      
+
+    node.setAttribute('id', id);
     node.setAttribute('label', folder.name);
-    node.setAttribute('checked', false);
-    node.setAttribute('oncommand', 'update_accounts_to_exclude()');
-    for(var j=0; j< accounts.length; j++) {
-      if ( parseInt(accounts[j]) == i ) {
-        node.setAttribute('checked', true);
-      }
-    }
+    
+    if(accounts.indexOf(id)>=0) node.setAttribute('checked', true);        
+    else node.setAttribute('checked', false);        
+    
+    node.setAttribute('oncommand', 'update_accounts_to_exclude()');    
     parent.appendChild(node);
    }
 }
 
 function update_accounts_to_exclude() {
   var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
-  var allAccounts = accountManager.allServers;
+  var allAccounts = accountManager.allServers;  
+  var accounts_box = document.getElementById('accounts_box');
+
   var pref = "";
-  for(var i=0; i< allAccounts.Count(); i++) 
-   {
-      var node = document.getElementById("check_account_"+i);
-      if (node.getAttribute('checked')) {
-        pref = pref + " " + i;
-        //alert(allAccounts.GetElementAt(i).key);
-      }
+  
+  for(var i=1; i< accounts_box.childNodes.length; i++) 
+   {               
+      if (accounts_box.childNodes[i].getAttribute('checked')=='true') {
+        pref = pref + " " + accounts_box.childNodes[i].getAttribute('id');        
+      }      
    }
+   
   var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
   prefManager.setCharPref('extensions.firetray.accounts_to_exclude', pref);
 }
