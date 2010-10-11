@@ -14,6 +14,22 @@
 <!ENTITY firetray.use_default_icon_accesskey "л">
 <!ENTITY firetray.use_user_icon "Значок, установленный пользователем">
 <!ENTITY firetray.use_user_icon_accesskey "у">
+<!ENTITY firetray.notification_settings "Mail nofication icon settings">
+<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
+<!ENTITY firetray.notification_only_hidden_accesskey "w">
+<!ENTITY firetray.notification_enabled "Enable mail notification icon">
+<!ENTITY firetray.notification_enabled_accesskey "E">
+<!ENTITY firetray.show_only_hidden "Показывать только когда свёрнуто в трей">
+<!ENTITY firetray.show_only_hidden_accesskey "ы">
+<!ENTITY firetray.message_count_settings "Message number counting">
+<!ENTITY firetray.count_unread_mail "Count unread messages">
+<!ENTITY firetray.count_unread_mail_accesskey "U">
+<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Show mail number">
+<!ENTITY firetray.show_mail_count_accesskey "n">
 <!ENTITY firetray.show_unread_number "Показать число непрочитанных писем">
 <!ENTITY firetray.show_unread_number_accesskey "ч">
 <!ENTITY firetray.behaviour_group "Настройки поведения окон">
@@ -22,9 +38,6 @@
 <!ENTITY firetray.choose_accesskey "р">
 <!ENTITY firetray.choose_accesskey2 "о">
 <!ENTITY firetray.msg_font_color "Цвет числа непрочитанных писем">
-<!ENTITY firetray.newmail_settings "Настройки значка новой почты">
-<!ENTITY firetray.show_only_hidden "Показывать только когда свёрнуто в трей">
-<!ENTITY firetray.show_only_hidden_accesskey "ы">
 <!ENTITY firetray.general_options "Основные настройки">
 <!ENTITY firetray.input_options "Настройки ввода">
 <!ENTITY firetray.mail_options "Настройки почты">
@@ -48,3 +61,4 @@
 <!ENTITY firetray.dont_consider_spam "Не учитывать новую почту из следующих папок:">
 <!ENTITY firetray.dont_consider_spam_accesskey "е">
 <!ENTITY firetray.dont_consider_spam_indications "Укажите имена папки, разделив их через точку с запятой">
+<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">

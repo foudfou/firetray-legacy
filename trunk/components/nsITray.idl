@@ -43,9 +43,10 @@ interface nsITray : nsISupports
     PRUint64 getTrayMenu();
 
     PRUint64 menuNew();
-    PRUint64 menuItemNew(in wstring label, in wstring img);
+    PRUint64 menuItemNew(in wstring label, in wstring img);    
     PRUint64 separatorMenuItemNew();
 
+    void menuItemUpdate(in PRUint64 item, in wstring label);    
     void menuAppend(in PRUint64 menu, in PRUint64 item, in nsITrayCallback aCallback);
     void menuPrepend(in PRUint64 menu, in PRUint64 item, in nsITrayCallback aCallback);
     void menuInsert(in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback);
@@ -63,7 +64,7 @@ interface nsITray : nsISupports
 
     void setTrayTooltip(in wstring text); //sets the tray tooltip message
     void setTrayIcon(in PRUint32 FLAG);  //switch systrayicon checking the FLAG
- /*void init_tooltip_image();			  //prepare tooltip handlers to show image*/
+    /*void init_tooltip_image();          //prepare tooltip handlers to show image*/
 
     void setCloseBlocking(in boolean val); //determine if we have to block window closing
     void getCloseBlocking(out boolean val); 
@@ -83,9 +84,4 @@ interface nsITray : nsISupports
     boolean addHandledKeyCode(in PRUint64 key_code);
 
     string getKeycodeString(in PRUint64 key_code);
-
-
-    attribute boolean appStarted; 
-    attribute boolean menuCreated; 
-    
 };

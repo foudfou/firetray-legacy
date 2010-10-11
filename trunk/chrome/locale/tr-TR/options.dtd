@@ -14,6 +14,22 @@
 <!ENTITY firetray.use_default_icon_accesskey "d">
 <!ENTITY firetray.use_user_icon "Kullanıcı tanımlı simge">
 <!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.notification_settings "Mail nofication icon settings">
+<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
+<!ENTITY firetray.notification_only_hidden_accesskey "w">
+<!ENTITY firetray.notification_enabled "Enable mail notification icon">
+<!ENTITY firetray.notification_enabled_accesskey "E">
+<!ENTITY firetray.show_only_hidden "Yanlızca tepside gizliyken göster">
+<!ENTITY firetray.show_only_hidden_accesskey "w">
+<!ENTITY firetray.message_count_settings "Message number counting">
+<!ENTITY firetray.count_unread_mail "Count unread messages">
+<!ENTITY firetray.count_unread_mail_accesskey "U">
+<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Show mail number">
+<!ENTITY firetray.show_mail_count_accesskey "n">
 <!ENTITY firetray.show_unread_number "Okunmayan mesaj sayısını göster">
 <!ENTITY firetray.show_unread_number_accesskey "h">
 <!ENTITY firetray.behaviour_group "Pencere görünüm ayarları">
@@ -22,9 +38,6 @@
 <!ENTITY firetray.choose_accesskey "e">
 <!ENTITY firetray.choose_accesskey2 "o">
 <!ENTITY firetray.msg_font_color "Okunmamış mesaj sayısı rengi">
-<!ENTITY firetray.newmail_settings "Yeni eposta simgesi ayarları">
-<!ENTITY firetray.show_only_hidden "Yanlızca tepside gizliyken göster">
-<!ENTITY firetray.show_only_hidden_accesskey "w">
 <!ENTITY firetray.general_options "Genel ayarlar">
 <!ENTITY firetray.input_options "Girdi ayarları">
 <!ENTITY firetray.mail_options "Posta ayarları">
@@ -48,3 +61,4 @@
 <!ENTITY firetray.dont_consider_spam "Şu klasörde bulunan yeni epostaları içerme:">
 <!ENTITY firetray.dont_consider_spam_accesskey "t">
 <!ENTITY firetray.dont_consider_spam_indications "Noktalı virgül (;) ile ayrılan klasör isimlerini belirt">
+<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">

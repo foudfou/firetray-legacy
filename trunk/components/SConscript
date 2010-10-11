@@ -1,4 +1,4 @@
-import sys, os, string
+import sys, os, string, re
 
 platform = sys.platform
 
@@ -55,6 +55,21 @@ except:
         print "Please set environment variable GECKO_SDK first (or in alternative the variables GECKO_SDK_BIN, GECKO_SDK_INCLUDE, GECKO_SDK_IDL, GECKO_SDK_LIB)."
         sys.exit(1)
 
+# Hack to detect Mozilla version
+version_re = re.compile('#define MOZILLA_VERSION "(.*?)"')
+xpcomglue_s_lib = 'xpcomglue_s'
+with open(gecko_include + os.sep + 'mozilla-config.h', 'r') as f:
+    for line in f:
+        version_match = version_re.match(line)
+        if version_match:
+            version = string.split(version_match.group(1), '.')
+            if int(version[0]) >= 2:
+                # MOZ_NO_MOZALLOC fixes some compile errors. Not really sure why they were happening.
+                # But, it's probably needed anyway to maintain binary compatibility with Mozilla 1.9.x
+                FLAGS += ' -DGECKO_2 -DMOZ_NO_MOZALLOC'
+                xpcomglue_s_lib = 'xpcomglue_s_nomozalloc'
+            break
+
 # Create two builders to create xpt and header files from idl.
 bxpt = Builder(action = 'xpidl -w -m typelib -Icomponents -I' + gecko_idl + ' -e $TARGET $SOURCE', suffix = '.xpt', src_suffix = '.idl')
 bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + gecko_idl + ' -e $TARGET $SOURCE', suffix = '.h', src_suffix = '.idl')
@@ -63,7 +78,7 @@ bhdr = Builder(action = 'xpidl -w -m header -Icomponents -I' + gecko_idl + ' -e 
 env = Environment(
     CPPPATH = [gecko_include],
     LIBPATH = [gecko_lib],
-    LIBS = ['xpcomglue', 'xpcomglue_s.a' ],
+    LIBS = [xpcomglue_s_lib],
     ENV = os.environ)
 env.AppendENVPath('PATH', gecko_bin)
 env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
@@ -71,21 +86,20 @@ env.Append(BUILDERS = {'MozXPT' : bxpt, 'MozHeader' : bhdr })
 env.ParseConfig('pkg-config ' + linking_options + ' --cflags gtk+-2.0') # libnotify
 env.ParseConfig('pkg-config --cflags nspr')
 env.Append( CXXFLAGS = FLAGS )
- 
 
 # Create headers and xpt files from idl
-xpts = [env.MozXPT('nsITray'), env.MozXPT('nsIMinimize')]
+xpts = [env.MozXPT('nsITray'), env.MozXPT('nsIFireTrayHandler')]
 headers = [env.MozHeader('nsITray')]
 
 parts = []
-parts.extend(['nsTray.cpp', 'nsTrayModue.cpp'])
+parts.extend(['nsTray.cpp', 'nsTrayModule.cpp'])
 
 nptray_name = 'nptray' + lib_arch
 print "NPTRAY: " + nptray_name
 
 nptray = env.SharedLibrary(nptray_name, parts)
 
-r = env.Install('#dist/components', [nptray, xpts, 'nsMinimize.js']) 
+r = env.Install('#dist/components', [nptray, xpts, 'nsFireTrayHandler.js']) 
 
 Default([xpts, headers, nptray])
 Return('r')

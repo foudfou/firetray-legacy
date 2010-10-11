@@ -7,12 +7,13 @@ overlay chrome://sunbird/content/calendar.xul			chrome://firetray/content/mailOv
 overlay chrome://navigator/content/navigator.xul chrome://firetray/content/navigatorOverlay.xul	
 overlay chrome://chatzilla/content/chatzilla.xul chrome://firetray/content/ircOverlay.xul
 
-interfaces components/nsIMinimize.xpt
+interfaces components/nsIFireTrayHandler.xpt
 interfaces components/nsITray.xpt
 
+binary-component components/libnptray.so
 binary-component components/libnptray_x86_64.so
 
-
+component {f2f05844-d398-11df-9885-7d29dfd72085} components/nsFireTrayHandler.js contract @mozilla.org/FireTrayHandler;1 {f2f05844-d398-11df-9885-7d29dfd72085} 
 
 locale  firetray    en-US   jar:chrome/firetray.jar!/locale/en-US/
 locale  firetray    it-IT   jar:chrome/firetray.jar!/locale/it-IT/

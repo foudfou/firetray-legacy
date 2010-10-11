@@ -68,14 +68,13 @@ public:
     
 private:
   
+    void AddMenuItemCallback(PRUint64 item,nsITrayCallback *aCallback);
+    void RemoveMenuItemCallback(PRUint64 item);
     bool SetIcon(const char *filename, GdkPixbuf *& icon);
     ~nsTray();
 
     bool block_close;
     bool block_minimize;
- 
-    bool appStarted;
-    bool menuCreated;
 
     GtkStatusIcon *systray_icon;
     

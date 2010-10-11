@@ -154,10 +154,10 @@ NS_IMPL_ISUPPORTS1(nsTray, nsITray)
 
 nsTray::nsTray() {
     DEBUG_CALL("nsTray")
+    
+    DEBUGSTR("CONSTRUCTOR!")
 
     /* member initializers and constructor code */
-    appStarted=false;
-    menuCreated=false;
     block_close=false;
     block_minimize=false;
 
@@ -197,8 +197,11 @@ nsTray::~nsTray() {
 NS_IMETHODIMP nsTray::ShowTray() {
     DEBUG_CALL("showTray")
 
+
     if (this->systray_icon) {
-         gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
+
+      //
+        //gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
 //	this->systray_icon=gtk_status_icon_new_from_pixbuf(GDK_PIXBUF(default_icon));
         gtk_status_icon_set_visible(this->systray_icon, TRUE);
     }
@@ -382,8 +385,8 @@ void ExploreTree(Window xwin)
 
 /* void hideWindow (in nsIBaseWindow aBaseWindow); */
 NS_IMETHODIMP nsTray::HideWindow(nsIBaseWindow *aBaseWindow) {
-     DEBUG_CALL("hideWindow")
- 
+    DEBUG_CALL("hideWindow")
+
     nsresult rv;
  
     NS_ENSURE_ARG_POINTER(aBaseWindow);
@@ -433,10 +436,6 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
 
     PRUint32 i;
 
-    DEBUGSTR("RESTORING WINDOWS");
-    
-    DEBUGSTR("Appstarted: "<<appStarted);
-
     NS_ENSURE_ARG(aCount);
     NS_ENSURE_ARG_POINTER(aBaseWindows);
 
@@ -449,6 +448,7 @@ NS_IMETHODIMP nsTray::Restore(PRUint32 aCount, nsIBaseWindow **aBaseWindows) {
 /* void restoreWindow (in nsIBaseWindow aBaseWindow); */
 NS_IMETHODIMP nsTray::RestoreWindow(nsIBaseWindow *aBaseWindow) {
     DEBUG_CALL("restoreWindow")
+    
     nsresult rv;
 
     NS_ENSURE_ARG_POINTER(aBaseWindow);
@@ -559,6 +559,15 @@ NS_IMETHODIMP nsTray::SeparatorMenuItemNew(PRUint64 *_retval) {
 
     return NS_OK;
 }
+
+/* void menuItemUpdate (in PRUint64 item, in wstring label); */
+NS_IMETHODIMP nsTray::MenuItemUpdate(PRUint64 item, const PRUnichar *label) {
+    DEBUG_CALL("MenuItemUpdate")
+    gchar * label_utf8=convertUtf16ToUtf8(label);        
+    gtk_menu_item_set_label(GTK_MENU_ITEM(item),label_utf8);
+    return NS_OK;
+}
+
 /*///ADDED FOR IMG MENU
 / PRUint64 menu_item_new (in wstring label); /
 NS_IMETHODIMP nsTray::Menu_item_img_new(const PRUnichar *label, const PRUnichar *immg, PRUint64 *_retval) {
@@ -577,13 +586,25 @@ gchar * iconn=g_utf16_to_utf8 ((const gunichar2 *)immg, len, NULL, NULL, NULL);
 
 //////*/
 
+void nsTray::AddMenuItemCallback(PRUint64 item,nsITrayCallback *aCallback) {
+    DEBUG_CALL("AddMenuItemCallback")
+  
+    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
+    this->item_callback_list[item] = item_callback;
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(nsTray::item_event), this);  
+}
+
+void nsTray::RemoveMenuItemCallback(PRUint64 item) {
+    DEBUG_CALL("RemoveMenuItemCallback")
+    this->item_callback_list.erase(item);
+}
+
 /* void menuAppend (in PRUint64 menu_item); */
 NS_IMETHODIMP nsTray::MenuAppend(PRUint64 menu, PRUint64 item, nsITrayCallback *aCallback) {
     DEBUG_CALL("menuAppend")
+
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
-    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
-    this->item_callback_list[item] = item_callback;
-    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(nsTray::item_event), this);
+    AddMenuItemCallback(item,aCallback);
 
     return NS_OK;
 }
@@ -591,20 +612,18 @@ NS_IMETHODIMP nsTray::MenuAppend(PRUint64 menu, PRUint64 item, nsITrayCallback *
 /* void menuPrepend (in PRUint64 item, in nsITrayCallback aCallback); */
 NS_IMETHODIMP nsTray::MenuPrepend(PRUint64 menu, PRUint64 item, nsITrayCallback *aCallback) {
     DEBUG_CALL("menuPrepend")
+
     gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(item));
-    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
-    this->item_callback_list[item] = item_callback;
-    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(nsTray::item_event), this);
+    AddMenuItemCallback(item,aCallback);
 
     return NS_OK;
 }
 /* void menuInsert (in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback); */
 NS_IMETHODIMP nsTray::MenuInsert(PRUint64 menu, PRUint64 item, PRUint64 pos, nsITrayCallback *aCallback) {
     DEBUG_CALL("menuInsert")
+    
     gtk_menu_shell_insert(GTK_MENU_SHELL(menu), GTK_WIDGET(item), (gint)pos);
-    nsCOMPtr<nsITrayCallback> item_callback = aCallback;
-    this->item_callback_list[item] = item_callback;
-    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(nsTray::item_event), this);
+    AddMenuItemCallback(item,aCallback);
 
     return NS_OK;
 }
@@ -612,6 +631,7 @@ NS_IMETHODIMP nsTray::MenuInsert(PRUint64 menu, PRUint64 item, PRUint64 pos, nsI
 /* void menuSub (in PRUint64 item, in PRUint64 sub_menu); */
 NS_IMETHODIMP nsTray::MenuSub(PRUint64 item, PRUint64 sub_menu) {
     DEBUG_CALL("menuSub")
+    
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), GTK_WIDGET(sub_menu));
 
     return NS_OK;
@@ -620,8 +640,9 @@ NS_IMETHODIMP nsTray::MenuSub(PRUint64 item, PRUint64 sub_menu) {
 /* void menuRemove (in PRUint64 menu, in PRUint64 item); */
 NS_IMETHODIMP nsTray::MenuRemove(PRUint64 menu, PRUint64 item) {
     DEBUG_CALL("menuRemove")
+    
     gtk_container_remove(GTK_CONTAINER(menu), GTK_WIDGET(item));
-    this->item_callback_list.erase(item);
+    RemoveMenuItemCallback(item);
 
     return NS_OK;
 }
@@ -629,6 +650,7 @@ NS_IMETHODIMP nsTray::MenuRemove(PRUint64 menu, PRUint64 item) {
 /* void menuRemoveAll (in PRUint64 menu); */
 NS_IMETHODIMP nsTray::MenuRemoveAll(PRUint64 menu) {
     DEBUG_CALL("menuRemoveAll")
+    
     gtk_container_foreach(GTK_CONTAINER(menu), (GtkCallback)(nsTray::menu_remove_all_callback), this);
 
     return NS_OK;
@@ -725,8 +747,8 @@ NS_IMETHODIMP nsTray::SetDefaultXpmIcon(PRUint32 app)
  this->default_icon = gdk_pixbuf_new_from_xpm_data((const char**)df_icon);
  this->special_icon = gdk_pixbuf_new_from_xpm_data((const char**)sp_icon);
 
-/* gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->default_icon));
-
+ gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(this->default_icon));
+/*
  gtk_status_icon_set_tooltip(this->systray_icon, text);
  gtk_status_icon_set_visible(this->systray_icon, TRUE);*/
 
@@ -766,6 +788,7 @@ NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, PRBool *_retval)
     DEBUG_CALL("setDefaultIcon")
 
     *_retval=SetIcon(filename,this->default_icon);
+    gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
     
     return NS_OK;   
 }
@@ -776,6 +799,7 @@ NS_IMETHODIMP nsTray::SetSpecialIcon(const char *filename, PRBool *_retval)
     DEBUG_CALL("setSpecialIcon")
 
     *_retval=SetIcon(filename,this->special_icon);
+    gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(special_icon));
     
     return NS_OK;   
 }
@@ -868,6 +892,15 @@ GdkPixbuf *renderTextWithAlpha(int w, int h, gchar *text, const gchar *colorstr)
   return alpha_buf;
 }
 
+bool hasPrintedChars(gchar *text) {
+  if(!text) return false;
+  while(*text) 
+  {
+    if( !g_unichar_isspace(*text) ) return true;
+    text++;
+  }
+  return false;
+}
 
 GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
 {
@@ -879,13 +912,15 @@ GdkPixbuf *DrawText (GdkPixbuf *base, gchar *text, const gchar *colorstr)
   int w=gdk_pixbuf_get_width(base);  
   int h=gdk_pixbuf_get_height(base); 
   
-  //get the text rendered on a new pixbuf with alpha channel
-  GdkPixbuf *textbuf=renderTextWithAlpha(w, h, text, colorstr); 
+  if(hasPrintedChars(text)) {
+    //get the text rendered on a new pixbuf with alpha channel
+    GdkPixbuf *textbuf=renderTextWithAlpha(w, h, text, colorstr); 
    
-  //merge the rendered text on top
-  gdk_pixbuf_composite (textbuf,dest,0,0,w,h,0,0,1,1,GDK_INTERP_NEAREST,255);
+    //merge the rendered text on top
+    gdk_pixbuf_composite (textbuf,dest,0,0,w,h,0,0,1,1,GDK_INTERP_NEAREST,255);
   
-  g_object_unref(textbuf);
+    g_object_unref(textbuf);
+  }
 
   return dest;
 }
@@ -901,14 +936,14 @@ NS_IMETHODIMP nsTray::SetIconText(const char *text, const char *color)
        GdkPixbuf *edit=DrawText (special_icon, (gchar *)text, color);       
 
        gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(edit));
-       gtk_status_icon_set_visible(this->systray_icon, TRUE);
+//       gtk_status_icon_set_visible(this->systray_icon, TRUE);
        //if(old) delete old;
      }
     else {
       if(default_icon)
       {
        gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(default_icon));
-       gtk_status_icon_set_visible(this->systray_icon, TRUE);
+//       gtk_status_icon_set_visible(this->systray_icon, TRUE);
       }
     }
 
@@ -941,7 +976,7 @@ NS_IMETHODIMP nsTray::SetTrayIcon(PRUint32 FLAG) {
     else
 		gtk_status_icon_set_from_pixbuf(GTK_STATUS_ICON(this->systray_icon), GDK_PIXBUF(special_icon));
 	
-	gtk_status_icon_set_visible(this->systray_icon, TRUE);
+	//gtk_status_icon_set_visible(this->systray_icon, TRUE);
   	return NS_OK;
 }
 
@@ -1428,57 +1463,5 @@ NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval)
 }
 
 
-
-
-/* attribute boolean appStarted; */
-NS_IMETHODIMP nsTray::GetAppStarted(PRBool *aAppStarted) 
-{
-    DEBUG_CALL("getAppStarted")
-   if(aAppStarted)*aAppStarted=appStarted;
-   else DEBUGSTR("ERROR on boolean value")
-
-   if(appStarted)DEBUGSTR("APP_STARTED=TRUE")
-   else DEBUGSTR("APP_STARTED=FALSE")
-
-   return NS_OK;
-}
-
-NS_IMETHODIMP nsTray::SetAppStarted(PRBool aAppStarted) 
-{
-    DEBUG_CALL("setAppStarted")
-
-   if(appStarted)DEBUGSTR("APP_STARTED=TRUE")
-   else DEBUGSTR("APP_STARTED=FALSE")
-
-   appStarted=aAppStarted;
-   return NS_OK;
-}
-
-
-
-
-  /* attribute boolean menuCreated; */
-NS_IMETHODIMP nsTray::GetMenuCreated(PRBool *aMenuCreated) 
-{
-    DEBUG_CALL("getMenuCreated")
-
-  if(aMenuCreated)*aMenuCreated=menuCreated;
-   else DEBUGSTR("ERROR on boolean value")
-
-   if(menuCreated)DEBUGSTR("MENU_CREATED=TRUE")
-   else DEBUGSTR("MENU_CREATED=FALSE")
-  return NS_OK;
-}
-
-NS_IMETHODIMP nsTray::SetMenuCreated(PRBool aMenuCreated) 
-{
-   DEBUG_CALL("setMenuCreated")
-
-   menuCreated=aMenuCreated;
-
-   if(menuCreated)DEBUGSTR("MENU_CREATED=TRUE")
-   else DEBUGSTR("MENU_CREATED=FALSE")
-   return NS_OK;
-}
 
 

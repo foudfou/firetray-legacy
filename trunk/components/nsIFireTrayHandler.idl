@@ -1,0 +1,12 @@
+#include "nsISupports.idl"
+
+interface nsIDOMWindow;
+                  
+[scriptable, uuid(f2f05844-d398-11df-9885-7d29dfd72085)]
+interface nsIFireTrayHandler : nsISupports
+{
+    void hideAll();
+    void hideWindow(in nsIDOMWindow window);
+    void setupWindow(in nsIDOMWindow window);
+};  
+
