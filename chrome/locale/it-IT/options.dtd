@@ -14,6 +14,22 @@
 <!ENTITY firetray.use_default_icon_accesskey "i">
 <!ENTITY firetray.use_user_icon "Utilizza icona personalizzata">
 <!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.notification_settings "Mail nofication icon settings">
+<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
+<!ENTITY firetray.notification_only_hidden_accesskey "w">
+<!ENTITY firetray.notification_enabled "Enable mail notification icon">
+<!ENTITY firetray.notification_enabled_accesskey "E">
+<!ENTITY firetray.show_only_hidden "Mostra solo quando nascosto nell&apos;area di notifica">
+<!ENTITY firetray.show_only_hidden_accesskey "o">
+<!ENTITY firetray.message_count_settings "Message number counting">
+<!ENTITY firetray.count_unread_mail "Count unread messages">
+<!ENTITY firetray.count_unread_mail_accesskey "U">
+<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Show mail number">
+<!ENTITY firetray.show_mail_count_accesskey "n">
 <!ENTITY firetray.show_unread_number "Mostra il numero di messaggi da leggere">
 <!ENTITY firetray.show_unread_number_accesskey "M">
 <!ENTITY firetray.behaviour_group "Comportamento delle finestre">
@@ -22,9 +38,6 @@
 <!ENTITY firetray.choose_accesskey "S">
 <!ENTITY firetray.choose_accesskey2 "e">
 <!ENTITY firetray.msg_font_color "Colore del numero di messaggi da leggere">
-<!ENTITY firetray.newmail_settings "Impostazioni icona nuovi messaggi">
-<!ENTITY firetray.show_only_hidden "Mostra solo quando nascosto nell&apos;area di notifica">
-<!ENTITY firetray.show_only_hidden_accesskey "o">
 <!ENTITY firetray.general_options "Generali">
 <!ENTITY firetray.input_options "Tasti e mouse">
 <!ENTITY firetray.mail_options "Posta elettronica">
@@ -48,4 +61,4 @@
 <!ENTITY firetray.dont_consider_spam "Non considerare i nuovi messaggi per le seguenti cartelle:">
 <!ENTITY firetray.dont_consider_spam_accesskey "c">
 <!ENTITY firetray.dont_consider_spam_indications "Separare i nomi delle cartelle utilizzando il punto e virgola (;)">
-<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude" >
+<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">

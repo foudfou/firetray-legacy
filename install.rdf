@@ -5,9 +5,10 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>{9533f794-00b4-4354-aa15-c2bbda6989f8}</em:id>
-    <em:version>0.2.10-dev</em:version>
+    <em:version>0.3.0-dev</em:version>
     <em:type>2</em:type>
-   
+    <em:unpack>true</em:unpack> 
+      
     <!-- Target Application this extension can install into, 
          with minimum and maximum supported versions. --> 
     <em:targetApplication>
@@ -15,7 +16,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>3.0</em:minVersion>
-	<em:maxVersion>4.0.*</em:maxVersion>
+        <em:maxVersion>4.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 
@@ -50,7 +51,7 @@
       <!-- Sunbird -->
       <Description>
 	      <em:id>{718e30fb-e89b-41dd-9da7-e25a45638b28}</em:id> 
-	<em:minVersion>0.5</em:minVersion>
+	<em:minVersion>1.0b1</em:minVersion>
 	<em:maxVersion>1.0pre</em:maxVersion>
       </Description>
     </em:targetApplication>
