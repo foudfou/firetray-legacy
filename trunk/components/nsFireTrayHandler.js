@@ -46,6 +46,13 @@ function FireTrayHandler() {
    FireTrayHandler.isCalendar=false; 
    FireTrayHandler.lastnum=-1;
 
+   FireTrayHandler.excludeSpam = false;
+   FireTrayHandler.excludeDraft = false;
+   FireTrayHandler.excludeArchive = false;
+   FireTrayHandler.excludeSent = false;
+   FireTrayHandler.excludeTemplates = false;
+   FireTrayHandler.somethingExcluded = false;
+   
    FireTrayHandler.pPS=null;
    FireTrayHandler.minimized=false;
 
@@ -157,11 +164,11 @@ FireTrayHandler.load_strings = function() {
    this.string_unread_messages_alternative_plural=this.getStringFromName("firetray_unread_messages_alternative_plural");
    this.string_new_messages_alternative_plural=this.getStringFromName("firetray_new_messages_alternative_plural");
    this.string_junk_messages_alternative_plural=this.getStringFromName("firetray_junk_messages_alternative_plural");
-   try {
+//   try {
 //     this.alternative_plural_starts_at=parseInt(this.getStringFromName("firetray_alternative_plural_starts_at"));
-   } catch(e) {
+//   } catch(e) {
      this.alternative_plural_starts_at=-1;     
-   }
+//   }
 }
 
 
@@ -228,8 +235,17 @@ FireTrayHandler.prefObserver =
 }
 
 FireTrayHandler.updatePreferences=function(){
+       
+    FireTrayHandler.excludeSpam=FireTrayHandler.getBoolPref("extensions.firetray.dont_count_spam",true);
     
-    FireTrayHandler.dontCountSpam=FireTrayHandler.getBoolPref("extensions.firetray.dont_count_spam",true);
+    FireTrayHandler.excludeDraft=FireTrayHandler.getBoolPref("extensions.firetray.dont_count_drafts",true);
+    FireTrayHandler.excludeArchive=FireTrayHandler.getBoolPref("extensions.firetray.dont_count_archive",true);
+    FireTrayHandler.excludeSent=FireTrayHandler.getBoolPref("extensions.firetray.dont_count_sent",true);
+    FireTrayHandler.excludeTemplates=FireTrayHandler.getBoolPref("extensions.firetray.dont_count_templates",true);
+    
+    FireTrayHandler.somethingExcluded=FireTrayHandler.excludeSpam||FireTrayHandler.excludeDraft||FireTrayHandler.excludeArchive || FireTrayHandler.excludeSent || FireTrayHandler.excludeTemplates;
+
+    
     FireTrayHandler.textColor=FireTrayHandler.getCharPref("extensions.firetray.text_color","#000000");
 
     FireTrayHandler.normalIconOnlyMinimized=FireTrayHandler.getBoolPref("extensions.firetray.show_icon_only_minimized",false); ;    
@@ -255,8 +271,7 @@ FireTrayHandler.updatePreferences=function(){
              break;
     }
              
-    FireTrayHandler.showMailCount=FireTrayHandler.getBoolPref("extensions.firetray.show_mail_count",true); ;;
-    
+    FireTrayHandler.showMailCount=FireTrayHandler.getBoolPref("extensions.firetray.show_mail_count",true); 
 
     //set windows close and minimize command blocking 
     FireTrayHandler.interface.setCloseBlocking(FireTrayHandler.getBoolPref("extensions.firetray.close_to_tray"),true);    
@@ -528,7 +543,6 @@ FireTrayHandler.closeEventHandler = function() {
 
 FireTrayHandler.resizeEventHandler = function(window) {
   var basewindow = FireTrayHandler.getBaseWindow(window);
-  mydump("WIN: "+basewindow.title+" RESIZE EVENT HANDLER - APP STARTED:"+FireTrayHandler.appStarted+"\n\n");
   
   if(!FireTrayHandler.appStarted)
      FireTrayHandler.minimizeAtStartup();     
@@ -559,7 +573,6 @@ FireTrayHandler.startupObserver =
 
   observe: function(aSubject, aTopic, aData)
   {
-    mydump("<<<<<<<<<<OBSERVE!!!!!!>>>>>>>>"+aSubject+" - "+aTopic);
     FireTrayHandler.minimizeAtStartup();
     FireTrayHandler.appStarted=true;
   }
@@ -728,24 +741,71 @@ FireTrayHandler.restoreFromTray = function() {
 
 // -- MAIL FEATURES ------------------------------------------------
 
-FireTrayHandler.getSpamFolder = function(spamFolderURI, folders) {
+FireTrayHandler.getFolderWithURI = function(folderURI,folders) {
   for(var i=0; i<folders.length; i++)
   {
-     var spamfolder=folders[i].getChildWithURI(spamFolderURI, true, false);
-     if(spamfolder!=null) return spamfolder;          
+    var folder=null;
+    try{
+      var f=folders[i];
+      folder=f.getChildWithURI(folderURI, true, false);
+    } catch(e) {}
+    if(folder!=null) return folder;               
   }
+  return null;
+}
+
+FireTrayHandler.getFoldersMessageCount = function(folderURIs,folders) {
+  
+  var res=new Object();
+  
+  res.new_msgs = 0;
+  res.unread_msgs = 0;
+    
+  try
+  {
+   for(var i=0; i<folderURIs.length; i++) //get spam mail count
+   {
+    var folder=FireTrayHandler.getFolderWithURI(folderURIs[i],folders);   
+    if(folder!=null) 
+    {
+      var unr=0;
+      try
+      {
+        unr = folder.getNumUnread(true);   
+        res.unread_msgs += unr;
+        res.new_msgs += folder.getNumNewMessages(true);
+      } catch(e){}
+    }
+   }
+  } catch(e) {}
+  
+  return res;
+}
+
+FireTrayHandler.addIfNotPresent = function(arr,str) {
+  var pos=-2;
+  try
+  {
+    if(typeof(str)==='undefined' || str==null) return;
+    pos=arr.indexOf(str);
+    if(arr.indexOf(str)<0) { arr.push(str);}
+  }
+  catch(e) {}
 }
 
 FireTrayHandler.updateMailCount = function() {
-    mydump("UPDATEMAILCOUNT-----");
+
     var folders = [];
     var spamFolderURIs = [];
+    var excludedFolderURIs = [];
     var allServers = FireTrayHandler.accountManager.allServers;
 
-    var num_unread_msgs = 0;
+    var num_unread_msgs = 0; //all messages from selected accounts
     var num_new_msgs = 0;
-    var num_unread_spam_msgs = 0;
+    var num_unread_spam_msgs = 0; //spam folders
     var num_new_spam_msgs = 0;
+    var num_unread_excluded = 0; // other excluded folders
+    var num_new_excluded = 0;
     
      // Get accounts id to check in preferences
     var pref_excluded_accounts = FireTrayHandler.prefManager.getCharPref('extensions.firetray.accounts_to_exclude');
@@ -753,46 +813,74 @@ FireTrayHandler.updateMailCount = function() {
     accounts_to_exclude = pref_excluded_accounts.split(' ');
   
     var msg="";
+
+    
+    try
+    {
+    var allaccounts= FireTrayHandler.accountManager.accounts;
+    for(var i=0; i< allaccounts.Count(); i++) {
+       var account=allaccounts.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgAccount);
+
+       var identities=account.identities;
+       for(var k=0; k< identities.Count(); k++) {
+         var identity=identities.GetElementAt(k).QueryInterface(Components.interfaces.nsIMsgIdentity);
+         
+         if(FireTrayHandler.excludeDraft) FireTrayHandler.addIfNotPresent(excludedFolderURIs,identity.draftFolder);
+         if(FireTrayHandler.excludeArchive) FireTrayHandler.addIfNotPresent(excludedFolderURIs,identity.archiveFolder);
+         if(FireTrayHandler.excludeSent) FireTrayHandler.addIfNotPresent(excludedFolderURIs,identity.fccFolder);
+         if(FireTrayHandler.excludeTemplates) FireTrayHandler.addIfNotPresent(excludedFolderURIs,identity.stationeryFolder);
+       }
+    }
+    }
+    catch(e) { 
+    }
     
     for(var i=0; i< allServers.Count(); i++)    
     {
         var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);
         var id=String(server.key);
-      mydump("SERVER "+i+" ID: "+id);
         
         if(accounts_to_exclude.indexOf(id)>=0) continue;
-      mydump(" NOT EXCLUDED");
         
         var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);           
         var spamsettings = server.spamSettings.QueryInterface(Components.interfaces.nsISpamSettings);                
         var spamFolderURI=spamsettings.spamFolderURI;
 
-        if(spamFolderURI!=null && spamFolderURIs.indexOf(spamFolderURI)<0 )
-        { spamFolderURIs.push(spamFolderURI); }
-
+        FireTrayHandler.addIfNotPresent(spamFolderURIs,spamFolderURI);
+        if(FireTrayHandler.excludeSpam) FireTrayHandler.addIfNotPresent(excludedFolderURIs,spamFolderURI);
+        
         if(folders.indexOf(folder)<0) //avoid considering folders multiple times
         {
           folders.push(folder);
           num_unread_msgs += folder.getNumUnread(true);
           num_new_msgs += folder.getNumNewMessages(true);
         }
-      mydump("temp_n_msgs: unread="+num_unread_msgs+" new="+num_new_msgs);
-    }
-
-    for(var i=0; i<spamFolderURIs.length; i++) //get spam mail count
-    {
-      var spamfolder=FireTrayHandler.getSpamFolder(spamFolderURIs[i], folders);   
-      if(spamfolder!=null) 
-      {
-        num_unread_spam_msgs +=spamfolder.getNumUnread(true);   
-        num_new_spam_msgs += spamfolder.getNumNewMessages(true);
-      }
+       
     }
     
+    //spam number is only used for tooltip text 
+    FireTrayHandler.numUnreadSpam  = 0;
+    FireTrayHandler.numNewSpam = 0
+    
+    var spam_cnt=FireTrayHandler.getFoldersMessageCount(spamFolderURIs,folders);
+    if(spam_cnt!=null) {
+       FireTrayHandler.numUnreadSpam = spam_cnt.unread_msgs;
+       FireTrayHandler.numNewSpam = spam_cnt.new_msgs;      
+    }
+//    mydump("spam: unread="+FireTrayHandler.numUnreadSpam+" new="+FireTrayHandler.numNewSpam);
+
+    //the number of all excluded mail will be used to calculate the message count
+    FireTrayHandler.numUnreadExcluded  = 0;
+    FireTrayHandler.numNewExcluded = 0;
+    var excl_cnt=FireTrayHandler.getFoldersMessageCount(excludedFolderURIs,folders);
+    if(excl_cnt!=null) {
+       FireTrayHandler.numUnreadExcluded  = excl_cnt.unread_msgs;
+       FireTrayHandler.numNewExcluded = excl_cnt.new_msgs;
+    }    
+//    mydump("excl: unread="+FireTrayHandler.numUnreadExcluded+" new="+FireTrayHandler.numNewExcluded);
+
     FireTrayHandler.numUnreadMail = num_unread_msgs;
     FireTrayHandler.numNewMail = num_new_msgs; 
-    FireTrayHandler.numUnreadSpam = num_unread_spam_msgs;
-    FireTrayHandler.numNewSpam = num_new_spam_msgs; 
 }
 
 
@@ -800,12 +888,9 @@ FireTrayHandler.updateMailTray = function (force_update) {
   if(force_update) FireTrayHandler.lastnum=-1; //force updating icon
 
   var minimized = FireTrayHandler.isHidden()
-
-  mydump("UPDATE_MAIL_TRAY: mailIconDisabled:"+FireTrayHandler.mailIconDisabled + " minimized:"+minimized);       
   
   if(FireTrayHandler.mailIconDisabled || (FireTrayHandler.mailIconOnlyMinimized && !minimized))
   {
-     mydump("SHOW STANDARD ICON mailIconDisabled:"+FireTrayHandler.mailIconDisabled + " minimized:"+minimized);
      FireTrayHandler.interface.setIconText("", FireTrayHandler.textColor);
      FireTrayHandler.SetDefaultTextTooltip();
      FireTrayHandler.lastnum=-1
@@ -822,36 +907,40 @@ FireTrayHandler.updateMailTray = function (force_update) {
   var string_alternate_plural;
 
   if(FireTrayHandler.mailCountType==0) {
-    mydump("SHOWING NEW MAIL");
     res=FireTrayHandler.numNewMail;
     spam=FireTrayHandler.numNewSpam;
+    excluded=FireTrayHandler.numNewExcluded;
+
     string_no_messages=FireTrayHandler.string_no_new_messages;
     string_one_message=FireTrayHandler.string_new_message;    
     string_many_messages=FireTrayHandler.string_new_messages;    
     string_alternate_plural=FireTrayHandler.string_firetray_new_messages_alternative_plural;
   }
   else {
-    mydump("SHOWING UNREAD MAIL");
     res=FireTrayHandler.numUnreadMail;
     spam=FireTrayHandler.numUnreadSpam;
+    excluded=FireTrayHandler.numUnreadExcluded;
+    
     string_no_messages=FireTrayHandler.string_no_unread_messages;
     string_one_message=FireTrayHandler.string_unread_message;
     string_many_messages=FireTrayHandler.string_unread_messages;
     string_alternate_plural=FireTrayHandler.string_firetray_unread_messages_alternative_plural;
   }
-  
-  mydump("MAIL COUNT RES="+res);
-    
+     
   var spam_tooltip="";
  
-  if(FireTrayHandler.dontCountSpam && FireTrayHandler.numUnreadSpam>0)  {
-     res-=spam;
-     if(res<0) res=0;
+  if(FireTrayHandler.excludeSpam && spam>0)  {
+  //   res-=spam;    already counted in exclude count
+  //   if(res<0) res=0;
      if(spam>1) spam_tooltip=" ("+spam+" "+FireTrayHandler.string_junk_messages+ ")"; 
      else spam_tooltip=" ("+spam+" "+FireTrayHandler.string_junk_message+ ")"; 
   }
-
-  mydump("LASTNUM:"+FireTrayHandler.lastnum);
+  
+  if(FireTrayHandler.somethingExcluded && excluded>0) {
+     res-=excluded;
+     if(res<0) res=0;
+     //TO DO add tooltip info... 
+  }
 
   if(FireTrayHandler.lastnum==res) return; //update the icon only if something has changed
   FireTrayHandler.lastnum=res;
@@ -906,7 +995,10 @@ FireTrayHandler.mailSetup = function() {
    FireTrayHandler.accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
    try
    {
-        FireTrayHandler.localfolders = FireTrayHandler.accountManager.localFoldersServer.rootFolder;
+//        FireTrayHandler.localfolders = FireTrayHandler.accountManager.localFoldersServer.QueryInterface(Components.interfaces.nsIMsgIncomingServer);
+/*        mydump("MAIL SETUP: "+FireTrayHandler.localfolders.
+        rootFolder;*/
+        
    }
    catch(error) {}
    

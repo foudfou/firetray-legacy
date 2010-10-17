@@ -3,6 +3,8 @@
        Added option to select between "unread" and "new" messages notification (Issue 120)
        Added option to hide tray icon when not minimized (Issue 92)
        Added option to disable showing mail count into messages notification icon
+       Dynamic creation of install.rdf 
+       Exclude mails from special folders (Archive, Sent, Templates, Drafts) from message count
 
 0.2.10 Merged "support for chatzilla" from Issue 135 
        "Select which servers to exclude" feature from Issue 105 
