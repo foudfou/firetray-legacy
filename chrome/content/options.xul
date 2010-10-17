@@ -46,7 +46,7 @@
         <groupbox>
           <caption label="&firetray.behaviour_group;" />
               <checkbox id="check1" preference="close_to_tray" label="&firetray.close_to_tray;" accesskey="&firetray.close_to_tray_accesskey;" />
-              <checkbox id="check2" preference="minimize_to_tray" label="Hide to tray on window Minimize" accesskey="W" />
+              <checkbox id="check2" preference="minimize_to_tray" label="&firetray.minimize_to_tray;" accesskey="&firetray.minimize_to_tray_accesskey;" />
               <checkbox id="check3" preference="start_minimized" label="&firetray.start_min;" accesskey="&firetray.start_min_accesskey;" />
               <checkbox id="check4" preference="confirm_exit" label="&firetray.confirm_exit;" accesskey="&firetray.confirm_exit_accesskey;" />
         </groupbox>
@@ -157,10 +157,10 @@
                 <caption label="Exclude following special folders from message count"/>                
                 <hbox id="exclude_folders_hbox">
                  <checkbox id="spam_checkbox" label="Spam" accesskey="S" preference="dont_count_spam" />
-                 <checkbox label="Archive" accesskey="A" /> <!--preference="dont_count_archive" /> -->
-                   <checkbox label="Drafts" accesskey="D" /> <!-- preference="dont_count_drafts" /> -->
-                     <checkbox label="Sent" accesskey="S" /> <!--preference="dont_count_sent" />  -->
-                       <checkbox label="Templates" accesskey="S" /> <!-- preference="dont_count_templates" /> -->
+                 <checkbox label="Archive" accesskey="A" preference="dont_count_archive" /> 
+                   <checkbox label="Drafts" accesskey="D" preference="dont_count_drafts" /> 
+                     <checkbox label="Sent" accesskey="S" preference="dont_count_sent" />  
+                       <checkbox label="Templates" accesskey="S" preference="dont_count_templates" /> 
                 </hbox>            
                </groupbox>
 

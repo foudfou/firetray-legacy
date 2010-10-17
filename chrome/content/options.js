@@ -121,8 +121,7 @@ function Firetray_config_enabled_controls()
 
   btn_choose_color.disabled = disable_notification;
   
-  DisableGroup(group_exclude_folders,true);//disable_notification);
-  spam_checkbox.disabled = disable_notification;
+  DisableGroup(group_exclude_folders,disable_notification);
   DisableGroup(group_exclude_accounts,disable_notification);
   
   //SPECIAL ICON SETTINGS

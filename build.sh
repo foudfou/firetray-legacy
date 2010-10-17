@@ -1,8 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 FIRETRAY_ID="{9533f794-00b4-4354-aa15-c2bbda6989f8}"
 
-#VERSION=`cat install.rdf | grep em:version | sed '*<em:version'`
 
 prepare_options_header_file()
 {
@@ -69,6 +68,9 @@ show_options()
   echo " "   
   echo "options:"
   echo " "   
+  echo "    --official-amo-release    set version number for official AMO release"
+  echo "    --release-name=suffix     set version number for other non testing release"
+  echo ""
   echo "    --gecko-sdk=folder        Manually specify gecko-sdk path "
   echo "    --output-dir=folder       Install extension files to the selected folder "
   echo "    --dynamic-linking         Do not use static linking of libraries "
@@ -92,6 +94,15 @@ do
     paramval=`echo $param | sed 's/[-a-zA-Z0-9]*=//'`
     
     case $param in
+
+        --official-amo-release)
+          export OFFICIAL_AMO_RELEASE="yes"
+          ;;
+
+        --release-name=*)
+          export OTHER_DISTRIBUTION_NAME="$paramval"
+          ;;
+
         --output-dir=*)
           OUTPUT_FOLDER="$paramval"
           ;;
@@ -159,6 +170,8 @@ do
     esac
 done
 
+rm -f -r dist
+
 if [ -z "$GECKO_SDK" ] 
 then
    #echo sdk_not_set
@@ -167,7 +180,14 @@ fi
 
 export LIB_ARCH=_`uname -m`
 
+
+
+
+rm install.rdf
+source ./generate_install_rdf.sh > install.rdf
+
 FILE=firetray.xpi
+DESTFILE=firetray-$EXTENSION_VERSION.xpi
 
 prepare_options_header_file
 
@@ -175,7 +195,7 @@ echo
 echo $SEP
 echo
 
-rm $FILE
+rm $FILE 2> /dev/null
 scons $FILE
 if [ -e $FILE ] 
 then
@@ -201,8 +221,13 @@ then
         exit 1
      fi
   fi
+
+  echo Extension packaged as: $DESTFILE
+  mv $FILE $DESTFILE
+  
   
 else 
   echo error compiling $FILE
   exit 1
 fi
+
