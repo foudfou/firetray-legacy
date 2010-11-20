@@ -40,6 +40,7 @@ function FireTrayHandler() {
   
    FireTrayHandler.menuCreated = false;
    FireTrayHandler.appStarted = false;
+   FireTrayHandler.countReset = false;
    
    FireTrayHandler.isMail=false;
    FireTrayHandler.isSong=false;
@@ -852,6 +853,10 @@ FireTrayHandler.updateMailCount = function() {
         if(folders.indexOf(folder)<0) //avoid considering folders multiple times
         {
           folders.push(folder);
+          //folder.updateSummaryTotals(false); USING THIS FUNCTION CAUSES THE NEW MAIL COUNT TO
+          //BE ALWAYS 0. NOT USING THIS THE COUNTER GETS AN APPARENTLY RANDOM NUMBER OF NEW MAILS
+          //MAYBE WE SHOULD CALL THIS FUNCTION ONLY ONCE AT APP START.
+
           num_unread_msgs += folder.getNumUnread(true);
           num_new_msgs += folder.getNumNewMessages(true);
         }
@@ -883,6 +888,22 @@ FireTrayHandler.updateMailCount = function() {
     FireTrayHandler.numNewMail = num_new_msgs; 
 }
 
+
+FireTrayHandler.resetFoldersMailCount = function() {
+    if(FireTrayHandler.countReset) return;     
+    FireTrayHandler.countReset = true;
+
+    var accountManager = Components.classes["@mozilla.org/messenger/account-manager;1"].getService(Components.interfaces.nsIMsgAccountManager);
+
+    var allServers = accountManager.allServers;
+   
+    for(var i=0; i< allServers.Count(); i++)    
+    {
+        var server = allServers.GetElementAt(i).QueryInterface(Components.interfaces.nsIMsgIncomingServer);        
+        var folder = server.rootMsgFolder.QueryInterface(Components.interfaces.nsIMsgFolder);           
+        folder.updateSummaryTotals(true);        
+    }
+}
 
 FireTrayHandler.updateMailTray = function (force_update) {
   if(force_update) FireTrayHandler.lastnum=-1; //force updating icon
@@ -1294,6 +1315,8 @@ FireTrayHandler.setWindow = function(window) {
         var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer); 
         timer.initWithCallback( FireTrayHandler.timerEvent, FIRETRAY_WAIT_BROWSER_STARTUP_DELAY * 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
       }
+
+    if(FireTrayHandler.isMail) FireTrayHandler.resetFoldersMailCount();
  
     FireTrayHandler.updateMenuLabels();       
 }
