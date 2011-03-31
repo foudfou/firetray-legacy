@@ -3,5 +3,4 @@
  
  This program is free software. You can redistribute it and/or modify it under the terms of 
  the GNU General Public License version 2 as published by the Free Software Foundation 
- with the exception of the firetray logo which is released under 
- Creative Commons Attribution-Share Alike 2.5 license.
+ including the firetray logo.
