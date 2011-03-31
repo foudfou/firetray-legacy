@@ -76,7 +76,10 @@ show_options()
   echo "    --dynamic-linking         Do not use static linking of libraries "
   echo " "   
   echo "    --no-restore-positions    Disable saving window postion"  
-  echo " "   
+  echo " "  
+  echo "    --gecko19-compat          Enable Gecko 1.9.x compatability when building"
+  echo "                              with Gecko 2.0"
+  echo " "    
   echo "    --no-error-messages       Disable error messages"
   echo "    --enable-debug            Enable general debug messages"
   echo "    --debug-filters           Enable event filters debugging"
@@ -125,6 +128,10 @@ do
 
         --gecko-sdk-lib=*)
           export GECKO_SDK_LIB="$paramval"
+          ;;
+
+        --gecko19-compat)
+          export GECKO_19_COMPAT="on"
           ;;
 
         --dynamic-linking)
