@@ -14,6 +14,8 @@
 <!ENTITY firetray.use_default_icon_accesskey "p">
 <!ENTITY firetray.use_user_icon "Použiť vlastnú ikonu">
 <!ENTITY firetray.use_user_icon_accesskey "v">
+<!ENTITY firetray.minimize_to_tray "Hide to tray on window minimize">
+<!ENTITY firetray.minimize_to_tray_accesskey "w">
 <!ENTITY firetray.notification_settings "Mail nofication icon settings">
 <!ENTITY firetray.notification_disabled "Disabled">
 <!ENTITY firetray.notification_disabled_accesskey "D">

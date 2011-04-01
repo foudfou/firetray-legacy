@@ -14,6 +14,24 @@
 <!ENTITY firetray.use_default_icon_accesskey "t">
 <!ENTITY firetray.use_user_icon "Utiliser une icône personnalisée">
 <!ENTITY firetray.use_user_icon_accesskey "U">
+<!ENTITY firetray.minimize_to_tray "Placer dans la zone de notification lors de la réduction de fenêtre">
+<!ENTITY firetray.minimize_to_tray_accesskey "f">
+<!ENTITY firetray.notification_settings "Paramètres de l'icône de notification de courriel">
+<!ENTITY firetray.notification_disabled "Désactivée">
+<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_only_hidden "Ne notifier que si masqué dans la zone de notification">
+<!ENTITY firetray.notification_only_hidden_accesskey "z">
+<!ENTITY firetray.notification_enabled "Activer l'icône de notification de courriel">
+<!ENTITY firetray.notification_enabled_accesskey "A">
+<!ENTITY firetray.show_only_hidden "N'afficher que si masqué dans la zone de notification">
+<!ENTITY firetray.show_only_hidden_accesskey "f">
+<!ENTITY firetray.message_count_settings "Comptage des messages">
+<!ENTITY firetray.count_unread_mail "Nombre de messages non-lus">
+<!ENTITY firetray.count_unread_mail_accesskey "n">
+<!ENTITY firetray.count_new_mail "Nombre de nouveaux messages">
+<!ENTITY firetray.count_new_mail_accesskey "v">
+<!ENTITY firetray.show_mail_count "Afficher le nombre de messages">
+<!ENTITY firetray.show_mail_count_accesskey "n">
 <!ENTITY firetray.show_unread_number "Afficher le nombre de messages non lus">
 <!ENTITY firetray.show_unread_number_accesskey "A">
 <!ENTITY firetray.behaviour_group "Options du comportement des fenêtres">
@@ -22,18 +40,15 @@
 <!ENTITY firetray.choose_accesskey "C">
 <!ENTITY firetray.choose_accesskey2 "s">
 <!ENTITY firetray.msg_font_color "Couleur du nombre de messages non lus">
-<!ENTITY firetray.newmail_settings "Paramètres de l'icône pour nouveau message">
-<!ENTITY firetray.show_only_hidden "N'afficher que si masqué dans la zone de notification">
-<!ENTITY firetray.show_only_hidden_accesskey "f">
 <!ENTITY firetray.general_options "Paramètres généraux">
 <!ENTITY firetray.input_options "Paramètres d'entrées">
-<!ENTITY firetray.mail_options "Paramètres de courriel">
+<!ENTITY firetray.mail_options "Paramètres courriel">
 <!ENTITY firetray.mouse_wheel_options "Options de la roulette de souris">
 <!ENTITY firetray.enable_mouse_scroll "Contrôler l'icône de la zone de notification avec la roulette de la souris">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "C">
-<!ENTITY firetray.up "vers le haut">
-<!ENTITY firetray.down "vers le bas">
-<!ENTITY firetray.hide "cacher">
+<!ENTITY firetray.up "MONTER">
+<!ENTITY firetray.down "DESCENDRE">
+<!ENTITY firetray.hide "masquer">
 <!ENTITY firetray.restore "rétablir">
 <!ENTITY firetray.volume "volume">
 <!ENTITY firetray.next_track "piste suivante">
@@ -42,9 +57,10 @@
 <!ENTITY firetray.grab_multimedia_keys "Rechercher les touches multimédias">
 <!ENTITY firetray.grab_multimedia_keys_accesskey "R">
 <!ENTITY firetray.restart_to_apply "redémarrer pour appliquer">
-<!ENTITY firetray.key_code "Code de la touche">
+<!ENTITY firetray.key_code "code de la touche">
 <!ENTITY firetray.dont_consider_spam_folders "Ne pas prendre en compte les messages indésirables">
 <!ENTITY firetray.dont_consider_spam_folders_accesskey "N">
 <!ENTITY firetray.dont_consider_spam "Ne pas prendre en compte les nouveaux messages des dossiers suivants :">
 <!ENTITY firetray.dont_consider_spam_accesskey "m">
 <!ENTITY firetray.dont_consider_spam_indications "Indiquer le nom des dossiers en les séparant d'un point-virgule">
+<!ENTITY firetray.mail_accounts_exclude "Comptes courriels à exclure">

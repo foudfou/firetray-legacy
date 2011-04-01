@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "Inställningar för FireTray">
+<!ENTITY firetray.prefpane_options "Inställningar">
+<!ENTITY firetray.close_to_tray "Stäng fönster-knappen minimerar till systemfältet">
+<!ENTITY firetray.close_to_tray_accesskey "ö">
+<!ENTITY firetray.start_min "Starta programmet i minimerat läge">
+<!ENTITY firetray.start_min_accesskey "S">
+<!ENTITY firetray.confirm_exit "Bekräfta programavslut">
+<!ENTITY firetray.confirm_exit_accesskey "B">
+<!ENTITY firetray.show_next_unread "Vid återställning, visa nästa olästa meddelande">
+<!ENTITY firetray.show_next_unread_accesskey "n">
+<!ENTITY firetray.use_app_icon "Använd programmets ikon">
+<!ENTITY firetray.use_app_icon_accesskey "A">
+<!ENTITY firetray.use_default_icon "Använd standardikonen">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "Användardefinierad ikon">
+<!ENTITY firetray.use_user_icon_accesskey "v">
+<!ENTITY firetray.minimize_to_tray "Dölj till systemfältet när fönstret minimeras">
+<!ENTITY firetray.minimize_to_tray_accesskey "M">
+<!ENTITY firetray.notification_settings "E-postaviseringsikon">
+<!ENTITY firetray.notification_disabled "Inaktiverat">
+<!ENTITY firetray.notification_disabled_accesskey "I">
+<!ENTITY firetray.notification_only_hidden "Meddela endast om dold i systemfältet">
+<!ENTITY firetray.notification_only_hidden_accesskey "d">
+<!ENTITY firetray.notification_enabled "Aktivera e-postaviseringsikon">
+<!ENTITY firetray.notification_enabled_accesskey "e">
+<!ENTITY firetray.show_only_hidden "Visa endast om dold i systemfältet">
+<!ENTITY firetray.show_only_hidden_accesskey "e">
+<!ENTITY firetray.message_count_settings "Visning av antal meddelanden">
+<!ENTITY firetray.count_unread_mail "Visa antal olästa meddelanden">
+<!ENTITY firetray.count_unread_mail_accesskey "o">
+<!ENTITY firetray.count_new_mail "Visa antal nya meddelanden">
+<!ENTITY firetray.count_new_mail_accesskey "n">
+<!ENTITY firetray.show_mail_count "Visa antal meddelanden">
+<!ENTITY firetray.show_mail_count_accesskey "m">
+<!ENTITY firetray.show_unread_number "Visa antal olästa meddelanden">
+<!ENTITY firetray.show_unread_number_accesskey "n">
+<!ENTITY firetray.behaviour_group "Fönsterbeteende">
+<!ENTITY firetray.tray_icon_group "Ikoner">
+<!ENTITY firetray.choose "Välj">
+<!ENTITY firetray.choose_accesskey "ä">
+<!ENTITY firetray.choose_accesskey2 "j">
+<!ENTITY firetray.msg_font_color "Färg för antalet olästa meddelanden">
+<!ENTITY firetray.general_options "Allmänt">
+<!ENTITY firetray.input_options "Indata">
+<!ENTITY firetray.mail_options "E-post">
+<!ENTITY firetray.mouse_wheel_options "Mushjul">
+<!ENTITY firetray.enable_mouse_scroll "Aktivera musrullning på systemfältsikonen">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
+<!ENTITY firetray.up "Upp">
+<!ENTITY firetray.down "Ner">
+<!ENTITY firetray.hide "dölj">
+<!ENTITY firetray.restore "återställ">
+<!ENTITY firetray.volume "volym">
+<!ENTITY firetray.next_track "nästa spår">
+<!ENTITY firetray.prev_track "föregående spår">
+<!ENTITY firetray.multimedia_keys "Multimediatangenter">
+<!ENTITY firetray.grab_multimedia_keys "Fånga multimediatangenter">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "F">
+<!ENTITY firetray.restart_to_apply "starta om för att verkställa">
+<!ENTITY firetray.key_code "tangentkod">
+<!ENTITY firetray.dont_consider_spam_folders "Utelämna skräpmeddelanden">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "s">
+<!ENTITY firetray.dont_consider_spam "Utelämna nya meddelanden i följande mappar:">
+<!ENTITY firetray.dont_consider_spam_accesskey "U">
+<!ENTITY firetray.dont_consider_spam_indications "Ange mappnamn avgränsade med ett semikolon (;)">
+<!ENTITY firetray.mail_accounts_exclude "E-postkonton som skall utelämnas">
