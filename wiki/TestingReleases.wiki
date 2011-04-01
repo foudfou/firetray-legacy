@@ -1,0 +1,4 @@
+#summary Latest testing releases
+
+Latest testing release:
+[firetray-0.3.0-svn-r117]
