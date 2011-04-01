@@ -63,6 +63,15 @@ prepare_options_header_file()
   echo "#endif"  >> $DEST
 }
 
+prepare_source()
+{
+  rm source.zip
+  for f in `find | grep -v "\.svn" | grep -v "~" | grep -v "\.xpi"`
+  do
+    zip source.zip $f
+  done
+}
+
 show_options()
 {
   echo " "   
@@ -86,6 +95,7 @@ show_options()
   echo "    --debug-calls             Enable function calls debugging"
   echo "    --debug-all               Enable all debugging messages"
   echo " "   
+  echo "    --source-package          Create a zip file containing the source code"
   exit
 }
 #SEP="--------------------------------------------------"
@@ -97,6 +107,11 @@ do
     paramval=`echo $param | sed 's/[-a-zA-Z0-9]*=//'`
     
     case $param in
+
+        --source-package)
+          prepare_source
+          exit
+          ;;
 
         --official-amo-release)
           export OFFICIAL_AMO_RELEASE="yes"
