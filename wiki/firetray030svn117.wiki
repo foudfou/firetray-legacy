@@ -1,0 +1,25 @@
+#summary firetray-0.3.0-svn-r117 Testing release
+
+= Introduction =
+
+FireTray development version 0.3.0 svn r117. Please post problems, comments and suggestions regarding this build at the bottom of this page instead of using the issue tracker.
+Feedback from different systems/distro releases/desktop environment combinations is appreciated, expecially regarding the binary component and eventual missing dependencies.
+
+= Details =
+
+Testing release with latest changes:
+ * Moved Tray handling functions to a new javascript XPCOM component to avoid problems when the first window is closed (see Issue 79)
+ * Applied patch for Gecko2 support (Issue 127)
+ * Added option to select between "unread" and "new" messages notification (Issue 120)
+ * Added option to hide tray icon when not minimized (Issue 92)
+ * Added option to disable showing mail count into messages notification icon
+ * Dynamic creation of install.rdf
+ * Exclude mails from special folders (Archive, Sent, Templates, Drafts) from message count
+
+= Notes =
+
+"new" messages count is not working yet. I suggest using unread count.
+
+= Download =
+
+[http://firetray.googlecode.com/files/firetray-0.3.0-svn-r117.xpi firetray-0.3.0-svn-r117.xpi]
