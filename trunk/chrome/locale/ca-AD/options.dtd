@@ -14,21 +14,23 @@
 <!ENTITY firetray.use_default_icon_accesskey "d">
 <!ENTITY firetray.use_user_icon "Icona definida per l'usuari">
 <!ENTITY firetray.use_user_icon_accesskey "u">
-<!ENTITY firetray.notification_settings "Mail nofication icon settings">
-<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.minimize_to_tray "Amaga cap a la barra de sistema quan minimitzis la finestra">
+<!ENTITY firetray.minimize_to_tray_accesskey "w">
+<!ENTITY firetray.notification_settings "Configuració d'icona de notificació de correu">
+<!ENTITY firetray.notification_disabled "Deshabilitat">
 <!ENTITY firetray.notification_disabled_accesskey "D">
-<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
+<!ENTITY firetray.notification_only_hidden "Notifica només quan estigui amagat a la safata de sistema">
 <!ENTITY firetray.notification_only_hidden_accesskey "w">
-<!ENTITY firetray.notification_enabled "Enable mail notification icon">
+<!ENTITY firetray.notification_enabled "Habilita l'icona de notificació de correu">
 <!ENTITY firetray.notification_enabled_accesskey "E">
 <!ENTITY firetray.show_only_hidden "Mostra-ho només quan s'amagui a la safata">
 <!ENTITY firetray.show_only_hidden_accesskey "w">
-<!ENTITY firetray.message_count_settings "Message number counting">
-<!ENTITY firetray.count_unread_mail "Count unread messages">
+<!ENTITY firetray.message_count_settings "Nombre de missatges comptats">
+<!ENTITY firetray.count_unread_mail "Compta els missatges no llegits">
 <!ENTITY firetray.count_unread_mail_accesskey "U">
-<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.count_new_mail "Compta nous missatges">
 <!ENTITY firetray.count_new_mail_accesskey "N">
-<!ENTITY firetray.show_mail_count "Show mail number">
+<!ENTITY firetray.show_mail_count "Mostra el número de correu">
 <!ENTITY firetray.show_mail_count_accesskey "n">
 <!ENTITY firetray.show_unread_number "Mostra el número de correus no llegits">
 <!ENTITY firetray.show_unread_number_accesskey "n">
@@ -61,4 +63,4 @@
 <!ENTITY firetray.dont_consider_spam "No incloguis nous correus de les següents carpetes:">
 <!ENTITY firetray.dont_consider_spam_accesskey "i">
 <!ENTITY firetray.dont_consider_spam_indications "Indiqueu el nom de les carpetes separades per un punt i coma (;)">
-<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">
+<!ENTITY firetray.mail_accounts_exclude "Comptes de correu per excloure">

@@ -1,38 +1,37 @@
 <!ENTITY firetray.prefwindow "Opzioni di FireTray">
 <!ENTITY firetray.prefpane_options "Opzioni">
-<!ENTITY firetray.close_to_tray "Riduci a icona nell&apos;area di notifica alla chiusura">
-<!ENTITY firetray.close_to_tray_accesskey "R">
+<!ENTITY firetray.close_to_tray "Riduci a icona nell'area di notifica alla chiusura">
+<!ENTITY firetray.close_to_tray_accesskey "D">
 <!ENTITY firetray.start_min "Avvia il programma ridotto a icona">
 <!ENTITY firetray.start_min_accesskey "A">
-<!ENTITY firetray.confirm_exit "Conferma per l&apos;uscita dall&apos;applicazione">
+<!ENTITY firetray.confirm_exit "Conferma per l'uscita dall'applicazione">
 <!ENTITY firetray.confirm_exit_accesskey "C">
 <!ENTITY firetray.show_next_unread "Al ripristino vai al primo messaggio non letto">
 <!ENTITY firetray.show_next_unread_accesskey "A">
-<!ENTITY firetray.use_app_icon "Utilizza icona dell&apos;applicazione">
-<!ENTITY firetray.use_app_icon_accesskey "u">
-<!ENTITY firetray.use_default_icon "Utilizza icona predefinita">
+<!ENTITY firetray.use_app_icon "Utilizza icona dell'applicazione">
+<!ENTITY firetray.use_app_icon_accesskey "P">
+<!ENTITY firetray.use_default_icon "Icona predefinita">
 <!ENTITY firetray.use_default_icon_accesskey "i">
-<!ENTITY firetray.use_user_icon "Utilizza icona personalizzata">
-<!ENTITY firetray.use_user_icon_accesskey "u">
-<!ENTITY firetray.notification_settings "Mail nofication icon settings">
-<!ENTITY firetray.minimize_to_tray "Hide to tray on window minimize">
-<!ENTITY firetray.minimize_to_tray_accesskey "w">
-
-<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.use_user_icon "Icona personalizzata">
+<!ENTITY firetray.use_user_icon_accesskey "P">
+<!ENTITY firetray.minimize_to_tray "Riduci la finestra a icona nell'area di notifica">
+<!ENTITY firetray.minimize_to_tray_accesskey "R">
+<!ENTITY firetray.notification_settings "Impostazioni dell'icona per le notifiche dei messaggi">
+<!ENTITY firetray.notification_disabled "Disattiva le notifiche dei messaggi">
 <!ENTITY firetray.notification_disabled_accesskey "D">
-<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
-<!ENTITY firetray.notification_only_hidden_accesskey "w">
-<!ENTITY firetray.notification_enabled "Enable mail notification icon">
-<!ENTITY firetray.notification_enabled_accesskey "E">
-<!ENTITY firetray.show_only_hidden "Mostra solo quando nascosto nell&apos;area di notifica">
+<!ENTITY firetray.notification_only_hidden "Mostra le notifiche solo quando il programma è ridotto a icona">
+<!ENTITY firetray.notification_only_hidden_accesskey "I">
+<!ENTITY firetray.notification_enabled "Attiva le notifiche dei messaggi">
+<!ENTITY firetray.notification_enabled_accesskey "A">
+<!ENTITY firetray.show_only_hidden "Mostra solo se il programma è nascosto nell'area di notifica">
 <!ENTITY firetray.show_only_hidden_accesskey "o">
-<!ENTITY firetray.message_count_settings "Message number counting">
-<!ENTITY firetray.count_unread_mail "Count unread messages">
-<!ENTITY firetray.count_unread_mail_accesskey "U">
-<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.message_count_settings "Conteggio dei messaggi">
+<!ENTITY firetray.count_unread_mail "Conteggio dei messaggi non letti">
+<!ENTITY firetray.count_unread_mail_accesskey "C">
+<!ENTITY firetray.count_new_mail "Conteggio dei nuovi messaggi">
 <!ENTITY firetray.count_new_mail_accesskey "N">
-<!ENTITY firetray.show_mail_count "Show mail number">
-<!ENTITY firetray.show_mail_count_accesskey "n">
+<!ENTITY firetray.show_mail_count "Mostra il numero dei messaggi">
+<!ENTITY firetray.show_mail_count_accesskey "M">
 <!ENTITY firetray.show_unread_number "Mostra il numero di messaggi da leggere">
 <!ENTITY firetray.show_unread_number_accesskey "M">
 <!ENTITY firetray.behaviour_group "Comportamento delle finestre">
@@ -45,7 +44,7 @@
 <!ENTITY firetray.input_options "Tasti e mouse">
 <!ENTITY firetray.mail_options "Posta elettronica">
 <!ENTITY firetray.mouse_wheel_options "Rotellina del mouse">
-<!ENTITY firetray.enable_mouse_scroll "Configurazione movimento della rotellina del mouse sull&apos;icona">
+<!ENTITY firetray.enable_mouse_scroll "Configurazione movimento della rotellina del mouse sull'icona">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "R">
 <!ENTITY firetray.up "Su">
 <!ENTITY firetray.down "Giù">
@@ -64,4 +63,4 @@
 <!ENTITY firetray.dont_consider_spam "Non considerare i nuovi messaggi per le seguenti cartelle:">
 <!ENTITY firetray.dont_consider_spam_accesskey "c">
 <!ENTITY firetray.dont_consider_spam_indications "Separare i nomi delle cartelle utilizzando il punto e virgola (;)">
-<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">
+<!ENTITY firetray.mail_accounts_exclude "Account di posta da escludere">

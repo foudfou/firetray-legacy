@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE overlay SYSTEM "chrome://firetray/locale/browserOverlay.dtd" >
+<!DOCTYPE overlay SYSTEM "chrome://firetray/locale/songOverlay.dtd" >
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="firetrayBrowserOverlay"
         xmlns:html="http://www.w3.org/1999/xhtml"

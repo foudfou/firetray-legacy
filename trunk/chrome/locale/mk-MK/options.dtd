@@ -14,9 +14,11 @@
 <!ENTITY firetray.use_default_icon_accesskey "с">
 <!ENTITY firetray.use_user_icon "Кориснички дефинирана икона">
 <!ENTITY firetray.use_user_icon_accesskey "к">
+<!ENTITY firetray.minimize_to_tray "Hide to tray on window minimize">
+<!ENTITY firetray.minimize_to_tray_accesskey "w">
 <!ENTITY firetray.notification_settings "Mail nofication icon settings">
-<!ENTITY firetray.notification_disabled "Disabled">
-<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_disabled "Исклучено">
+<!ENTITY firetray.notification_disabled_accesskey "И">
 <!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
 <!ENTITY firetray.notification_only_hidden_accesskey "w">
 <!ENTITY firetray.notification_enabled "Enable mail notification icon">

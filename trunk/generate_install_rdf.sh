@@ -41,7 +41,7 @@ CONTRIBUTORS=( \
 
 TRANSLATORS=( \
 "Lachezar [bg-BG]" \
-"SoftcatalàAljullu [ca-AD]" \
+"SoftcatalàAljullu,ellibre [ca-AD]" \
 "Sam [cz-CZ]" \
 "bricks [de-DE]" \
 "profediego [es-AR]" \
@@ -57,6 +57,7 @@ TRANSLATORS=( \
 "Quicksilver tears [ru-RU]" \
 "lukas_sk [sk-SK]" \
 "miles [sl-SL]" \
+"Lakrits [sv-SE]" \
 "efecan [tr-TR]" \
 "Sappa [uk-UA]" \
 "xmoke [zh-CN]" \

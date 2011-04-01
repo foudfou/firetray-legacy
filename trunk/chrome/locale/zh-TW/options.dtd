@@ -14,21 +14,23 @@
 <!ENTITY firetray.use_default_icon_accesskey "d">
 <!ENTITY firetray.use_user_icon "使用者自訂圖示">
 <!ENTITY firetray.use_user_icon_accesskey "u">
-<!ENTITY firetray.notification_settings "Mail nofication icon settings">
-<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.minimize_to_tray "視窗縮小時隱藏到系統列">
+<!ENTITY firetray.minimize_to_tray_accesskey "w">
+<!ENTITY firetray.notification_settings "郵件通知圖示設定">
+<!ENTITY firetray.notification_disabled "停用">
 <!ENTITY firetray.notification_disabled_accesskey "D">
-<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
+<!ENTITY firetray.notification_only_hidden "只有隱藏到系統列時才顯示通知">
 <!ENTITY firetray.notification_only_hidden_accesskey "w">
-<!ENTITY firetray.notification_enabled "Enable mail notification icon">
+<!ENTITY firetray.notification_enabled "啟用郵件通知圖示">
 <!ENTITY firetray.notification_enabled_accesskey "E">
 <!ENTITY firetray.show_only_hidden "只在隱藏到系統列時才顯示">
 <!ENTITY firetray.show_only_hidden_accesskey "w">
-<!ENTITY firetray.message_count_settings "Message number counting">
-<!ENTITY firetray.count_unread_mail "Count unread messages">
+<!ENTITY firetray.message_count_settings "計算郵件數量">
+<!ENTITY firetray.count_unread_mail "計算未讀郵件">
 <!ENTITY firetray.count_unread_mail_accesskey "U">
-<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.count_new_mail "計算新郵件">
 <!ENTITY firetray.count_new_mail_accesskey "N">
-<!ENTITY firetray.show_mail_count "Show mail number">
+<!ENTITY firetray.show_mail_count "顯示郵件數量">
 <!ENTITY firetray.show_mail_count_accesskey "n">
 <!ENTITY firetray.show_unread_number "顯示未讀郵件數量">
 <!ENTITY firetray.show_unread_number_accesskey "h">
@@ -42,7 +44,7 @@
 <!ENTITY firetray.input_options "輸入設定">
 <!ENTITY firetray.mail_options "郵件設定">
 <!ENTITY firetray.mouse_wheel_options "滑鼠滾輪選項">
-<!ENTITY firetray.enable_mouse_scroll "滑鼠在系統列圖示捲動時的處理">
+<!ENTITY firetray.enable_mouse_scroll "滑鼠滾輪在系統列圖示捲動時的處理">
 <!ENTITY firetray.enable_mouse_scroll_accesskey "l">
 <!ENTITY firetray.up "上">
 <!ENTITY firetray.down "下">
@@ -61,4 +63,4 @@
 <!ENTITY firetray.dont_consider_spam "不計入下列資料夾中的新郵件:">
 <!ENTITY firetray.dont_consider_spam_accesskey "i">
 <!ENTITY firetray.dont_consider_spam_indications "以分號(;)分隔資料夾名稱的標示">
-<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">
+<!ENTITY firetray.mail_accounts_exclude "排除郵件帳號">
