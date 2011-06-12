@@ -5,7 +5,7 @@
        Added option to disable showing mail count into messages notification icon
        Dynamic creation of install.rdf 
        Exclude mails from special folders (Archive, Sent, Templates, Drafts) from message count
-       
+       Added option to disable the use of functions introduced with gtk >= 2.16
 
 0.2.10 Merged "support for chatzilla" from Issue 135 
        "Select which servers to exclude" feature from Issue 105 
