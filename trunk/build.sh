@@ -58,6 +58,13 @@ prepare_options_header_file()
     echo "REMEMBER WINDOWS POSITION: off"
   fi
 
+  if [ -n "$DISABLE_UPDATE_MENU_LABELS" ] 
+  then
+    echo "MENU LABELS UPDATE DISABLED"
+  else
+    echo "#define __GTK_SET_LABEL__"  >> $DEST
+  fi
+
   echo "#define _KEYSYMS_"  >> $DEST
   echo ""  >> $DEST
   echo "#endif"  >> $DEST
@@ -85,7 +92,8 @@ show_options()
   echo "    --dynamic-linking         Do not use static linking of libraries "
   echo " "   
   echo "    --no-restore-positions    Disable saving window postion"  
-  echo " "  
+  echo "    --with-old-gtklib         Disable the use of functions introduced in gtk 2.16"
+  echo " "   
   echo "    --gecko19-compat          Enable Gecko 1.9.x compatability when building"
   echo "                              with Gecko 2.0"
   echo " "    
@@ -177,6 +185,10 @@ do
 
         --no-restore-positions)
           DISABLE_RESTORE_POSITION="on"
+          ;;
+
+        --with-old-gtklib)
+          DISABLE_UPDATE_MENU_LABELS="on"
           ;;
 
         -h|--help)

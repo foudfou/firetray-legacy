@@ -564,7 +564,9 @@ NS_IMETHODIMP nsTray::SeparatorMenuItemNew(PRUint64 *_retval) {
 NS_IMETHODIMP nsTray::MenuItemUpdate(PRUint64 item, const PRUnichar *label) {
     DEBUG_CALL("MenuItemUpdate")
     gchar * label_utf8=convertUtf16ToUtf8(label);        
+#ifdef __GTK_SET_LABEL__
     gtk_menu_item_set_label(GTK_MENU_ITEM(item),label_utf8);
+#endif
     return NS_OK;
 }
 
