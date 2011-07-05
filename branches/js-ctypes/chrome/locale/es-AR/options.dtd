@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "FireTray - Opciones">
+<!ENTITY firetray.prefpane_options "Opciones">
+<!ENTITY firetray.close_to_tray "Botón de cerrar minimiza a la bandeja">
+<!ENTITY firetray.close_to_tray_accesskey "B">
+<!ENTITY firetray.start_min "Inicia el programa minimizado">
+<!ENTITY firetray.start_min_accesskey "I">
+<!ENTITY firetray.confirm_exit "Confirmar salir de la apliación">
+<!ENTITY firetray.confirm_exit_accesskey "C">
+<!ENTITY firetray.show_next_unread "Al restaurar mostrar el siguiente mensaje no leído">
+<!ENTITY firetray.show_next_unread_accesskey "s">
+<!ENTITY firetray.use_app_icon "Usar el icono de la aplicación">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "Usar el icono predeterminado">
+<!ENTITY firetray.use_default_icon_accesskey "p">
+<!ENTITY firetray.use_user_icon "Icono definido por el usuario">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.minimize_to_tray "Hide to tray on window minimize">
+<!ENTITY firetray.minimize_to_tray_accesskey "w">
+<!ENTITY firetray.notification_settings "opciones del icono de notificación de correo">
+<!ENTITY firetray.notification_disabled "Deshabilitado">
+<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_only_hidden "Notificar solo cuando este oculta en la bandeja">
+<!ENTITY firetray.notification_only_hidden_accesskey "w">
+<!ENTITY firetray.notification_enabled "Habilitar icono de notificaicon de correo">
+<!ENTITY firetray.notification_enabled_accesskey "E">
+<!ENTITY firetray.show_only_hidden "Mostrar solo cuando se oculte en la bandeja">
+<!ENTITY firetray.show_only_hidden_accesskey "t">
+<!ENTITY firetray.message_count_settings "Contar número de mensajes">
+<!ENTITY firetray.count_unread_mail "Contar mensajes sin leer">
+<!ENTITY firetray.count_unread_mail_accesskey "U">
+<!ENTITY firetray.count_new_mail "Contar mensajes nuevos">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Mostar número de correo">
+<!ENTITY firetray.show_mail_count_accesskey "n">
+<!ENTITY firetray.show_unread_number "Mostrar el número de mensajes no leídos">
+<!ENTITY firetray.show_unread_number_accesskey "n">
+<!ENTITY firetray.behaviour_group "Opciones de comportamiento de las ventanas">
+<!ENTITY firetray.tray_icon_group "Opciones de Icono">
+<!ENTITY firetray.choose "Seleccionar">
+<!ENTITY firetray.choose_accesskey "e">
+<!ENTITY firetray.choose_accesskey2 "c">
+<!ENTITY firetray.msg_font_color "Color del número de mensajes sin leer">
+<!ENTITY firetray.general_options "Opciones generales">
+<!ENTITY firetray.input_options "Opciones de entrada">
+<!ENTITY firetray.mail_options "Opciones de Correo">
+<!ENTITY firetray.mouse_wheel_options "Opciones de la rueda de desplazamiento del ratón">
+<!ENTITY firetray.enable_mouse_scroll "Manejo del scroll del ratón sobre el ícono de la bandeja">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "r">
+<!ENTITY firetray.up "ARRIBA">
+<!ENTITY firetray.down "ABAJO">
+<!ENTITY firetray.hide "ocultar">
+<!ENTITY firetray.restore "restaurar">
+<!ENTITY firetray.volume "volumen">
+<!ENTITY firetray.next_track "pista siguiente">
+<!ENTITY firetray.prev_track "pista anterior">
+<!ENTITY firetray.multimedia_keys "teclas multimedia">
+<!ENTITY firetray.grab_multimedia_keys "Capturar teclas multimedia">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
+<!ENTITY firetray.restart_to_apply "reiniciar para aplicar">
+<!ENTITY firetray.key_code "código de tecla">
+<!ENTITY firetray.dont_consider_spam_folders "No incluir correos basura">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "b">
+<!ENTITY firetray.dont_consider_spam "No incluir nuevo correo de las siguientes carpetas:">
+<!ENTITY firetray.dont_consider_spam_accesskey "N">
+<!ENTITY firetray.dont_consider_spam_indications "Indicar el nombre de las carpetas separados por punto y coma (;)">
+<!ENTITY firetray.mail_accounts_exclude "Cuentas de correo a excluir">

@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "FireTray Options">
+<!ENTITY firetray.prefpane_options "Options">
+<!ENTITY firetray.close_to_tray "Close button minimizes to tray">
+<!ENTITY firetray.close_to_tray_accesskey "C">
+<!ENTITY firetray.start_min "Start the program minimized">
+<!ENTITY firetray.start_min_accesskey "S">
+<!ENTITY firetray.confirm_exit "Confirm application exit">
+<!ENTITY firetray.confirm_exit_accesskey "O">
+<!ENTITY firetray.show_next_unread "On restore show next unread message">
+<!ENTITY firetray.show_next_unread_accesskey "n">
+<!ENTITY firetray.use_app_icon "Use application icon">
+<!ENTITY firetray.use_app_icon_accesskey "a">
+<!ENTITY firetray.use_default_icon "Use default icon">
+<!ENTITY firetray.use_default_icon_accesskey "d">
+<!ENTITY firetray.use_user_icon "User defined icon">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.minimize_to_tray "Hide to tray on window minimize">
+<!ENTITY firetray.minimize_to_tray_accesskey "w">
+<!ENTITY firetray.notification_settings "Mail nofication icon settings">
+<!ENTITY firetray.notification_disabled "Disabled">
+<!ENTITY firetray.notification_disabled_accesskey "D">
+<!ENTITY firetray.notification_only_hidden "Notify only when hidden on tray">
+<!ENTITY firetray.notification_only_hidden_accesskey "w">
+<!ENTITY firetray.notification_enabled "Enable mail notification icon">
+<!ENTITY firetray.notification_enabled_accesskey "E">
+<!ENTITY firetray.show_only_hidden "Show only when hidden on tray">
+<!ENTITY firetray.show_only_hidden_accesskey "w">
+<!ENTITY firetray.message_count_settings "Message number counting">
+<!ENTITY firetray.count_unread_mail "Count unread messages">
+<!ENTITY firetray.count_unread_mail_accesskey "U">
+<!ENTITY firetray.count_new_mail "Count new messages">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Show mail number">
+<!ENTITY firetray.show_mail_count_accesskey "n">
+<!ENTITY firetray.show_unread_number "Show number of unread mail">
+<!ENTITY firetray.show_unread_number_accesskey "n">
+<!ENTITY firetray.behaviour_group "Windows behaviour options">
+<!ENTITY firetray.tray_icon_group "Icon settings">
+<!ENTITY firetray.choose "Choose">
+<!ENTITY firetray.choose_accesskey "e">
+<!ENTITY firetray.choose_accesskey2 "o">
+<!ENTITY firetray.msg_font_color "Color of unread messages number">
+<!ENTITY firetray.general_options "General settings">
+<!ENTITY firetray.input_options "Input settings">
+<!ENTITY firetray.mail_options "Mail settings">
+<!ENTITY firetray.mouse_wheel_options "Mouse wheel options">
+<!ENTITY firetray.enable_mouse_scroll "Handle mouse scroll on tray icon">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
+<!ENTITY firetray.up "UP">
+<!ENTITY firetray.down "DOWN">
+<!ENTITY firetray.hide "hide">
+<!ENTITY firetray.restore "restore">
+<!ENTITY firetray.volume "volume">
+<!ENTITY firetray.next_track "next track">
+<!ENTITY firetray.prev_track "previous track">
+<!ENTITY firetray.multimedia_keys "Multimedia keys">
+<!ENTITY firetray.grab_multimedia_keys "Grab multimedia keys">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "G">
+<!ENTITY firetray.restart_to_apply "restart to apply">
+<!ENTITY firetray.key_code "keycode">
+<!ENTITY firetray.dont_consider_spam_folders "Do not include junk mails">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "t">
+<!ENTITY firetray.dont_consider_spam "Do not include new mail from the following folders:">
+<!ENTITY firetray.dont_consider_spam_accesskey "i">
+<!ENTITY firetray.dont_consider_spam_indications "Indicate folder names separated by a semi-colon (;) character">
+<!ENTITY firetray.mail_accounts_exclude "Mail accounts to exclude">

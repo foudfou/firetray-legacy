@@ -1,0 +1,87 @@
+#include "nsISupports.idl"
+
+interface nsIBaseWindow;
+ 
+[scriptable, function, uuid(71ae41e0-517b-40d0-b05c-626d236fe52b)]
+interface nsITrayCallback : nsISupports
+{
+    // Javascript function call
+    boolean call();
+};
+
+[scriptable, function, uuid(cb451092-6269-11de-84bb-3bce55d89593)]
+interface nsIScrollCallback : nsISupports
+{
+    // Javascript function call
+    boolean call(in PRUint32 direction);
+};
+
+
+[scriptable, function, uuid(d22950aa-62a8-11de-b360-94c756d89593)]
+interface nsIKeySymCallback : nsISupports
+{
+    // Javascript function call
+    boolean call(in string keysym, in PRUint64 keycode);
+};
+
+
+[scriptable, uuid(bf249f85-20f2-49be-96f3-9681f3bb0334)]
+interface nsITray : nsISupports
+{
+    void showTray();
+    void hideTray();
+
+    //event callbacks
+    void trayActivateEvent(in nsITrayCallback aCallback);
+    void trayScrollEvent(in nsIScrollCallback aCallback);
+    void trayKeyEvent(in nsIKeySymCallback aCallback);
+
+    void hideWindow(in nsIBaseWindow aBaseWindow);
+    void restore(in PRUint32 aCount, [array, size_is(aCount)] in nsIBaseWindow aBaseWindows); 
+    void restoreWindow(in nsIBaseWindow aBaseWindow);
+
+    PRUint64 getTrayMenu();
+
+    PRUint64 menuNew();
+    PRUint64 menuItemNew(in wstring label, in wstring img);    
+    PRUint64 separatorMenuItemNew();
+
+    void menuItemUpdate(in PRUint64 item, in wstring label);    
+    void menuAppend(in PRUint64 menu, in PRUint64 item, in nsITrayCallback aCallback);
+    void menuPrepend(in PRUint64 menu, in PRUint64 item, in nsITrayCallback aCallback);
+    void menuInsert(in PRUint64 menu, in PRUint64 item, in PRUint64 pos, in nsITrayCallback aCallback);
+    void menuSub(in PRUint64 item, in PRUint64 sub_menu);
+    void menuRemove(in PRUint64 menu, in PRUint64 item);
+    void menuRemoveAll(in PRUint64 menu);
+    PRUint64 menuLength(in PRUint64 menu);
+
+    void setDefaultXpmIcon(in PRUint32 app); //selects default (embedded) icons for the specified application
+
+    boolean setDefaultIcon(in string filename); //icon for normal usage
+    boolean setSpecialIcon(in string filename); //icon shown when text is displayed
+
+    void setIconText(in string text, in string color); //sets the icon text (used for mail count)
+
+    void setTrayTooltip(in wstring text); //sets the tray tooltip message
+    void setTrayIcon(in PRUint32 FLAG);  //switch systrayicon checking the FLAG
+    /*void init_tooltip_image();          //prepare tooltip handlers to show image*/
+
+    void setCloseBlocking(in boolean val); //determine if we have to block window closing
+    void getCloseBlocking(out boolean val); 
+
+    void setMinimizeBlocking(in boolean val); //determine if we have to hide to tray on window minimize 
+    void getMinimizeBlocking(out boolean val); 
+
+    void initNotification(in string appname); //init the notification system 
+    void showANotification(in wstring title, in wstring info,in string image); //show a notification 
+
+    boolean getFocusState(in nsIBaseWindow aBaseWindow); 
+    void setWindowHandler(in nsIBaseWindow aBaseWindow);
+
+
+    // MULTIMEDIA KEYS HANDLING
+    boolean addHandledKey(in string key_string);
+    boolean addHandledKeyCode(in PRUint64 key_code);
+
+    string getKeycodeString(in PRUint64 key_code);
+};

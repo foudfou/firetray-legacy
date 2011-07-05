@@ -1,0 +1,78 @@
+0.3.0  Moved Tray handling functions to a new javascript XPCOM component to avoid problems when the first window is closed (see Issue 79)
+       Applied patch for Gecko2 support (Issue 127)
+       Added option to select between "unread" and "new" messages notification (Issue 120)
+       Added option to hide tray icon when not minimized (Issue 92)
+       Added option to disable showing mail count into messages notification icon
+       Dynamic creation of install.rdf 
+       Exclude mails from special folders (Archive, Sent, Templates, Drafts) from message count
+       Added option to disable the use of functions introduced with gtk >= 2.16
+
+0.2.10 Merged "support for chatzilla" from Issue 135 
+       "Select which servers to exclude" feature from Issue 105 
+       Removed references to linux platform from SConscript file (Issue 138) 
+       Applied fix for tb start minimized problem (Issue 122)
+
+0.2.9  Fixed problems with icons transparency (Issue 56)
+       Fixed code to save window position and re-enabled it by default (Issues 33,49)
+       Removed harcoded nspr path from build script (Issue 128)        
+       Added new build options and applied corrections to disable warnings (Issue 114)
+
+0.2.8  Modified sunbird chrome path (Issue 116)
+       Disabled multimedia keys by default (Issue 117)
+       Update Thunderbird, Firefox and Seamonkey versions
+       Fixed uncaught exception when no local folders are found in seamonkey and thunderbird (Issue 115)
+       
+
+0.2.7  Added ability to hide to tray on window minimize (Issue 77)
+       Added command line options to the build script and ability to detect Gecko-sdk folders using pkg-config (Issue 109)
+       Updated some icons
+       Corrected javascript code to follow AMO indications.
+
+0.2.6  Modified linking options to reduce library dependencies (Issue 58)
+
+0.2.5  Fixed bug on 64bit systems (Issues 52,55,61)
+       Temporarily disabled saving windows position (causes Issue 49)
+       Fixed restore problem in thunderbird when "restore to next unread message" is enabled (Issue 53, patch from corossig)
+
+0.2.4  Fixed Seamonkey2 mail count icon
+       Split option windows into separate tabs
+       Added option to exclude spam messages from new mail count
+
+0.2.3  Fixed "new window hides all" (Issue 27)
+       Cleaning interface code
+       Applied fix to the repeated mail count (Issue 43)
+       Begin support for seamonkey 2 alpha (not complete, mail issues)
+       Added scroll support (with songbird volume control)
+       Multimedia keys grabbing support	
+       Fixed songbird "duplicate menu items" issue
+       
+0.2.2  Added menu images from gtk stock
+
+0.2.1  Save windows position (Issue 33) 
+
+0.2.0  Support for custom icons (Issue 17)
+
+
+
+TODO:
+ 
+  - windows position bug when using XRDC 
+  - missing close confirmation request in some situations (issue 44)
+
+  - fix FF3.5+ and TB3+ icon problems with some images
+
+  - close single window menu element (Issue 32)
+   
+  - save windows z-order 
+
+
+WISHES (from wiki)
+
+- Enable the user to close all firefox windows while still keeping firefox in the tray and add a menu item to the tray icon "open new window
+
+- Clicking the tray icon with the middle mouse button fetches new messages (would be best with the icon changing to something else to indicate that the process is in progress).
+
+- Enable the user to close any of firefox windows individually
+
+- Close button only closes to tray when there is only one window up 
+

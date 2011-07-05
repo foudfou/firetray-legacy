@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "FireTray-opties">
+<!ENTITY firetray.prefpane_options "Opties">
+<!ENTITY firetray.close_to_tray "Sluitknop minimaliseert naar systeemvak">
+<!ENTITY firetray.close_to_tray_accesskey "S">
+<!ENTITY firetray.start_min "Programma geminimaliseerd starten">
+<!ENTITY firetray.start_min_accesskey "t">
+<!ENTITY firetray.confirm_exit "Toepassing afsluiten bevestigen">
+<!ENTITY firetray.confirm_exit_accesskey "v">
+<!ENTITY firetray.show_next_unread "Bij herstellen volgende ongelezen bericht weergeven">
+<!ENTITY firetray.show_next_unread_accesskey "o">
+<!ENTITY firetray.use_app_icon "Toepassingspictogram gebruiken">
+<!ENTITY firetray.use_app_icon_accesskey "p">
+<!ENTITY firetray.use_default_icon "Standaardpictogram gebruiken">
+<!ENTITY firetray.use_default_icon_accesskey "a">
+<!ENTITY firetray.use_user_icon "Door gebruiker opgegeven pictogram gebruiken">
+<!ENTITY firetray.use_user_icon_accesskey "u">
+<!ENTITY firetray.minimize_to_tray "In systeemvak verbergen bij minimaliseren venster">
+<!ENTITY firetray.minimize_to_tray_accesskey "v">
+<!ENTITY firetray.notification_settings "Instellingen pictogram e-mailnotificatie">
+<!ENTITY firetray.notification_disabled "Uitgeschakeld">
+<!ENTITY firetray.notification_disabled_accesskey "d">
+<!ENTITY firetray.notification_only_hidden "Alleen berichten wanneer geminimaliseerd naar systeemvak">
+<!ENTITY firetray.notification_only_hidden_accesskey "w">
+<!ENTITY firetray.notification_enabled "Pictogram e-mailnotificatie inschakelen">
+<!ENTITY firetray.notification_enabled_accesskey "h">
+<!ENTITY firetray.show_only_hidden "Alleen weergeven wanneer in systeemvak">
+<!ENTITY firetray.show_only_hidden_accesskey "g">
+<!ENTITY firetray.message_count_settings "Tellen aantal berichten">
+<!ENTITY firetray.count_unread_mail "Ongelezen berichten tellen">
+<!ENTITY firetray.count_unread_mail_accesskey "O">
+<!ENTITY firetray.count_new_mail "Nieuwe berichten tellen">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Aantal berichten weergeven">
+<!ENTITY firetray.show_mail_count_accesskey "A">
+<!ENTITY firetray.show_unread_number "Aantal ongelezen berichten weergeven">
+<!ENTITY firetray.show_unread_number_accesskey "w">
+<!ENTITY firetray.behaviour_group "Venstergedragopties">
+<!ENTITY firetray.tray_icon_group "Pictograminstellingen">
+<!ENTITY firetray.choose "Kiezen">
+<!ENTITY firetray.choose_accesskey "e">
+<!ENTITY firetray.choose_accesskey2 "z">
+<!ENTITY firetray.msg_font_color "Kleur van aantal ongelezen berichten">
+<!ENTITY firetray.general_options "Algemene instellingen">
+<!ENTITY firetray.input_options "Invoerinstellingen">
+<!ENTITY firetray.mail_options "E-mailinstellingen">
+<!ENTITY firetray.mouse_wheel_options "Muiswielopties">
+<!ENTITY firetray.enable_mouse_scroll "Scrollen met muis via systeempictogram">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "l">
+<!ENTITY firetray.up "OMHOOG">
+<!ENTITY firetray.down "OMLAAG">
+<!ENTITY firetray.hide "verbergen">
+<!ENTITY firetray.restore "herstellen">
+<!ENTITY firetray.volume "volume">
+<!ENTITY firetray.next_track "volgende nummer">
+<!ENTITY firetray.prev_track "vorige nummer">
+<!ENTITY firetray.multimedia_keys "Multimediatoetsen">
+<!ENTITY firetray.grab_multimedia_keys "Multimediatoetsen oppikken">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "p">
+<!ENTITY firetray.restart_to_apply "herstarten om toe te passen">
+<!ENTITY firetray.key_code "toetscode">
+<!ENTITY firetray.dont_consider_spam_folders "Ongewenste berichten niet opnemen">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "w">
+<!ENTITY firetray.dont_consider_spam "Nieuwe berichten in de volgende mappen niet opnemen:">
+<!ENTITY firetray.dont_consider_spam_accesskey "i">
+<!ENTITY firetray.dont_consider_spam_indications "Mapnamen aangeven gescheiden door een puntkomma (;)">
+<!ENTITY firetray.mail_accounts_exclude "Uit te sluiten e-mailaccounts">

@@ -1,0 +1,21 @@
+import os
+
+Import('zipbld')
+
+contents = []
+content = 'core.js browserOverlay.xul mailOverlay.xul songOverlay.xul navigatorOverlay.xul options.xul options.js icon.png'
+for c in content.split(' '):
+    contents.append('content' + os.sep + c)
+
+locales = 'bg-BG ca-AD de-DE en-US es-AR es-ES fa-IR fr-FR it-IT ja-JP mk-MK nl-NL pl-PL pt-BR ru-RU sk-SK sl-SI sv-SE tr-TR uk-UA zh-CN zh-TW'        
+
+locale_files = 'browserOverlay.dtd core.properties mailOverlay.dtd options.dtd'
+ 
+for l in locales.split(' '):
+   for f in locale_files.split(' '): 
+      contents.append('locale' + os.sep + l + os.sep + f)
+
+env = Environment(ZIPCHDIR= 'chrome', BUILDERS = {'Zip' : zipbld})
+r = env.Zip('#dist/chrome/firetray.jar', contents)
+
+Return('r')

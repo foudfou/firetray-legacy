@@ -1,0 +1,6 @@
+#example of a simple makefile used to build a deb package using checkinstall
+
+install:	
+	./build.sh --dynamic-linking --output-dir=/usr/lib/firefox-addons/extensions 
+
+

@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "Настройки FireTray">
+<!ENTITY firetray.prefpane_options "Настройки">
+<!ENTITY firetray.close_to_tray "Кнопка Закрыть сворачивает в трей">
+<!ENTITY firetray.close_to_tray_accesskey "К">
+<!ENTITY firetray.start_min "Запускать приложение минимизированным">
+<!ENTITY firetray.start_min_accesskey "З">
+<!ENTITY firetray.confirm_exit "Подтверждать закрытие приложения">
+<!ENTITY firetray.confirm_exit_accesskey "П">
+<!ENTITY firetray.show_next_unread "При восстановлении окна показывать следующее непрочитанное сообщение">
+<!ENTITY firetray.show_next_unread_accesskey "в">
+<!ENTITY firetray.use_app_icon "Использовать значок приложения">
+<!ENTITY firetray.use_app_icon_accesskey "р">
+<!ENTITY firetray.use_default_icon "Использовать значок по умолчанию">
+<!ENTITY firetray.use_default_icon_accesskey "л">
+<!ENTITY firetray.use_user_icon "Значок, установленный пользователем">
+<!ENTITY firetray.use_user_icon_accesskey "у">
+<!ENTITY firetray.minimize_to_tray "Скрывать в системный трей при минимизации окна">
+<!ENTITY firetray.minimize_to_tray_accesskey "ы">
+<!ENTITY firetray.notification_settings "Настройки значка уведомления о почте">
+<!ENTITY firetray.notification_disabled "Отключено">
+<!ENTITY firetray.notification_disabled_accesskey "т">
+<!ENTITY firetray.notification_only_hidden "Уведомлять только когда свёрнуто в системный трей">
+<!ENTITY firetray.notification_only_hidden_accesskey "У">
+<!ENTITY firetray.notification_enabled "Использовать значок для уведомления о почте">
+<!ENTITY firetray.notification_enabled_accesskey "И">
+<!ENTITY firetray.show_only_hidden "Показывать только когда свёрнуто в трей">
+<!ENTITY firetray.show_only_hidden_accesskey "ы">
+<!ENTITY firetray.message_count_settings "Подсчёт числа сообщений">
+<!ENTITY firetray.count_unread_mail "Считать непрочитанные сообщения">
+<!ENTITY firetray.count_unread_mail_accesskey "ч">
+<!ENTITY firetray.count_new_mail "Считать новые сообщения">
+<!ENTITY firetray.count_new_mail_accesskey "С">
+<!ENTITY firetray.show_mail_count "Показывать количество писем">
+<!ENTITY firetray.show_mail_count_accesskey "о">
+<!ENTITY firetray.show_unread_number "Показать число непрочитанных писем">
+<!ENTITY firetray.show_unread_number_accesskey "ч">
+<!ENTITY firetray.behaviour_group "Настройки поведения окон">
+<!ENTITY firetray.tray_icon_group "Настройки значков">
+<!ENTITY firetray.choose "Выбор">
+<!ENTITY firetray.choose_accesskey "р">
+<!ENTITY firetray.choose_accesskey2 "о">
+<!ENTITY firetray.msg_font_color "Цвет числа непрочитанных писем">
+<!ENTITY firetray.general_options "Основные настройки">
+<!ENTITY firetray.input_options "Настройки ввода">
+<!ENTITY firetray.mail_options "Настройки почты">
+<!ENTITY firetray.mouse_wheel_options "Настройки колеса мыши">
+<!ENTITY firetray.enable_mouse_scroll "Обработка прокрутки колесом над значком в системном трее">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "О">
+<!ENTITY firetray.up "ВВЕРХ">
+<!ENTITY firetray.down "ВНИЗ">
+<!ENTITY firetray.hide "спрятать">
+<!ENTITY firetray.restore "восстановить">
+<!ENTITY firetray.volume "звук">
+<!ENTITY firetray.next_track "следующий трек">
+<!ENTITY firetray.prev_track "предыдущий трек">
+<!ENTITY firetray.multimedia_keys "Мультимедийные клавиши">
+<!ENTITY firetray.grab_multimedia_keys "Использовать мультимедийные клавиши">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "И">
+<!ENTITY firetray.restart_to_apply "для применения перезапустить">
+<!ENTITY firetray.key_code "ключевой код">
+<!ENTITY firetray.dont_consider_spam_folders "Не учитывать спам">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "с">
+<!ENTITY firetray.dont_consider_spam "Не учитывать новую почту из следующих папок:">
+<!ENTITY firetray.dont_consider_spam_accesskey "е">
+<!ENTITY firetray.dont_consider_spam_indications "Укажите имена папки, разделив их через точку с запятой">
+<!ENTITY firetray.mail_accounts_exclude "Неучитываемые учётные записи почты">

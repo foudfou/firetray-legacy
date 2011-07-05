@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "Налаштування FireTray">
+<!ENTITY firetray.prefpane_options "Налаштування">
+<!ENTITY firetray.close_to_tray "Кнопка &quot;закрити&quot; згортає до системної панелі">
+<!ENTITY firetray.close_to_tray_accesskey "К">
+<!ENTITY firetray.start_min "Запускати програму згорнутою до системної панелі">
+<!ENTITY firetray.start_min_accesskey "З">
+<!ENTITY firetray.confirm_exit "Підтверджувати вихід з програми">
+<!ENTITY firetray.confirm_exit_accesskey "П">
+<!ENTITY firetray.show_next_unread "При відновленні вікна показувати наступне непрочитане повідомлення">
+<!ENTITY firetray.show_next_unread_accesskey "н">
+<!ENTITY firetray.use_app_icon "Використовувати піктограму програми">
+<!ENTITY firetray.use_app_icon_accesskey "В">
+<!ENTITY firetray.use_default_icon "Використовувати типову піктограму">
+<!ENTITY firetray.use_default_icon_accesskey "т">
+<!ENTITY firetray.use_user_icon "Піктограма, що визначена користувачем">
+<!ENTITY firetray.use_user_icon_accesskey "к">
+<!ENTITY firetray.minimize_to_tray "Ховати до області повідомлень при мінімізації вікна">
+<!ENTITY firetray.minimize_to_tray_accesskey "т">
+<!ENTITY firetray.notification_settings "Налаштування піктограми нагадування">
+<!ENTITY firetray.notification_disabled "Вимкнути">
+<!ENTITY firetray.notification_disabled_accesskey "и">
+<!ENTITY firetray.notification_only_hidden "Нагадувати тільки коли приховано до системної панелі">
+<!ENTITY firetray.notification_only_hidden_accesskey "а">
+<!ENTITY firetray.notification_enabled "Увімкнути піктограму нагадування">
+<!ENTITY firetray.notification_enabled_accesskey "і">
+<!ENTITY firetray.show_only_hidden "Показувати тільки при згортанні до системної панелі">
+<!ENTITY firetray.show_only_hidden_accesskey "т">
+<!ENTITY firetray.message_count_settings "Лічильник кількості повідомлень">
+<!ENTITY firetray.count_unread_mail "Рахувати непрочитані повідомлення">
+<!ENTITY firetray.count_unread_mail_accesskey "е">
+<!ENTITY firetray.count_new_mail "Рахувати нові повідомлення">
+<!ENTITY firetray.count_new_mail_accesskey "о">
+<!ENTITY firetray.show_mail_count "Показувати кількість повідомлень">
+<!ENTITY firetray.show_mail_count_accesskey "у">
+<!ENTITY firetray.show_unread_number "Показати кількість непрочитаних листів">
+<!ENTITY firetray.show_unread_number_accesskey "л">
+<!ENTITY firetray.behaviour_group "Параметри поведінки вікон">
+<!ENTITY firetray.tray_icon_group "Налаштування піктограм">
+<!ENTITY firetray.choose "Вибрати">
+<!ENTITY firetray.choose_accesskey "В">
+<!ENTITY firetray.choose_accesskey2 "б">
+<!ENTITY firetray.msg_font_color "Колір числа непрочитаних повідомлень">
+<!ENTITY firetray.general_options "Загальні налаштування">
+<!ENTITY firetray.input_options "Налаштування входу">
+<!ENTITY firetray.mail_options "Налаштування пошти">
+<!ENTITY firetray.mouse_wheel_options "Параметри колеса миші">
+<!ENTITY firetray.enable_mouse_scroll "Можливість прокрутки коліщата миші у панелі задач">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "п">
+<!ENTITY firetray.up "ВГОРУ">
+<!ENTITY firetray.down "ВНИЗ">
+<!ENTITY firetray.hide "сховати">
+<!ENTITY firetray.restore "оновити">
+<!ENTITY firetray.volume "гучність">
+<!ENTITY firetray.next_track "наступна доріжка">
+<!ENTITY firetray.prev_track "попередня доріжка">
+<!ENTITY firetray.multimedia_keys "Мультимедійні клавіші">
+<!ENTITY firetray.grab_multimedia_keys "Захоплення мультимедійних клавіш">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "З">
+<!ENTITY firetray.restart_to_apply "Перезапусти для застосування">
+<!ENTITY firetray.key_code "ключ">
+<!ENTITY firetray.dont_consider_spam_folders "Не включати небажаної пошти">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "н">
+<!ENTITY firetray.dont_consider_spam "Не включати нову пошту з наступних тек:">
+<!ENTITY firetray.dont_consider_spam_accesskey "в">
+<!ENTITY firetray.dont_consider_spam_indications "Визначати назви тек, розділених крапкою з комою (;)">
+<!ENTITY firetray.mail_accounts_exclude "Поштові облікові записи до виключення">

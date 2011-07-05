@@ -1,0 +1,66 @@
+<!ENTITY firetray.prefwindow "Možnosti za FireTray">
+<!ENTITY firetray.prefpane_options "Možnosti">
+<!ENTITY firetray.close_to_tray "Gumb Zapri pomanjša v pladenj">
+<!ENTITY firetray.close_to_tray_accesskey "Z">
+<!ENTITY firetray.start_min "Zaženi program pomanjšano">
+<!ENTITY firetray.start_min_accesskey "m">
+<!ENTITY firetray.confirm_exit "Potrdi izhod iz programa">
+<!ENTITY firetray.confirm_exit_accesskey "P">
+<!ENTITY firetray.show_next_unread "Ob obnovitvi pokaži naslednje neprebrano sporočilo">
+<!ENTITY firetray.show_next_unread_accesskey "b">
+<!ENTITY firetray.use_app_icon "Uporabi ikono programa">
+<!ENTITY firetray.use_app_icon_accesskey "k">
+<!ENTITY firetray.use_default_icon "Uporabi privzeto ikono">
+<!ENTITY firetray.use_default_icon_accesskey "n">
+<!ENTITY firetray.use_user_icon "Uporabi določeno ikono">
+<!ENTITY firetray.use_user_icon_accesskey "d">
+<!ENTITY firetray.minimize_to_tray "Skrij v pladenj ob pomanjšanju okna">
+<!ENTITY firetray.minimize_to_tray_accesskey "o">
+<!ENTITY firetray.notification_settings "Nastavitve ikone obvestilnika">
+<!ENTITY firetray.notification_disabled "Onemogočeno">
+<!ENTITY firetray.notification_disabled_accesskey "O">
+<!ENTITY firetray.notification_only_hidden "Obveščaj le, če je skrito v pladnju">
+<!ENTITY firetray.notification_only_hidden_accesskey "s">
+<!ENTITY firetray.notification_enabled "Omogoči ikono obveščanja o pošti">
+<!ENTITY firetray.notification_enabled_accesskey "M">
+<!ENTITY firetray.show_only_hidden "Pokaži le, ko je skrito v pladnju">
+<!ENTITY firetray.show_only_hidden_accesskey "ž">
+<!ENTITY firetray.message_count_settings "Štetje števila sporočil">
+<!ENTITY firetray.count_unread_mail "Štej neprebrana sporočila">
+<!ENTITY firetray.count_unread_mail_accesskey "B">
+<!ENTITY firetray.count_new_mail "Štej nova sporočila">
+<!ENTITY firetray.count_new_mail_accesskey "N">
+<!ENTITY firetray.show_mail_count "Pokaži število sporočil">
+<!ENTITY firetray.show_mail_count_accesskey "Š">
+<!ENTITY firetray.show_unread_number "Pokaži število neprebrane pošte">
+<!ENTITY firetray.show_unread_number_accesskey "š">
+<!ENTITY firetray.behaviour_group "Možnosti vedenja oken">
+<!ENTITY firetray.tray_icon_group "Nastavitve ikone">
+<!ENTITY firetray.choose "Izberite">
+<!ENTITY firetray.choose_accesskey "e">
+<!ENTITY firetray.choose_accesskey2 "b">
+<!ENTITY firetray.msg_font_color "Barva števila neprebranih sporočil">
+<!ENTITY firetray.general_options "Splošne nastavitve">
+<!ENTITY firetray.input_options "Nastavitve vhoda">
+<!ENTITY firetray.mail_options "Poštne nastavitve">
+<!ENTITY firetray.mouse_wheel_options "Možnosti miškinega koleščka">
+<!ENTITY firetray.enable_mouse_scroll "Upoštevaj miškin kolešček na pladenjski ikoni">
+<!ENTITY firetray.enable_mouse_scroll_accesskey "I">
+<!ENTITY firetray.up "Navzgor">
+<!ENTITY firetray.down "Navzdol">
+<!ENTITY firetray.hide "Skrij">
+<!ENTITY firetray.restore "Obnovi">
+<!ENTITY firetray.volume "Glasnost">
+<!ENTITY firetray.next_track "Naslednji">
+<!ENTITY firetray.prev_track "Prejšnji">
+<!ENTITY firetray.multimedia_keys "Tipke za večpredstavnost">
+<!ENTITY firetray.grab_multimedia_keys "Prevzemi tipke za večpredstavnost">
+<!ENTITY firetray.grab_multimedia_keys_accesskey "t">
+<!ENTITY firetray.restart_to_apply "Ponovno zaženi za uveljavitev">
+<!ENTITY firetray.key_code "Koda tipke">
+<!ENTITY firetray.dont_consider_spam_folders "Ne vključi neželene pošte">
+<!ENTITY firetray.dont_consider_spam_folders_accesskey "n">
+<!ENTITY firetray.dont_consider_spam "Ne upoštevaj nove pošte iz naslednjih map:">
+<!ENTITY firetray.dont_consider_spam_accesskey "u">
+<!ENTITY firetray.dont_consider_spam_indications "Navedite imena map, ločena s podpičjem (;)">
+<!ENTITY firetray.mail_accounts_exclude "Izločeni poštni računi">
