@@ -20,7 +20,6 @@ locale  firetray    en-US   jar:chrome/firetray.jar!/locale/en-US/
 locale  firetray    it-IT   jar:chrome/firetray.jar!/locale/it-IT/
 locale  firetray    bg-BG   jar:chrome/firetray.jar!/locale/bg-BG/
 locale  firetray    ca-AD   jar:chrome/firetray.jar!/locale/ca-AD/
-locale  firetray    cs-CZ   jar:chrome/firetray.jar!/locale/cs-CZ/
 locale  firetray    de-DE   jar:chrome/firetray.jar!/locale/de-DE/
 locale  firetray    es-AR   jar:chrome/firetray.jar!/locale/es-AR/
 locale  firetray    es-ES   jar:chrome/firetray.jar!/locale/es-ES/
