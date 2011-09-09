@@ -1,4 +1,0 @@
-#summary Latest testing releases
-
-*Latest testing release is:*
-[firetray030svn117 FireTray 0.3.0 svn rev. 117]
