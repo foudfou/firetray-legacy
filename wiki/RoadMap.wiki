@@ -1,0 +1,15 @@
+#summary Project's Roadmap
+
+= Introduction =
+
+Ok this not exactly a roadmap, but it sheds some light of what is happening in the project.
+
+= Details =
+
+  * Mozilla products have entered a [http://blog.mozilla.com/blog/2011/04/13/new-channels-for-firefox-rapid-releases/ rapid release cycle] which implies frequent rebuilds of XPCOM binary-based addons (such as Firetray)
+  * authors are encouraged to [https://groups.google.com/group/mozilla.dev.extensions/browse_thread/thread/2d6942c44f303b62/b98debfbccef11ed port their XPCOM binary-based addons to js-ctypes]
+  * Francesco doesn't have enough time to maintain the Firetray project in this situation
+  * Foudil has come up with a prototype js-ctypes version of the project, which is functional, but does not yet cover all features currently supported by the binary-based version.
+  * the js-ctypes version will endeavor to support uncovered features in the future (see below)
+  * the Firetray project plans to replace the binary-based version with the js-types version when enough features are covered
+  * meanwhile, Firetray users are invited to switch to the preview release of the js-ctypes version [https://addons.mozilla.org/fr/firefox/addon/firetray/ on AMO, beta channel section] and [https://github.com/foudfou/FireTray/issues provide feedback] as to what important features are missing
