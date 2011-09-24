@@ -2,9 +2,9 @@
 
 = Introduction =
 
-Ok this not exactly a roadmap, but it sheds some light of what is happening in the project.
+Ok this not a precise roadmap, but it sheds some light of what is and will be happening in the project.
 
-= Details =
+= Situation =
 
   * Mozilla products have entered a [http://blog.mozilla.com/blog/2011/04/13/new-channels-for-firefox-rapid-releases/ rapid release cycle] which implies frequent rebuilds of XPCOM binary-based addons (such as Firetray)
   * authors are encouraged to [https://groups.google.com/group/mozilla.dev.extensions/browse_thread/thread/2d6942c44f303b62/b98debfbccef11ed port their XPCOM binary-based addons to js-ctypes]
@@ -13,3 +13,14 @@ Ok this not exactly a roadmap, but it sheds some light of what is happening in t
   * the js-ctypes version will endeavor to support uncovered features in the future (see below)
   * the Firetray project plans to replace the binary-based version with the js-types version when enough features are covered
   * meanwhile, Firetray users are invited to switch to the preview release of the js-ctypes version [https://addons.mozilla.org/fr/firefox/addon/firetray/ on AMO, beta channel section] and [https://github.com/foudfou/FireTray/issues provide feedback] as to what important features are missing
+
+= RoadMap =
+
+In the mid-term, we plan to implement the following features (no particular order).
+
+  * mouse scrolls on tray icon hides/shows
+  * hide to tray on minimize
+  * ability to start minimized to tray
+  * when restoring if the window is iconified, deiconify it
+  * custom tray icon
+  * keyboard shortcut hide/show
