@@ -24,3 +24,5 @@ In the mid-term, we plan to implement the following features (no particular orde
   * when restoring if the window is iconified, deiconify it
   * custom tray icon
   * keyboard shortcut hide/show
+
+[https://docs.google.com/spreadsheet/viewform?hl=fr&formkey=dFJqUC1pLTQzNkJYQldFdzdSV1BaSkE6MQ#gid=0 Please vote]
