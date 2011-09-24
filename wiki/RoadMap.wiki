@@ -14,7 +14,7 @@ Ok this not a precise roadmap, but it sheds some light of what is and will be ha
   * the Firetray project plans to replace the binary-based version with the js-types version when enough features are covered
   * meanwhile, Firetray users are invited to switch to the preview release of the js-ctypes version [https://addons.mozilla.org/fr/firefox/addon/firetray/ on AMO, beta channel section] and [https://github.com/foudfou/FireTray/issues provide feedback] as to what important features are missing
 
-= RoadMap =
+= 0.4 branch roadmap =
 
 In the mid-term, we plan to implement the following features (no particular order).
 
