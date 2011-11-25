@@ -1,6 +1,5 @@
-#summary One-sentence summary of this page.
+#summary How to build Firetray.
 
-= Introduction =
 
 The problem with the binary component included in Firetray versions up to 0.3.x is that to make it compatible with a new Firefox or Thunderbird version you have to compile it using the corresponding version of Gecko_sdk. 
 
@@ -8,6 +7,11 @@ That's the main reason the rewrite started and we strongly suggest to try using 
 
 However if you need a feature not yet supported in the rewrite, you can always build the extension for the Firefox or Thunderbird version you are using (if not yet available in the download area).
 
-= Details =
+= Requirements =
+
+- scons
+- gecko_sdk (version matching the target mozilla application)
+- 
+
 
 To build the extension in order to make it work with a new FF or TB version, you have to download the corresponding gecko sdk (in this case gecko sdk 8.0) from https://developer.mozilla.org/en/Gecko_SDK and compile the extension indicating the directory where you extracted the sdk with --gecko-sdk=/path/to/sdk.
