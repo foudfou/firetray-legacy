@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="0.3.0"
+VERSION="0.3.5"
 EXTENSION_ID="{9533f794-00b4-4354-aa15-c2bbda6989f8}"
 EXTENSION_NAME="FireTray"
 HOMEPAGE="http://code.google.com/p/firetray/"
@@ -15,8 +15,8 @@ APP_SEPARATOR=';'
 #SUPPORTED APPS:
 # "name;id;min.ver;max.ver"
 SUPPORTED_APPS=( \
-"Mozilla Firefox;{ec8030f7-c20a-464f-9b0e-13a3a9e97384};3.0;5.*" \
-"Mozilla Thunderbird;{3550f703-e582-4d05-9a08-453d09bdfdc6};3.0;5.*" \
+"Mozilla Firefox;{ec8030f7-c20a-464f-9b0e-13a3a9e97384};3.0;9.*" \
+"Mozilla Thunderbird;{3550f703-e582-4d05-9a08-453d09bdfdc6};3.0;9.*" \
 "Songbird;songbird@songbirdnest.com;0.8;1.8.0" \
 "SeaMonkey;{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a};2.0a1;2.0.*   " \
 "Sunbird;{718e30fb-e89b-41dd-9da7-e25a45638b28};1.0b1;1.0pre" \
@@ -37,6 +37,7 @@ CONTRIBUTORS=( \
 "Hicham.Haouari" \
 "Jreybert" \
 "aedrin" \
+"vimftw" \
 )
 
 TRANSLATORS=( \
