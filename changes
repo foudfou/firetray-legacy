@@ -1,3 +1,5 @@
+0.3.5  Applied vimftw patch to build using gecko sdk 9
+
 0.3.0  Moved Tray handling functions to a new javascript XPCOM component to avoid problems when the first window is closed (see Issue 79)
        Applied patch for Gecko2 support (Issue 127)
        Added option to select between "unread" and "new" messages notification (Issue 120)
