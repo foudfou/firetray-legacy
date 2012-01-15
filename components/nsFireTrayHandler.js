@@ -1007,7 +1007,21 @@ FireTrayHandler.checkMail = function() {
 }
 
 FireTrayHandler.composeNewMail = function() {
-  //goOpenNewMessage();  
+  var sURL="mailto:"; 
+  
+  var msgComposeService=  
+    Components.classes["@mozilla.org/messengercompose;1"]  
+    .getService(Components.interfaces.nsIMsgComposeService);  
+  
+  // make the URI  
+  var ioService =  
+    Components.classes["@mozilla.org/network/io-service;1"]  
+      .getService(Components.interfaces.nsIIOService);  
+  
+  aURI = ioService.newURI(sURL, null, null);  
+  
+  // open new message  
+  msgComposeService.OpenComposeWindowWithURI (null, aURI); 
 }
 
 

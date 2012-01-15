@@ -1,3 +1,5 @@
+0.3.6  Added compose new message code (Issue 177)
+
 0.3.5  Applied vimftw patch to build using gecko sdk 9
 
 0.3.0  Moved Tray handling functions to a new javascript XPCOM component to avoid problems when the first window is closed (see Issue 79)
