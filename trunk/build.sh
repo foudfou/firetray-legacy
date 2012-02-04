@@ -216,8 +216,9 @@ export LIB_ARCH=_`uname -m`
 
 
 
-
-rm install.rdf
+if [ -e install.rdf ];then
+  rm install.rdf
+fi
 source ./generate_install_rdf.sh > install.rdf
 
 FILE=firetray.xpi

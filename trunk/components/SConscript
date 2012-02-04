@@ -74,8 +74,8 @@ with open(gecko_include + os.sep + 'mozilla-config.h', 'r') as f:
             break
 
 # Create two builders to create xpt and header files from idl.
-bxpt = Builder(action = 'typelib.py -Icomponents -I' + gecko_idl + ' -o $TARGET $SOURCE', suffix = '.xpt', src_suffix = '.idl')
-bhdr = Builder(action = 'header.py -Icomponents -I' + gecko_idl + ' -o $TARGET $SOURCE', suffix = '.h', src_suffix = '.idl')
+bxpt = Builder(action = 'typelib.py -Icomponents -I' + gecko_idl + ' -o $TARGET $SOURCE' + ' --cachedir="."', suffix = '.xpt', src_suffix = '.idl')
+bhdr = Builder(action = 'header.py -Icomponents -I' + gecko_idl + ' -o $TARGET $SOURCE' + ' --cachedir="."', suffix = '.h', src_suffix = '.idl')
 
 
 # Create environment object for build

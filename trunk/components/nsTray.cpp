@@ -52,7 +52,7 @@ PRUint32 PRUstrlen(const PRUnichar *text) {
 }
 
 void nsTray::activate(GtkStatusIcon* status_icon, gpointer user_data) {
-    PRBool ret = TRUE;
+    bool ret = TRUE;
     nsTray *data = static_cast<nsTray*>(user_data);
 
     data->tray_callback->Call(&ret);
@@ -75,7 +75,7 @@ gboolean nsTray::scroll(GtkStatusIcon  *status_icon, GdkEventScroll *event, gpoi
 
     if(!event || !user_data) return false;
 
-    PRBool ret = TRUE;
+    bool ret = TRUE;
     nsTray *data = static_cast<nsTray*>(user_data);
 
     PRUint32 dir=0;
@@ -129,7 +129,7 @@ void nsTray::popup(GtkStatusIcon *status_icon, guint button, guint activate_time
 
 void nsTray::item_event(GtkWidget *widget, gpointer user_data) {
     DEBUG_CALL("item_event")
-    PRBool ret = TRUE;
+    bool ret = TRUE;
     nsTray *data = static_cast<nsTray*>(user_data);
 
     if(data->item_callback_list[(PRUint64)widget]) {
@@ -785,7 +785,7 @@ bool nsTray::SetIcon(const char *filename, GdkPixbuf *& icon)
 
 
   /* boolean setDefaultIcon (in string filename); */
-NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, PRBool *_retval)
+NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, bool *_retval)
 {
     DEBUG_CALL("setDefaultIcon")
 
@@ -796,7 +796,7 @@ NS_IMETHODIMP nsTray::SetDefaultIcon(const char *filename, PRBool *_retval)
 }
 
   /* boolean setSpecialIcon (in string filename); */
-NS_IMETHODIMP nsTray::SetSpecialIcon(const char *filename, PRBool *_retval) 
+NS_IMETHODIMP nsTray::SetSpecialIcon(const char *filename, bool *_retval) 
 {
     DEBUG_CALL("setSpecialIcon")
 
@@ -997,7 +997,7 @@ NS_IMETHODIMP nsTray::Init_tooltip_image() {
 */
 
 /* void setCloseBlocking (in boolean block); */
-NS_IMETHODIMP nsTray::SetCloseBlocking(PRBool val)  
+NS_IMETHODIMP nsTray::SetCloseBlocking(bool val)  
 {
     DEBUG_CALL("setCloseBlocking")
     block_close=val;
@@ -1005,7 +1005,7 @@ NS_IMETHODIMP nsTray::SetCloseBlocking(PRBool val)
 }
 
 /* void getCloseBlocking (out boolean block); */
-NS_IMETHODIMP nsTray::GetCloseBlocking(PRBool *val) 
+NS_IMETHODIMP nsTray::GetCloseBlocking(bool *val) 
 {
     DEBUG_CALL("getCloseBlocking")
 
@@ -1014,7 +1014,7 @@ NS_IMETHODIMP nsTray::GetCloseBlocking(PRBool *val)
 }
 
 /* void setMinimizeBlocking (in boolean val); */
-NS_IMETHODIMP nsTray::SetMinimizeBlocking(PRBool val)
+NS_IMETHODIMP nsTray::SetMinimizeBlocking(bool val)
 {
     DEBUG_CALL("SetMinimizeBlocking")
     block_minimize=val;
@@ -1022,7 +1022,7 @@ NS_IMETHODIMP nsTray::SetMinimizeBlocking(PRBool val)
 }
 
 /* void getMinimizeBlocking (out boolean val); */
-NS_IMETHODIMP nsTray::GetMinimizeBlocking(PRBool *val)
+NS_IMETHODIMP nsTray::GetMinimizeBlocking(bool *val)
 {
     DEBUG_CALL("GetMinimizeBlocking")
     if(val)*val=this->block_minimize;
@@ -1176,7 +1176,7 @@ GdkFilterReturn key_filter_func(GdkXEvent *xevent, GdkEvent *event, gpointer dat
 
    XKeyEvent *kev=(XKeyEvent *)e;
    nsTray *tray = (nsTray *)data;   
-   PRBool ret = TRUE;
+   bool ret = TRUE;
 
    DEBUGSTR("KEYPRESS EVENT: KEY="<<kev->keycode) 
 
@@ -1257,7 +1257,7 @@ void nsTray::minimizeEvent()
 {
    DEBUG_CALL("minimizeEvent") 
 
-   PRBool ret = TRUE;    
+   bool ret = TRUE;    
    if(block_minimize) 
     { 
        FDEBUGSTR("MINIMIZING TO TRAY")
@@ -1272,7 +1272,7 @@ bool nsTray::closeEvent()
 {    
    DEBUG_CALL("closeEvent")       
    
-   PRBool ret = TRUE;
+   bool ret = TRUE;
    if(block_close) 
     { 
        FDEBUGSTR("CLOSE BLOCKING")
@@ -1326,7 +1326,7 @@ NS_IMETHODIMP nsTray::SetWindowHandler(nsIBaseWindow *aBaseWindow)
 
 
 /* boolean addHandledKeyCode (in PRUint64 key_code); */
-NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
+NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, bool *_retval) {
   #ifdef _KEYSYMS_
 
       CAPTURE_ERRORS()
@@ -1354,7 +1354,7 @@ NS_IMETHODIMP nsTray::AddHandledKeyCode(PRUint64 key_code, PRBool *_retval) {
 }
 
 /* boolean addHandledKey (in string key_string); */
-NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
+NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, bool *_retval) {
     DEBUG_CALL("addHandledKey")
       
 #ifdef _KEYSYMS_
@@ -1373,7 +1373,7 @@ NS_IMETHODIMP nsTray::AddHandledKey(const char *key_string, PRBool *_retval) {
      
       if(!key) RELEASE_CAPTURE_RETURN("NOKEY_CODE",NS_OK)
       
-      PRBool ret=true; 
+      bool ret=true; 
 
       RELEASE_CAPTURE("Couldn't get grab on key "<< key_string)
 
@@ -1412,7 +1412,7 @@ NS_IMETHODIMP nsTray::GetKeycodeString(PRUint64 key_code, char **_retval)
 
 
 /*     boolean getFocusState(in nsIBaseWindow aBaseWindow); */
-NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, PRBool *_retval) 
+NS_IMETHODIMP nsTray::GetFocusState(nsIBaseWindow *aBaseWindow, bool *_retval) 
 {
     DEBUG_CALL("getFocusState")
 

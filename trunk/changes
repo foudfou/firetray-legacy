@@ -1,4 +1,6 @@
 0.3.6  Added compose new message code (Issue 177)
+       Applied vimftw patch to build using gecko sdk 10
+	   Applied Hicham.Haouari's patch from Issue 212
 
 0.3.5  Applied vimftw patch to build using gecko sdk 9
 
