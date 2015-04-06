@@ -1,0 +1,15 @@
+# Introduction #
+
+When reporting a new Issue in the bug tracker it is useful to report the presence of any error message related to Firetray.
+
+# Details #
+
+Error messages can be found using the Error Console tool ( Tools > Error Console ), but before being able to view error messages related to FireTray you need to edit some preferences.
+
+To change preference settings in Firefox or SeaMonkey, type about:config in the Location Bar. To change preference settings in Thunderbird, open the "Preferences" (Unix) or "Options" (Windows) interface. On the "Advanced" page, select the "General" tab then click the "Config Editor" button.
+
+  * set javascript.options.showInConsole to true
+
+If you are using firefox 4 you also need this:
+
+  * set "devtools.errorconsole.enabled" to true

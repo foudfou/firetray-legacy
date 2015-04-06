@@ -1,0 +1,26 @@
+# Introduction #
+
+Ok this not a precise roadmap, but it sheds some light of what is and will be happening in the project.
+
+# Situation #
+
+  * Mozilla products have entered a [rapid release cycle](http://blog.mozilla.com/blog/2011/04/13/new-channels-for-firefox-rapid-releases/) which implies frequent rebuilds of XPCOM binary-based addons (such as Firetray)
+  * authors are encouraged to [port their XPCOM binary-based addons to js-ctypes](https://groups.google.com/group/mozilla.dev.extensions/browse_thread/thread/2d6942c44f303b62/b98debfbccef11ed)
+  * Francesco doesn't have enough time to maintain the Firetray project in this situation
+  * Foudil has come up with a prototype js-ctypes version of the project, which is functional, but does not yet cover all features currently supported by the binary-based version.
+  * the js-ctypes version will endeavor to support uncovered features in the future (see below)
+  * the Firetray project plans to replace the binary-based version with the js-types version when enough features are covered
+  * meanwhile, Firetray users are invited to switch to the preview release of the js-ctypes version [on AMO, beta channel section](https://addons.mozilla.org/fr/firefox/addon/firetray/) and [provide feedback](https://github.com/foudfou/FireTray/issues) as to what important features are missing
+
+# 0.4 branch roadmap #
+
+In the mid-term, we plan to implement the following features (no particular order).
+
+  * mouse scrolls on tray icon hides/shows
+  * hide to tray on minimize
+  * ability to start minimized to tray
+  * when restoring if the window is iconified, deiconify it
+  * custom tray icon
+  * keyboard shortcut hide/show
+
+[Please vote](https://docs.google.com/spreadsheet/viewform?hl=fr&formkey=dFJqUC1pLTQzNkJYQldFdzdSV1BaSkE6MQ#gid=0)

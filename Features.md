@@ -1,0 +1,32 @@
+**Already supported features**
+
+- adds tray icon for both firefox and thunderbird
+
+- Show number of unread mails in the tray icon (Thunderbird)
+
+- close button hides to tray
+
+- ability to start minimized to tray
+
+- when restoring if the window is iconified, deiconify it
+
+- Custom tray icon
+
+- Hotkey for Hide/Unhide
+
+- Multimedia keys grabbing to allow playback control in songbird
+
+- Handle mouse scrolls on tray icon
+
+**Wishes / planned features**
+
+
+- Enable the user to close all firefox windows while still keeping firefox in the tray and add a menu item to the tray icon "open new window
+
+- Clicking the tray icon with the middle mouse button fetches new messages (would be best with the icon changing to something else to indicate that the process is in progress).
+
+- Ability to exclude spam folder(s) from the unread messages control.
+
+- Enable the user to close any of firefox windows individually
+
+- Close button only closes to tray when there is only one window up
